@@ -1,0 +1,34 @@
+<project name="portal_static" default="deployStatic" basedir="." xmlns:artifact="antlib:org.apache.maven.artifact.ant">
+    <description>
+        ${ant.project.name}
+        ${line.separator}
+    </description>
+
+    <!-- Adicionar as variaveis de Sistema em Window-Preferences-Ant-Runtime-Properties -->
+    <property name="jboss.default" value="${jboss.home}/standalone/deployments"/>
+    <property name="deploy.dir" value="${jboss.default}/${ant.project.name}.war/microseguro" />
+	<echo>${deploy.dir}</echo>
+
+	<!-- Copia todas arquivos staticos para o servidor -->  
+	<target name="deployStatic">
+		<echo>Executando o deploy Statico</echo>
+
+		<copy todir="${deploy.dir}" includeEmptyDirs="no">  
+            <fileset dir="src/main/webapp">  
+            <patternset>  
+               	<include name="**/*.gif"/>
+            	<include name="**/*.png"/>
+            	<include name="**/*.jpg"/>
+            	<include name="**/*.js"/>
+            	<include name="**/*.css"/>
+                <include name="**/*.jsp"/>
+           		<include name="**/*.properties"/>  
+            </patternset>  
+            </fileset>  
+        </copy>  
+
+	</target>
+	
+
+
+</project>
