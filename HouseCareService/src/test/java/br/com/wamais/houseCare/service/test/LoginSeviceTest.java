@@ -2,29 +2,29 @@ package br.com.wamais.houseCare.service.test;
 
 import static org.junit.Assert.assertTrue;
 
-import java.util.Calendar;
-
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import br.com.wamais.houseCare.domain.Usuario;
-import br.com.wamais.houseCare.service.IUsuarioService;
+import br.com.wamais.houseCare.form.LoginForm;
+import br.com.wamais.houseCare.service.ILoginService;
 
-public class UsuarioSeviceTest extends AbstractTest {
+public class LoginSeviceTest extends AbstractTest {
 
 	@Autowired
-	private IUsuarioService service;
+	private ILoginService service;
 
 	@Test
-	public void alterarTest() {
+	public void loginTest() {
 
 		boolean isOk = true;
 		try {
 
-			final Usuario usuario = service.obtemPorId(1);
-			usuario.setAlteracao(Calendar.getInstance().getTime());
-			service.alterar(usuario);
-			isOk = null != usuario;
+			final LoginForm login = new LoginForm();
+			login.setUser("296.031.058-64");
+			login.setPass("12345");
+			final Usuario usuario = service.login(login);
+			isOk = usuario != null;
 		} catch (final Exception e) {
 			isOk = false;
 			e.printStackTrace();
@@ -34,13 +34,13 @@ public class UsuarioSeviceTest extends AbstractTest {
 	}
 
 	@Test
-	public void obtemPorIdTest() {
+	public void validarSessaoTest() {
 
 		boolean isOk = true;
 		try {
 
-			final Usuario usuario = service.obtemPorId(1);
-			isOk = null != usuario;
+			final Usuario usuario = service.validarSessao("50322881-dd89-4406-a3c9-beefd246c34b");
+			isOk = usuario != null;
 		} catch (final Exception e) {
 			isOk = false;
 			e.printStackTrace();

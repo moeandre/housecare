@@ -8,15 +8,15 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.wamais.houseCare.domain.Usuario;
 import br.com.wamais.houseCare.form.LoginForm;
-import br.com.wamais.houseCare.service.IUsuarioService;
+import br.com.wamais.houseCare.service.ILoginService;
 
 @RestController
 @Transactional
@@ -24,14 +24,10 @@ import br.com.wamais.houseCare.service.IUsuarioService;
 public class LoginController extends AbstractController {
 
 	@Autowired
-	private transient IUsuarioService service;
+	private transient ILoginService service;
 
-	@RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-	public @ResponseBody Map<String, Object> criar(@RequestParam String user, @RequestParam String pass, final HttpServletResponse response) {
-
-		final LoginForm login = new LoginForm();
-		login.setPass(pass);
-		login.setUser(user);
+	@RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody Map<String, Object> criar(@RequestBody LoginForm login, final HttpServletResponse response) {
 
 		final Map<String, Object> retval = new HashMap<String, Object>();
 		final Usuario usuario = this.service.login(login);

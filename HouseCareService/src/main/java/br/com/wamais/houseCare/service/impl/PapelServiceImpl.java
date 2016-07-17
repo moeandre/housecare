@@ -1,5 +1,7 @@
 package br.com.wamais.houseCare.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +21,13 @@ public class PapelServiceImpl extends AbstractService<Papel, Integer> implements
 	public void superRepository(final PapelRepository repository) {
 
 		super.setRepository(repository);
+	}
+
+	@Override
+	public List<Papel> findByIdUsuario(final Integer idUsuario) {
+
+		// TODO Auto-generated method stub
+		return repository.findByIdUsuario(idUsuario);
 	}
 
 }

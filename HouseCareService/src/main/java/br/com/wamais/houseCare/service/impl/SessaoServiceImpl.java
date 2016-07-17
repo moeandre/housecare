@@ -21,4 +21,11 @@ public class SessaoServiceImpl extends AbstractService<Sessao, Integer> implemen
 		super.setRepository(repository);
 	}
 
+	@Override
+	public void deleteByIdUsuario(final Integer idUsuario) {
+
+		this.repository.deleteByIdUsuario(idUsuario);
+
+	}
+
 }

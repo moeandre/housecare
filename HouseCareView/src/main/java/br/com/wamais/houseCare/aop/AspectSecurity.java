@@ -17,7 +17,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import br.com.wamais.houseCare.domain.Usuario;
 import br.com.wamais.houseCare.exception.SessaoExpiradaException;
 import br.com.wamais.houseCare.exception.UsuarioNaoEncontradoException;
-import br.com.wamais.houseCare.service.IUsuarioService;
+import br.com.wamais.houseCare.service.ILoginService;
 
 @Configuration
 @EnableAspectJAutoProxy()
@@ -27,7 +27,7 @@ public class AspectSecurity {
 	private final Logger logger = LoggerFactory.getLogger(AspectSecurity.class);
 
 	@Autowired
-	private IUsuarioService service;
+	private ILoginService service;
 
 	@Produces
 	@Around("@annotation(br.com.wamais.houseCare.annotation.UserRequired)")

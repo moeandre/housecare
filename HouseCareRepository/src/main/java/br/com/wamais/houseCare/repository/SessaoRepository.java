@@ -8,4 +8,6 @@ import br.com.wamais.houseCare.domain.Sessao;
 @Repository
 public interface SessaoRepository extends JpaRepository<Sessao, Integer> {
 
+	Long deleteByIdUsuario(Integer idUsuario);
+
 }

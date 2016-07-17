@@ -10,11 +10,11 @@ import br.com.wamais.houseCare.domain.Usuario;
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
 
-	Usuario findByLoginAndSenha(String login, String senha);
+	Usuario findByEmailAndSenha(String email, String senha);
 	
 	
 	@Query(value="SELECT U.* FROM sessao S, usuario U WHERE S.id_usuario = U.id AND uuid = :uuid AND expiracao >= current_timestamp();", nativeQuery=true)
-	public Usuario findByUUID(@Param("uuid") String uuid);
+	Usuario findByUUID(@Param("uuid") String uuid);
 
 	// @Query("SELECT DISTINCT m FROM Mommy m JOIN m.amigas a WHERE m.id = :idMommy")
 	// public List<Mommy> findByMommy(@Param("idMommy") Integer idMommy);

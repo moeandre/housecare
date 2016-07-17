@@ -14,7 +14,7 @@
     routesConfig.$inject = ['$httpProvider','$stateProvider', '$locationProvider', '$urlRouterProvider', 'RouteHelpersProvider'];
     function routesConfig($httpProvider, $stateProvider, $locationProvider, $urlRouterProvider, helper){
 
-    	//$httpProvider.interceptors.push('SessionInterceptor');
+    	$httpProvider.interceptors.push('SessionInterceptor');
         // Set the following to true to enable the HTML5 Mode
         // You may have to set <base> tag in index and a routing configuration in your server
         $locationProvider.html5Mode(false);

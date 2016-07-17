@@ -10,13 +10,13 @@
     	.module('custom.sessionInterceptor')
     	.factory('SessionInterceptor', SessionInterceptor);
 
-    SessionInterceptor.$inject = ['$rootScope','$cookieStore','$location','$q'];
-    function SessionInterceptor($rootScope, $cookieStore, $location, $q) { 
+    SessionInterceptor.$inject = ['$rootScope','$location','$q','$localStorage'];
+    function SessionInterceptor($rootScope, $location, $q, $localStorage) { 
 		return {
 			'request': function(request) {
 
 				// if we're not logged-in to the AngularJS app, redirect to login page
-				$rootScope.loggedIn = ($cookieStore.get('loggedIn') == true);
+				$rootScope.loggedIn = ($localStorage.account != null);
 
 				if (!$rootScope.loggedIn && $location.path() != '/login') {
 					$location.path('/login');
@@ -31,7 +31,6 @@
 				// rejection.status === 401 && 
 				if ($location.path() != '/login') {
 					$rootScope.loggedIn = false;
-					$cookieStore.remove('loggedIn');
 					$location.path('/login');
 				}
 				return $q.reject(rejection);

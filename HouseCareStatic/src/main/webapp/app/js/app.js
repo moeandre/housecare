@@ -7379,60 +7379,63 @@
     return notify;
 }(jQuery));
 
-/**=========================================================
- * Module: access-login.js
- * Demo for login api
- =========================================================*/
+/**
+ * ========================================================= Module:
+ * access-login.js Demo for login api
+ * =========================================================
+ */
 
 (function() {
-    'use strict';
+	'use strict';
 
-    angular
-        .module('app.pages')
-        .controller('LoginFormController', LoginFormController);
+	angular.module('app.pages').controller('LoginFormController',
+			LoginFormController);
 
-    LoginFormController.$inject = ['$http', '$state'];
-    function LoginFormController($http, $state) {
-        var vm = this;
+	LoginFormController.$inject = [ '$http', '$state', '$localStorage' ];
+	function LoginFormController($http, $state, $localStorage) {
+		var vm = this;
 
-        activate();
+		activate();
 
-        ////////////////
+		// //////////////
 
-        function activate() {
-          // bind here all data from the form
-          vm.account = {};
-          // place the message if something goes wrong
-          vm.authMsg = '';
+		function activate() {
+			// bind here all data from the form
+			vm.account = {};
+			// place the message if something goes wrong
+			vm.authMsg = '';
 
-          vm.login = function() {
-            vm.authMsg = '';
+			vm.login = function() {
+				vm.authMsg = '';
 
-            if(vm.loginForm.$valid) {
+				if (vm.loginForm.$valid) {
 
-              $http
-                .post('api/account/login', {email: vm.account.email, password: vm.account.password})
-                .then(function(response) {
-                  // assumes if ok, response is an object with some data, if not, a string with error
-                  // customize according to your api
-                  if ( !response.account ) {
-                    vm.authMsg = 'Incorrect credentials.';
-                  }else{
-                    $state.go('app.dashboard');
-                  }
-                }, function() {
-                  vm.authMsg = 'Server Request Error';
-                });
-            }
-            else {
-              // set as dirty if the user click directly to login so we show the validation messages
-              /*jshint -W106*/
-              vm.loginForm.account_email.$dirty = true;
-              vm.loginForm.account_password.$dirty = true;
-            }
-          };
-        }
-    }
+					$http.post('/api/rest/login', {
+						user : vm.account.email,
+						pass : vm.account.password
+					}).then(function(response) {
+						// assumes if ok, response is an object with some data,
+						// if not, a string with error
+						// customize according to your api
+						if (!response.data.account) {
+							vm.authMsg = 'Incorrect credentials.';
+						} else {
+							$localStorage.user = response.data.account;
+							$state.go('app.welcome');
+						}
+					}, function() {
+						vm.authMsg = 'Server Request Error';
+					});
+				} else {
+					// set as dirty if the user click directly to login so we
+					// show the validation messages
+					/* jshint -W106 */
+					vm.loginForm.account_email.$dirty = true;
+					vm.loginForm.account_password.$dirty = true;
+				}
+			};
+		}
+	}
 })();
 
 /**=========================================================
@@ -8121,7 +8124,7 @@
     routesConfig.$inject = ['$httpProvider','$stateProvider', '$locationProvider', '$urlRouterProvider', 'RouteHelpersProvider'];
     function routesConfig($httpProvider, $stateProvider, $locationProvider, $urlRouterProvider, helper){
 
-    	//$httpProvider.interceptors.push('SessionInterceptor');
+    	$httpProvider.interceptors.push('SessionInterceptor');
         // Set the following to true to enable the HTML5 Mode
         // You may have to set <base> tag in index and a routing configuration in your server
         $locationProvider.html5Mode(false);
@@ -8961,11 +8964,15 @@
 
       // User Settings
       // -----------------------------------
-      $rootScope.user = {
-        name:     'John',
-        job:      'ng-developer',
-        picture:  'app/img/user/02.jpg'
-      };
+      if( angular.isDefined($localStorage.user) ){
+    	  $rootScope.user = $localStorage.user;
+      }else{
+	      $rootScope.user = {
+	        name:     'John',
+	        job:      'ng-developer',
+	        picture:  'app/img/user/02.jpg'
+	      };
+      }
 
       // Hides/show user avatar on sidebar from any element
       $rootScope.toggleUserBlock = function(){
@@ -11218,13 +11225,13 @@
     	.module('custom.sessionInterceptor')
     	.factory('SessionInterceptor', SessionInterceptor);
 
-    SessionInterceptor.$inject = ['$rootScope','$cookieStore','$location','$q'];
-    function SessionInterceptor($rootScope, $cookieStore, $location, $q) { 
+    SessionInterceptor.$inject = ['$rootScope','$location','$q','$localStorage'];
+    function SessionInterceptor($rootScope, $location, $q, $localStorage) { 
 		return {
 			'request': function(request) {
 
 				// if we're not logged-in to the AngularJS app, redirect to login page
-				$rootScope.loggedIn = ($cookieStore.get('loggedIn') == true);
+				$rootScope.loggedIn = ($localStorage.account != null);
 
 				if (!$rootScope.loggedIn && $location.path() != '/login') {
 					$location.path('/login');
@@ -11239,7 +11246,6 @@
 				// rejection.status === 401 && 
 				if ($location.path() != '/login') {
 					$rootScope.loggedIn = false;
-					$cookieStore.remove('loggedIn');
 					$location.path('/login');
 				}
 				return $q.reject(rejection);

@@ -12,11 +12,15 @@
 
       // User Settings
       // -----------------------------------
-      $rootScope.user = {
-        name:     'John',
-        job:      'ng-developer',
-        picture:  'app/img/user/02.jpg'
-      };
+      if( angular.isDefined($localStorage.user) ){
+    	  $rootScope.user = $localStorage.user;
+      }else{
+	      $rootScope.user = {
+	        name:     'John',
+	        job:      'ng-developer',
+	        picture:  'app/img/user/02.jpg'
+	      };
+      }
 
       // Hides/show user avatar on sidebar from any element
       $rootScope.toggleUserBlock = function(){
