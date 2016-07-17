@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.wamais.houseCare.annotation.UserRequired;
 import br.com.wamais.houseCare.controller.AbstractController;
 import br.com.wamais.houseCare.domain.Usuario;
 import br.com.wamais.houseCare.service.IUsuarioService;
@@ -23,7 +22,6 @@ import br.com.wamais.houseCare.service.IUsuarioService;
 @RestController
 @Transactional
 @RequestMapping("/usuario")
-@UserRequired
 public class UsuarioController extends AbstractController {
 
 	@Autowired
@@ -32,7 +30,6 @@ public class UsuarioController extends AbstractController {
 	
 	@RequestMapping(value = "/listar", method = RequestMethod.GET)
 	@Produces(MediaType.APPLICATION_JSON)
-	@UserRequired
 	public @ResponseBody Map<String, Object> listar() {
 
 		final Map<String, Object> retval = new HashMap<String, Object>();
