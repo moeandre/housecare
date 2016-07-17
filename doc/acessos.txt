@@ -1,0 +1,53 @@
+ssh 55f48a7e89f5cf0bc2000016@jbossas-mommysquare.rhcloud.com
+
+Mysql
+	MySQL 5.5 database added.  Please make note of these credentials:
+
+		   Root User: adminR8pB4TP
+	   Root Password: mt6rihd3pA_z
+	   Database Name: jbossas
+
+	Connection URL: mysql://$OPENSHIFT_MYSQL_DB_HOST:$OPENSHIFT_MYSQL_DB_PORT/
+
+	Please make note of these MySQL credentials again:
+	  Root User: adminR8pB4TP
+	  Root Password: mt6rihd3pA_z
+	URL: https://jbossas-mommysquare.rhcloud.com/phpmyadmin/
+
+
+	
+MongoDB 2.4 database added.  Please make note of these credentials:
+
+   Root User:     admin
+   Root Password: 3kU4bUIccXsT
+   Database Name: jbossas
+
+Connection URL: mongodb://$OPENSHIFT_MONGODB_DB_HOST:$OPENSHIFT_MONGODB_DB_PORT/
+
+Please make note of these MongoDB credentials:
+  RockMongo User: admin
+  RockMongo Password: 3kU4bUIccXsT
+URL: https://jbossas-mommysquare.rhcloud.com/rockmongo/
+
+
+
+
+
+MySQL 5.5 database added.  Please make note of these credentials:
+
+       Root User: adminqMNiIXE
+   Root Password: T8XsZH3bvY93
+   Database Name: php
+
+Connection URL: mysql://$OPENSHIFT_MYSQL_DB_HOST:$OPENSHIFT_MYSQL_DB_PORT/
+
+You can manage your new MySQL database by also embedding phpmyadmin.
+The phpmyadmin username and password will be the same as the MySQL credentials above.
+
+git clone ssh://560754ff0c1e661c2f0000ae@php-mommysquare.rhcloud.com/~/git/php.git/
+cd php/
+
+
+http://php-mommysquare.rhcloud.com/
+mommy
+8BPDZ*8$9i8phtn0zS
