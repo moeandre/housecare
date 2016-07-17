@@ -30,7 +30,8 @@ public class AspectSecurity {
 	private ILoginService service;
 
 	@Produces
-	@Around("@annotation(br.com.wamais.houseCare.annotation.UserRequired)")
+	//@Around("@annotation(br.com.wamais.houseCare.annotation.UserRequired)")
+	@Around("execution(* br.com.wamais.houseCare.controller.secure..*Controller.*(..))")
 	public Object doBasicProfilingAtAnnotated(final ProceedingJoinPoint pjp) throws Throwable {
 
 		final HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();

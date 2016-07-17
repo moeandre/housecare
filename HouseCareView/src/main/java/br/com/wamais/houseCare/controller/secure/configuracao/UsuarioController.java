@@ -1,4 +1,4 @@
-package br.com.wamais.houseCare.controller.configuracao;
+package br.com.wamais.houseCare.controller.secure.configuracao;
 
 import java.util.HashMap;
 import java.util.Map;
