@@ -7438,6 +7438,35 @@
 	}
 })();
 
+/**
+ * ========================================================= Module:
+ * access-login.js Demo for login api
+ * =========================================================
+ */
+
+(function() {
+	'use strict';
+
+	angular.module('app.pages').controller('LogoutController',
+			LogoutController);
+
+	LogoutController.$inject = ['$state', '$localStorage'];
+	function LogoutController($state, $localStorage) {
+		var vm = this;
+
+		activate();
+
+		// //////////////
+
+		function activate() {
+
+			$localStorage.user = {};
+			$state.go('login', {}, {reload: true});
+
+		}
+	}
+})();
+
 /**=========================================================
  * Module: access-register.js
  * Demo for register account api
@@ -8717,6 +8746,12 @@
           .state('login', {
               url: '/login',
               title: 'Login',
+              templateUrl: 'app/pages/login.html'
+          })
+          .state('logout', {
+              url: '/logout',
+              title: 'Logout',
+              controller: 'LogoutController',
               templateUrl: 'app/pages/login.html'
           })
           .state('page.register', {
@@ -11231,12 +11266,11 @@
 			'request': function(request) {
 
 				// if we're not logged-in to the AngularJS app, redirect to login page
-				$rootScope.loggedIn = ($localStorage.account != null);
+				$rootScope.loggedIn = ($localStorage.user != null);
 
 				if (!$rootScope.loggedIn && $location.path() != '/login') {
 					$location.path('/login');
 				}
-				
 
 				return request;
 

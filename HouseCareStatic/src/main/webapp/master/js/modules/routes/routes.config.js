@@ -609,6 +609,12 @@
               title: 'Login',
               templateUrl: 'app/pages/login.html'
           })
+          .state('logout', {
+              url: '/logout',
+              title: 'Logout',
+              controller: 'LogoutController',
+              templateUrl: 'app/pages/login.html'
+          })
           .state('page.register', {
               url: '/register',
               title: 'Register',

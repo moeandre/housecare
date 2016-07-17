@@ -16,12 +16,11 @@
 			'request': function(request) {
 
 				// if we're not logged-in to the AngularJS app, redirect to login page
-				$rootScope.loggedIn = ($localStorage.account != null);
+				$rootScope.loggedIn = ($localStorage.user != null);
 
 				if (!$rootScope.loggedIn && $location.path() != '/login') {
 					$location.path('/login');
 				}
-				
 
 				return request;
 

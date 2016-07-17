@@ -103,5 +103,12 @@
             "icon": "fa fa-cog"
          }
       ]
+   },
+   {
+      "text":"Sair",
+      "sref":"#",
+      "translate":"Sair",
+      "icon": "fa fa-sign-out ",
+      "sref":"logout"
    }
 ]
