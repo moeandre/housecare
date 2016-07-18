@@ -37,7 +37,7 @@ public class Empresa implements Serializable {
 	private String nomeFantasia;
 
 	@Column(name="raxao_social")
-	private String raxaoSocial;
+	private String razaoSocial;
 
 	private String situacao;
 
@@ -102,12 +102,12 @@ public class Empresa implements Serializable {
 		this.nomeFantasia = nomeFantasia;
 	}
 
-	public String getRaxaoSocial() {
-		return this.raxaoSocial;
+	public String getRazaoSocial() {
+		return this.razaoSocial;
 	}
 
-	public void setRaxaoSocial(String raxaoSocial) {
-		this.raxaoSocial = raxaoSocial;
+	public void setRazaoSocial(String razaoSocial) {
+		this.razaoSocial = razaoSocial;
 	}
 
 	public String getSituacao() {

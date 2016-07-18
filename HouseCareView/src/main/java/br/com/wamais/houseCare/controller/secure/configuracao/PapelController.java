@@ -16,16 +16,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.wamais.houseCare.controller.AbstractController;
-import br.com.wamais.houseCare.domain.Empresa;
-import br.com.wamais.houseCare.service.IEmpresaService;
+import br.com.wamais.houseCare.domain.Papel;
+import br.com.wamais.houseCare.service.IPapelService;
 
 @RestController
 @Transactional
-@RequestMapping("/empresa")
-public class EmpresaController extends AbstractController {
+@RequestMapping("/papel")
+public class PapelController extends AbstractController {
 
 	@Autowired
-	private transient IEmpresaService service;
+	private transient IPapelService service;
 
 	@RequestMapping(value = "/listar", method = RequestMethod.GET)
 	@Produces(MediaType.APPLICATION_JSON)
@@ -50,23 +50,23 @@ public class EmpresaController extends AbstractController {
 
 	
 	@RequestMapping(value = "/criar", method = RequestMethod.POST, consumes = "application/json")
-	public @ResponseBody Map<String, Object> criar(@RequestBody final Empresa empresa) {
+	public @ResponseBody Map<String, Object> criar(@RequestBody final Papel papel) {
 
-		empresa.setId(0);
-		this.service.alterar(empresa);
+		papel.setId(0);
+		this.service.alterar(papel);
 
 		final Map<String, Object> retval = new HashMap<String, Object>();
 		retval.put("success", Boolean.TRUE);
-		retval.put("result", empresa);
+		retval.put("result", papel);
 		return retval;
 	}
 
 	
 	@RequestMapping(value = "/editar/{id}", method = RequestMethod.POST, consumes = "application/json")
-	public @ResponseBody Map<String, Object> editar(@RequestBody final Empresa empresa, @PathVariable final Integer id) {
+	public @ResponseBody Map<String, Object> editar(@RequestBody final Papel papel, @PathVariable final Integer id) {
 
-		empresa.setId(id);
-		this.service.alterar(empresa);
+		papel.setId(id);
+		this.service.alterar(papel);
 
 		final Map<String, Object> retval = new HashMap<String, Object>();
 		retval.put("success", Boolean.TRUE);

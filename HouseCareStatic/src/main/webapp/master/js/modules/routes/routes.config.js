@@ -822,6 +822,14 @@
               //resolve: helper.resolveFor('ui.sortable')
               templateUrl: helper.basepath('welcome.html')
           })
+          .state('configuracao.empresa', {
+              url: '/empresa',
+              title: 'Empresa',
+              controller: 'EmpresaController',
+              //templateUrl: helper.basepath('portlets.html'),
+              //resolve: helper.resolveFor('ui.sortable')
+              templateUrl: helper.basepath('empresa/lista.html')
+          })
           
           //
           // CUSTOM RESOLVES

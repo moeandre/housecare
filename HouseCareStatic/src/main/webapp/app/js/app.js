@@ -8961,6 +8961,14 @@
               //resolve: helper.resolveFor('ui.sortable')
               templateUrl: helper.basepath('welcome.html')
           })
+          .state('configuracao.empresa', {
+              url: '/empresa',
+              title: 'Empresa',
+              controller: 'EmpresaController',
+              //templateUrl: helper.basepath('portlets.html'),
+              //resolve: helper.resolveFor('ui.sortable')
+              templateUrl: helper.basepath('empresa/lista.html')
+          })
           
           //
           // CUSTOM RESOLVES
@@ -10772,6 +10780,19 @@
     'use strict';
 
     angular
+        .module('custom.empresa', [
+            // request the the entire framework
+            //'angle',
+            // or just modules
+            //'app.core',
+            //'app.sidebar'
+            /*...*/
+        ]);
+})();
+(function() {
+    'use strict';
+
+    angular
         .module('custom.evolucao', [
             // request the the entire framework
             //'angle',
@@ -11030,6 +11051,45 @@
         function activate() {
           $log.log('I\'m a line from dadovital.js');
         }
+    }
+})();
+
+
+// To run this code, edit file index.html or index.jade and change
+// html data-ng-app attribute from angle to myAppName
+// ----------------------------------------------------------------------
+
+(function() {
+    'use strict';
+
+    angular
+        .module('custom.empresa')
+        .controller('EmpresaController', EmpresaController);
+
+    EmpresaController.$inject = ['$log'];
+    function EmpresaController($log) {
+    	
+    	var vm = this;
+    	
+        // for controllerAs syntax
+        // var vm = this;
+
+        activate();
+
+        ////////////////
+
+        function activate() {
+          
+          $log.log('I\'m a line from empresa.js');
+          
+          vm.pesquisar = function(){};
+          
+          vm.editar = function(){};
+          
+          vm.salvar = function(){};
+          
+        }
+
     }
 })();
 

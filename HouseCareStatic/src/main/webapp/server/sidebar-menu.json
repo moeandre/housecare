@@ -101,6 +101,11 @@
             "text":"Companhia",
             "sref":"configuracao.companhia",
             "icon": "fa fa-cog"
+         },
+         {
+            "text":"Empresa",
+            "sref":"configuracao.empresa",
+            "icon": "fa fa-star-o"
          }
       ]
    },
