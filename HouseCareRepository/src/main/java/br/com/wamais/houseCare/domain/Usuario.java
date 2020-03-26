@@ -45,6 +45,9 @@ public class Usuario implements Serializable {
 	private List<Empresa> empresas;
 
 	@Transient
+	private Empresa empresa;
+
+	@Transient
 	private List<AtributoPapel> atributos;
 
 	@Transient
@@ -52,6 +55,16 @@ public class Usuario implements Serializable {
 
 	@Transient
 	private Sessao sessao;
+
+	public Empresa getEmpresa() {
+
+		return empresa;
+	}
+
+	public void setEmpresa(Empresa empresa) {
+
+		this.empresa = empresa;
+	}
 
 	public List<Empresa> getEmpresas() {
 

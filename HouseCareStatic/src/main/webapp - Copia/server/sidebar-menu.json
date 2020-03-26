@@ -1,0 +1,129 @@
+[
+  {
+    "text": "Início",
+    "sref": "app.welcome",
+    "icon": "fa fa-home"
+  },
+   {
+      "text":"Clientes/Hóspedes",
+      "translate":"Clientes/Hóspedes",
+      "icon": "fa fa-diamond",
+      "sref":"#",
+      "alert": "7" ,
+      "label": "label label-info",
+      "submenu":[
+         {
+            "text":"Dados Cadastrais",
+            "sref":"cliente.dadocadastral",
+            "icon": "fa fa-newspaper-o"
+         },
+         {
+            "text":"Hospedagem",
+            "sref":"cliente.hospedagem",
+            "icon": "fa fa-bed"
+         },
+         {
+            "text":"Inventário",
+            "sref":"cliente.inventario",
+            "icon": "fa fa-book"
+         },
+         {
+            "text":"Fármacia",
+            "sref":"cliente.farmacia",
+            "icon": "fa fa-medkit"
+         },
+         {
+            "text":"Serviços",
+            "sref":"cliente.servico",
+            "icon": "fa fa-motorcycle"
+         },
+         {
+            "text":"Conta Corrente",
+            "sref":"cliente.contacorrente",
+            "icon": "fa fa-bank"
+         },
+         {
+            "text":"Fatura",
+            "sref":"cliente.fatura",
+            "icon": "fa fa-dollar"
+         }
+      ]
+   },
+   {   
+      "text":"Usuários",
+      "sref":"#",
+      "translate":"Usuários",
+      "icon": "fa fa-cogs",
+      "alert": "2" ,
+      "label": "label label-info",
+      "submenu":[
+         {
+            "text":"Cadastro de Usuários",
+            "sref":"configuracao.usuario",
+            "icon": "fa fa-users"
+         }
+      ]
+   },
+   {
+      "text":"Evolução",
+      "sref":"#",
+      "translate":"Clínica",
+      "icon": "fa fa-hospital-o",
+      "alert": "5" ,
+      "label": "label label-info",
+      "submenu":[
+         {
+            "text":"Anotações",
+            "sref":"clinica.anotacao",
+            "icon": "fa fa-file-text-o"
+         },
+         {
+            "text":"Prescrição",
+            "sref":"clinica.prescricao",
+            "icon": "fa fa-list-ol"
+         },
+         {
+            "text":"Evolução do Cliente",
+            "sref":"clinica.evolucao",
+            "icon": "fa fa-stethoscope"
+         }
+       ]
+   },
+   {
+      "text":"Configuração",
+      "sref":"#",
+      "translate":"Configuração",
+      "icon": "fa fa-cogs",
+      "alert": "2" ,
+      "label": "label label-info",
+      "submenu":[
+         {
+            "text":"Companhia",
+            "sref":"configuracao.companhia",
+            "icon": "fa fa-cog"
+         },
+         {
+            "text":"Quartos",
+            "sref":"configuracao.companhia",
+            "icon": "fa fa-cog"
+         },
+         {
+            "text":"Leitos",
+            "sref":"configuracao.companhia",
+            "icon": "fa fa-cog"
+         },
+         {
+            "text":"Empresa",
+            "sref":"configuracao.empresa",
+            "icon": "fa fa-star-o"
+         }
+      ]
+   },
+   {
+      "text":"Sair",
+      "sref":"#",
+      "translate":"Sair",
+      "icon": "fa fa-sign-out ",
+      "sref":"logout"
+   }
+]

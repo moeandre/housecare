@@ -26,7 +26,6 @@ public class PapelServiceImpl extends AbstractService<Papel, Integer> implements
 	@Override
 	public List<Papel> findByIdUsuario(final Integer idUsuario) {
 
-		// TODO Auto-generated method stub
 		return repository.findByIdUsuario(idUsuario);
 	}
 

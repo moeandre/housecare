@@ -13,6 +13,7 @@ import br.com.wamais.houseCare.domain.Sessao;
 import br.com.wamais.houseCare.domain.Usuario;
 import br.com.wamais.houseCare.form.LoginForm;
 import br.com.wamais.houseCare.repository.UsuarioRepository;
+import br.com.wamais.houseCare.service.IEmpresaService;
 import br.com.wamais.houseCare.service.ILoginService;
 import br.com.wamais.houseCare.service.IPapelService;
 import br.com.wamais.houseCare.service.ISessaoService;
@@ -30,6 +31,9 @@ public class LoginServiceImpl implements ILoginService {
 
 	@Autowired
 	private IPapelService pService;
+	
+	@Autowired
+	private IEmpresaService eService;
 	
 	@Override
 	public Usuario login(final LoginForm form) {
@@ -49,6 +53,9 @@ public class LoginServiceImpl implements ILoginService {
 			usuario.setSessao(sessao);
 			
 			usuario.setPapeis(pService.findByIdUsuario(usuario.getId()));
+			usuario.setEmpresa(eService.findByIdUsuario(usuario.getId()));
+			
+			
 		}
 
 		return usuario;

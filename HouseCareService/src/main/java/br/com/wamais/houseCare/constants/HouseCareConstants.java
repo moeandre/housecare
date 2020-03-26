@@ -1,6 +1,6 @@
 package br.com.wamais.houseCare.constants;
 
-public class MommySquareConstants {
+public class HouseCareConstants {
 
 
 }

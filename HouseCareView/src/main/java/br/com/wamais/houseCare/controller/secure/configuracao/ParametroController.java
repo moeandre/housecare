@@ -21,7 +21,7 @@ import br.com.wamais.houseCare.service.IParametroService;
 
 @RestController
 @Transactional
-@RequestMapping("/paraetro")
+@RequestMapping("/parametro")
 public class ParametroController extends AbstractController {
 
 	@Autowired

@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 /**
  * The persistent class for the sessao database table.
@@ -19,12 +21,15 @@ public class Sessao implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@JsonIgnore
 	private int id;
 
 	@Temporal(TemporalType.TIMESTAMP)
+	@JsonIgnore
 	private Date expiracao;
 
 	@Column(name="id_usuario")
+	@JsonIgnore
 	private int idUsuario;
 
 	private String uuid;

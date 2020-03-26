@@ -21,4 +21,11 @@ public class EmpresaServiceImpl extends AbstractService<Empresa, Integer> implem
 		super.setRepository(repository);
 	}
 
+	@Override
+	public Empresa findByIdUsuario(Integer idUsuario) {
+
+		return repository.findByIdUsuario(idUsuario);
+		
+	}
+
 }

@@ -1,5 +1,6 @@
 package br.com.wamais.houseCare.repository;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -11,16 +12,9 @@ import br.com.wamais.houseCare.domain.Usuario;
 public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
 
 	Usuario findByEmailAndSenha(String email, String senha);
-	
-	
-	@Query(value="SELECT U.* FROM sessao S, usuario U WHERE S.id_usuario = U.id AND uuid = :uuid AND expiracao >= current_timestamp();", nativeQuery=true)
-	Usuario findByUUID(@Param("uuid") String uuid);
 
-	// @Query("SELECT DISTINCT m FROM Mommy m JOIN m.amigas a WHERE m.id = :idMommy")
-	// public List<Mommy> findByMommy(@Param("idMommy") Integer idMommy);
-	//
-	// @Query("SELECT m FROM Amizade a INNER JOIN a.mommy m WHERE m.id = :idMommy")
-	// public List<Amizade> findByMommyId(@Param("idMommy") Integer idMommy);
-	//
-	//
+	@Cacheable(value = "findByUUID")
+	@Query(value = "SELECT U.* FROM sessao S, usuario U WHERE S.id_usuario = U.id AND uuid = :uuid AND expiracao >= current_timestamp();", nativeQuery = true)
+	Usuario findByUUID(@Param("uuid") String uuid);
+	
 }
