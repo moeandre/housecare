@@ -2,7 +2,7 @@ const webpack = require('webpack')
 
 module.exports = {
     lintOnSave: false,
-    publicPath: process.env.VUE_BASE_URL || '/',
+    publicPath: process.env.VUE_BASE_URL || '/houseCare/',
     productionSourceMap: false,
     configureWebpack: {
         module: {

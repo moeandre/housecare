@@ -34,13 +34,6 @@
                     </a>
                 </li>
                 <!-- END User avatar toggle-->
-                <!-- START lock screen-->
-                <li class="nav-item d-none d-md-block">
-                    <router-link class="nav-link" to="/lock" title="Lock screen">
-                        <em class="icon-lock"></em>
-                    </router-link>
-                </li>
-                <!-- END lock screen-->
             </ul>
             <!-- END Left navbar-->
             <!-- START Right Navbar-->
@@ -65,29 +58,6 @@
                         <!-- START list group-->
                         <div class="list-group">
                             <!-- list item-->
-                            <div class="list-group-item list-group-item-action">
-                                <div class="media">
-                                    <div class="align-self-start mr-2">
-                                        <em class="fab fa-twitter fa-2x text-info"></em>
-                                    </div>
-                                    <div class="media-body">
-                                        <p class="m-0">New followers</p>
-                                        <p class="m-0 text-muted text-sm">1 new follower</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- list item-->
-                            <div class="list-group-item list-group-item-action">
-                                <div class="media">
-                                    <div class="align-self-start mr-2">
-                                        <em class="fas fa-envelope fa-2x text-warning"></em>
-                                    </div>
-                                    <div class="media-body">
-                                        <p class="m-0">New e-mails</p>
-                                        <p class="m-0 text-muted text-sm">You have 10 new emails</p>
-                                    </div>
-                                </div>
-                            </div>
                             <!-- list item-->
                             <div class="list-group-item list-group-item-action">
                                 <div class="media">

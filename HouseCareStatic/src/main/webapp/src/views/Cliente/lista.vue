@@ -2,7 +2,7 @@
     <ContentWrapper>
         <div class="content-heading">Clientes
             <div class="ml-auto">
-               <a class="btn btn-secondary right" :href="'/cliente/criar/'">Adicionar Novo</a>
+                <router-link class="btn btn-secondary right" tag="a" to="/cliente/criar">Adicionar Novo</router-link>
             </div>
         </div>
         <div class="row">
@@ -14,13 +14,16 @@
                                 <template slot="button-content">
                                     <em class="fa fa-ellipsis-v fa-lg text-muted"></em>
                                 </template>
-                                <b-dropdown-item>Conta Corrente</b-dropdown-item>
-                                <b-dropdown-item>Serviços</b-dropdown-item>
-                                <b-dropdown-item>Inventário</b-dropdown-item>
-                                <b-dropdown-item>Lançamentos de Fatura</b-dropdown-item>
+                                <b-dropdown-item>
+                                    <router-link tag="a" to="/cliente/1/fatura">Lançamentos de Fatura</router-link>
+                                </b-dropdown-item>
                                 <b-dropdown-divider></b-dropdown-divider>
-                                <b-dropdown-item>Anotações</b-dropdown-item>
-                                <b-dropdown-item>Hospedagem</b-dropdown-item>
+                                <b-dropdown-item>
+                                    <router-link tag="a" to="/cliente/1/anotacao">Anotações</router-link>
+                                </b-dropdown-item>
+                                <b-dropdown-item>
+                                    <router-link tag="a" to="/cliente/1/hospedagem">Hospedagem</router-link>
+                                </b-dropdown-item>
                             </b-dropdown>
                             
 
@@ -33,7 +36,7 @@
                     </div>
                     <div class="card-footer d-flex">
                         <div class="ml-auto">
-                            <a class="btn btn-xs btn-secondary" :href="'/cliente/editar/1'">Visualizar</a>
+                            <router-link class="btn btn-xs btn-secondary" tag="a" to="/cliente/editar/1">Visualizar</router-link>
                         </div>
                     </div>
                 </div>

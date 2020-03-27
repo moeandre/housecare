@@ -2,7 +2,7 @@
     <ContentWrapper>
         <div class="content-heading">Clientes
             <div class="ml-auto">
-               <a class="btn btn-secondary right" :href="'/cliente/'">Voltar</a>
+                <router-link class="btn btn-secondary right" tag="a" to="/cliente/">Voltar</router-link>
             </div>
         </div>
         <div class="row">
@@ -65,18 +65,24 @@
                             <div class="h4 m-0">Dados Cadastrais</div>
                         </div>
                         <div class="d-flex justify-content-end">
-                            <b-dropdown id="ddown1" variant="link" no-caret right>
-                                <template slot="button-content">
-                                    <em class="fa fa-ellipsis-v fa-lg text-muted"></em>
-                                </template>
-                                <b-dropdown-item>Conta Corrente</b-dropdown-item>
-                                <b-dropdown-item>Serviços</b-dropdown-item>
-                                <b-dropdown-item>Inventário</b-dropdown-item>
-                                <b-dropdown-item>Lançamentos de Fatura</b-dropdown-item>
-                                <b-dropdown-divider></b-dropdown-divider>
-                                <b-dropdown-item>Anotações</b-dropdown-item>
-                                <b-dropdown-item>Hospedagem</b-dropdown-item>
-                            </b-dropdown>
+                                <b-dropdown id="ddown1" variant="link" no-caret right>
+                                    <template slot="button-content">
+                                        <em class="fa fa-ellipsis-v fa-lg text-muted"></em>
+                                    </template>
+                                    <!--dropdown-item>Conta Corrente</b-dropdown-item>
+                                    <b-dropdown-item>Serviços</b-dropdown-item>
+                                    <b-dropdown-item>Inventário</b-dropdown-item -->
+                                    <b-dropdown-item>
+                                        <router-link tag="a" to="/cliente/1/fatura">Lançamentos de Fatura</router-link>
+                                    </b-dropdown-item>
+                                    <b-dropdown-divider></b-dropdown-divider>
+                                    <b-dropdown-item>
+                                        <router-link tag="a" to="/cliente/1/anotacao">Anotações</router-link>
+                                    </b-dropdown-item>
+                                    <b-dropdown-item>
+                                        <router-link tag="a" to="/cliente/1/hospedagem">Hospedagem</router-link>
+                                    </b-dropdown-item>
+                                </b-dropdown>
                         </div>
                     </div>
                     <div class="card-body">

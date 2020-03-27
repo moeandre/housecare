@@ -36,7 +36,7 @@ public class Empresa implements Serializable {
 	@Column(name="nome_fantasia")
 	private String nomeFantasia;
 
-	@Column(name="raxao_social")
+	@Column(name="razao_social")
 	private String razaoSocial;
 
 	private String situacao;

@@ -1,7 +1,6 @@
 package br.com.wamais.houseCare.controller.secure.cliente;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
@@ -30,63 +29,47 @@ public class ClienteController extends AbstractController {
 
 	@RequestMapping(value = "/listar", method = RequestMethod.GET)
 	@Produces(MediaType.APPLICATION_JSON)
-	public @ResponseBody Map<String, Object> listar() {
+	public @ResponseBody List<Cliente> listar() {
 
-		final Map<String, Object> retval = new HashMap<String, Object>();
-		retval.put("success", Boolean.TRUE);
-		retval.put("results", this.service.listarTodos());
-		return retval;
+		return (List<Cliente>) this.service.listarTodos();
 	}
 
 	@RequestMapping(value = "/detalhar/{id}", method = RequestMethod.GET)
 	@Produces(MediaType.APPLICATION_JSON)
-	public @ResponseBody Map<String, Object> detalhar(@PathVariable final Integer id) {
+	public @ResponseBody Cliente detalhar(@PathVariable final Integer id) {
 
-		final Map<String, Object> retval = new HashMap<String, Object>();
-		retval.put("success", Boolean.TRUE);
 		final ClientePK cp = new ClientePK();
 		cp.setId(id);
-		retval.put("result", this.service.obtemPorId(cp));
 
-		return retval;
+		return this.service.obtemPorId(cp);
 	}
 
 	@RequestMapping(value = "/criar", method = RequestMethod.POST, consumes = "application/json")
-	public @ResponseBody Map<String, Object> criar(@RequestBody final Cliente cliente) {
+	public @ResponseBody Cliente criar(@RequestBody final Cliente cliente) {
 
 		final ClientePK cp = new ClientePK();
 		cliente.setId(cp);
-		this.service.alterar(cliente);
 
-		final Map<String, Object> retval = new HashMap<String, Object>();
-		retval.put("success", Boolean.TRUE);
-		retval.put("result", cliente);
-		return retval;
+		return this.service.alterar(cliente);
 	}
 
 	@RequestMapping(value = "/editar/{id}", method = RequestMethod.PUT, consumes = "application/json")
-	public @ResponseBody Map<String, Object> editar(@RequestBody final Cliente cliente, @PathVariable final Integer id) {
+	public @ResponseBody Cliente editar(@RequestBody final Cliente cliente, @PathVariable final Integer id) {
 
 		final ClientePK cp = new ClientePK();
 		cp.setId(id);
 		cliente.setId(cp);
-		this.service.alterar(cliente);
 
-		final Map<String, Object> retval = new HashMap<String, Object>();
-		retval.put("success", Boolean.TRUE);
-		return retval;
+		return this.service.alterar(cliente);
 	}
 
 	@RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
-	public @ResponseBody Map<String, Object> delete(@PathVariable final Integer id) {
+	public @ResponseBody void delete(@PathVariable final Integer id) {
 
 		final ClientePK cp = new ClientePK();
 		cp.setId(id);
 		this.service.excluirPorId(cp);
 
-		final Map<String, Object> retval = new HashMap<String, Object>();
-		retval.put("success", Boolean.TRUE);
-		return retval;
 	}
 
 }

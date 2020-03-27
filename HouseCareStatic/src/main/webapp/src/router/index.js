@@ -101,6 +101,13 @@ const ForumHome = () => import('@/views/Forum/ForumHome.vue')
 //Cliente
 const ClienteHome = () => import('@/views/Cliente/lista.vue')
 const ClienteEditar = () => import('@/views/Cliente/formulario.vue')
+const FaturaClienteEditar = () => import('@/views/Cliente/fatura.vue')
+const AnotacaoClienteEditar = () => import('@/views/Cliente/anotacao.vue')
+const HospedagemClienteEditar = () => import('@/views/Cliente/hospedagem.vue')
+
+//Familiar
+const FamiliarHome = () => import('@/views/Familiar/lista.vue')
+const FamiliarEditar = () => import('@/views/Familiar/formulario.vue')
 
 Vue.use(VueRouter)
 
@@ -111,7 +118,7 @@ export default new VueRouter({
     routes: [
         {
             path: '/',
-            redirect: '/dashboardv1'
+            redirect: '/dashboardv1',
         },
         {
             path: '/',
@@ -128,6 +135,30 @@ export default new VueRouter({
                 {
                     path: '/cliente/editar/:id',
                     component: ClienteEditar
+                },
+                {
+                    path: '/cliente/:id/fatura',
+                    component: FaturaClienteEditar
+                }, 
+                {
+                    path: '/cliente/:id/anotacao',
+                    component: AnotacaoClienteEditar
+                },            
+                {
+                    path: '/cliente/:id/hospedagem',
+                    component: HospedagemClienteEditar
+                },            
+                {
+                    path: '/familiar',
+                    component: FamiliarHome
+                },
+                {
+                    path: '/familiar/criar',
+                    component: FamiliarEditar,
+                },
+                {
+                    path: '/familiar/editar/:id',
+                    component: FamiliarEditar,
                 }
             ]
         },
