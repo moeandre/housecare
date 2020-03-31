@@ -7,11 +7,11 @@
 	<includeBaseDirectory>false</includeBaseDirectory>
 	<fileSets>
 		<fileSet>
-			<directory>src/main/webapp</directory>
+			<directory>src/main/webapp/dist</directory>
 			<includes>
 				<include>**/*</include>
 			</includes>
-			<outputDirectory>/microseguro</outputDirectory>
+			<outputDirectory>/houseCare</outputDirectory>
 		</fileSet>
 	</fileSets>
 </assembly>

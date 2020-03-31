@@ -17,7 +17,7 @@ public class UsuarioRepositoryTest extends AbstractTest {
 	public void findOne() {
 		boolean isOk = true;
 		try {
-			final Usuario amizade = repository.findOne(1);
+			final Usuario amizade = repository.getOne(1);
 			isOk = amizade != null;
 		} catch (Exception e) {
 			e.printStackTrace();
