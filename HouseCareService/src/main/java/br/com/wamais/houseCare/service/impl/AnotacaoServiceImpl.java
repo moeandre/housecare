@@ -1,5 +1,7 @@
 package br.com.wamais.houseCare.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +22,25 @@ public class AnotacaoServiceImpl extends AbstractService<Anotacao, AnotacaoPK> i
 	public void superRepository(final AnotacaoRepository repository) {
 
 		super.setRepository(repository);
+	}
+
+	@Override
+	public List<Anotacao> listarPorIdClienteIdEmpresa(final Integer idCliente, final Integer idEmpresa) {
+
+		return this.repository.findByIdClienteIdEmpresa(idCliente, idEmpresa);
+	}
+
+	@Override
+	public Anotacao obterPorIdClienteIdEmpresaIdAnotacao(final Integer idCliente, final Integer idEmpresa, final Integer idAnocatao) {
+
+		return this.repository.findByIdIdClienteIdEmpresa(idCliente, idEmpresa, idAnocatao);
+	}
+
+	@Override
+	public void excluirPorIdClienteIdEmpresaIdAnotacao(final Integer idCliente, final Integer idEmpresa, final Integer idAnocatao) {
+
+		this.repository.deleteByIdIdClienteIdEmpresa(idAnocatao, idCliente, idEmpresa);
+
 	}
 
 }

@@ -21,7 +21,7 @@ import br.com.wamais.houseCare.service.IClienteService;
 
 @RestController
 @Transactional
-@RequestMapping("/cliente")
+@RequestMapping("/empresa/{idEmpresa}/cliente")
 public class ClienteController extends AbstractController {
 
 	@Autowired
@@ -29,47 +29,42 @@ public class ClienteController extends AbstractController {
 
 	@RequestMapping(value = "/listar", method = RequestMethod.GET)
 	@Produces(MediaType.APPLICATION_JSON)
-	public @ResponseBody List<Cliente> listar() {
+	public @ResponseBody List<Cliente> listar(@PathVariable final Integer idEmpresa) {
 
-		return (List<Cliente>) this.service.listarTodos();
+		return (List<Cliente>) this.service.listarPorEmpresa(idEmpresa);
 	}
 
 	@RequestMapping(value = "/detalhar/{id}", method = RequestMethod.GET)
 	@Produces(MediaType.APPLICATION_JSON)
-	public @ResponseBody Cliente detalhar(@PathVariable final Integer id) {
+	public @ResponseBody Cliente detalhar(@PathVariable final Integer idEmpresa, @PathVariable final Integer id) {
 
-		final ClientePK cp = new ClientePK();
-		cp.setId(id);
+		final ClientePK clientePk = new ClientePK();
+		clientePk.setIdEmpresa(idEmpresa);
+		clientePk.setId(id);
 
-		return this.service.obtemPorId(cp);
+		return this.service.obtemPorId(clientePk);
 	}
 
 	@RequestMapping(value = "/criar", method = RequestMethod.POST, consumes = "application/json")
-	public @ResponseBody Cliente criar(@RequestBody final Cliente cliente) {
+	public @ResponseBody Cliente criar(@PathVariable final Integer idEmpresa, @RequestBody final Cliente cliente) {
 
-		final ClientePK cp = new ClientePK();
-		cliente.setId(cp);
+		final ClientePK clientePk = new ClientePK();
+		clientePk.setIdEmpresa(idEmpresa);
+		cliente.setId(clientePk);
 
 		return this.service.alterar(cliente);
 	}
 
 	@RequestMapping(value = "/editar/{id}", method = RequestMethod.PUT, consumes = "application/json")
-	public @ResponseBody Cliente editar(@RequestBody final Cliente cliente, @PathVariable final Integer id) {
+	public @ResponseBody Cliente editar(@PathVariable final Integer idEmpresa, @RequestBody final Cliente cliente, @PathVariable final Integer id) {
 
-		final ClientePK cp = new ClientePK();
-		cp.setId(id);
-		cliente.setId(cp);
+		final ClientePK clientePk = new ClientePK();
+		clientePk.setId(id);
+		clientePk.setIdEmpresa(idEmpresa);
+
+		cliente.setId(clientePk);
 
 		return this.service.alterar(cliente);
-	}
-
-	@RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
-	public @ResponseBody void delete(@PathVariable final Integer id) {
-
-		final ClientePK cp = new ClientePK();
-		cp.setId(id);
-		this.service.excluirPorId(cp);
-
 	}
 
 }

@@ -1,5 +1,7 @@
 package br.com.wamais.houseCare.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +22,12 @@ public class FamiliarServiceImpl extends AbstractService<Familiar, FamiliarPK> i
 	public void superRepository(final FamiliarRepository repository) {
 
 		super.setRepository(repository);
+	}
+
+	@Override
+	public List<Familiar> listarPorIdClienteIdEmpresa(final Integer idCliente, final Integer idEmpresa) {
+
+		return this.repository.findByIdClienteIdEmpresa(idCliente, idEmpresa);
 	}
 
 }

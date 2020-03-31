@@ -13,9 +13,6 @@ import br.com.wamais.houseCare.service.IFaturaService;
 public class FaturaServiceImpl extends AbstractService<Fatura, Integer> implements IFaturaService {
 
 	@Autowired
-	private FaturaRepository repository;
-
-	@Autowired
 	public void superRepository(final FaturaRepository repository) {
 
 		super.setRepository(repository);

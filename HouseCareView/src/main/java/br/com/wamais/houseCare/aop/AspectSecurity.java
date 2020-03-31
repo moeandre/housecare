@@ -36,28 +36,39 @@ public class AspectSecurity {
 
 		final HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
 
-		String hash = request.getHeader("user-token");
+		final String hash = request.getHeader("user-token");
 		return this.performProfilling(pjp, hash);
 
 	}
 
 	Object performProfilling(final ProceedingJoinPoint pjp, final String hash) throws Throwable {
 
+		final Object[] signatureArgs = pjp.getArgs();
 		this.logger.info("hash " + hash);
 
 		try {
 			if (null == hash) {
 				throw new UsuarioNaoEncontradoException("Hash não encontrado");
 			}
-			Usuario usuario = service.validarSessao(hash);
+			final Usuario usuario = this.service.validarSessao(hash);
 			if (null == usuario) {
 				throw new SessaoExpiradaException("Sessão Expirada");
 			}
+
+			int signatureIndex = 0;
+			for (final Object signatureArg : signatureArgs) {
+				if (signatureArg instanceof Usuario) {
+					signatureArgs[signatureIndex] = usuario;
+					break;
+				}
+				signatureIndex++;
+			}
+
 		} catch (final Exception e) {
 			throw new UsuarioNaoEncontradoException("Hash inválido", e);
 		}
 
-		return pjp.proceed();
+		return pjp.proceed(signatureArgs);
 	}
 
 }
