@@ -8,11 +8,11 @@
                 </a>
             </div>
             <div class="card-body">
-                <p class="text-center py-2">SIGN IN TO CONTINUE.</p>
+                <p class="text-center py-2">EFETUE O LOGIN PARA CONTINUAR.</p>
                 <form class="mb-3" @submit.prevent="validateBeforeSubmit('login')" data-vv-scope="login">
                     <div class="form-group">
                         <div class="input-group with-focus">
-                            <input :class="{'form-control border-right-0':true, 'is-invalid': errors.has('login.email')}" placeholder="Enter email" v-model="login.email" v-validate="'required|email'" type="text" name="email"/>
+                            <input :class="{'form-control border-right-0':true, 'is-invalid': errors.has('login.email')}" placeholder="Digite seu e-mail" v-model="login.user" v-validate="'required|email'" type="text" name="email"/>
                             <div class="input-group-append">
                                 <span class="input-group-text text-muted bg-transparent border-left-0">
                                     <em class="fa fa-envelope"></em>
@@ -23,7 +23,7 @@
                     </div>
                     <div class="form-group">
                         <div class="input-group with-focus">
-                            <input :class="{'form-control  border-right-0':true, 'is-invalid': errors.has('login.password')}" v-model="login.password" v-validate="'required'" type="password" name="password" placeholder="Password"/>
+                            <input :class="{'form-control  border-right-0':true, 'is-invalid': errors.has('login.password')}" v-model="login.pass" v-validate="'required'" type="password" name="password" placeholder="Informe a Senha"/>
                             <div class="input-group-append">
                                 <span class="input-group-text text-muted bg-transparent border-left-0">
                                     <em class="fa fa-lock"></em>
@@ -36,19 +36,17 @@
                         <div class="float-left">
                             <div class="custom-control custom-checkbox">
                                 <input type="checkbox" class="custom-control-input" name="rememberme" id="rememberme" v-model="login.rememberme">
-                                <label class="custom-control-label" for="rememberme">Remember Me</label>
+                                <label class="custom-control-label" for="rememberme">Lembrar meu acesso.</label>
                             </div>
                         </div>
                         <div class="float-right">
                             <router-link class="text-muted" to="/recover">
-                                <small>Forgot your password?</small>
+                                <small>Esqueceu sua senha?</small>
                             </router-link>
                         </div>
                     </div>
                     <button class="btn btn-block btn-primary mt-3" type="submit">Login</button>
                 </form>
-                <p class="pt-3 text-center">Need to Signup?</p>
-                <router-link class="btn btn-block btn-secondary" to="/register">Register Now</router-link>
             </div>
         </div>
         <!-- END card-->
@@ -56,16 +54,16 @@
             <span class="mr-2">&copy;</span>
             <span>2020</span>
             <span class="mr-2">-</span>
-            <span>Angle</span>
-            <br/>
-            <span>Bootstrap Admin Template</span>
+            <span>House Care</span>
+           
         </div>
     </div>
 </template>
 <script>
     import Vue from 'vue'
+    import { mapState, mapActions } from 'vuex'
     import VeeValidate from 'vee-validate';
-
+    
     Vue.use(VeeValidate, {
         fieldsBagName: 'formFields'  // fix issue with b-table
     })
@@ -74,20 +72,24 @@
         data() {
             return {
                 login: {
-                    email: '',
-                    password: '',
+                    user: '',
+                    pass: '',
                     rememberme: false
                 }
             }
         },
+        computed: {
+            ...mapState('account', ['status'])
+        },
+        created () {
+           this.logoutRequest();
+        },
         methods: {
+            ...mapActions('account', ['loginRequest', 'logoutRequest']),
             validateBeforeSubmit(scope) {
                 this.$validator.validateAll(scope).then((result) => {
                     if (result) {
-                        console.log('Form Submitted!');
-                        console.log(`Email: ${this.login.email}`)
-                        console.log(`Password: ${this.login.password}`)
-                        console.log(`Remember Me: ${this.login.rememberme}`)
+                        this.loginRequest(this.login);
                         return;
                     }
                     console.log('Correct them errors!');

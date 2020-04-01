@@ -308,8 +308,8 @@
                 <div class="card card-default">
                     <div class="card-body">
                         <a class="text-muted float-right" href="#">
-                   <em class="fa fa-arrow-right"></em>
-                </a>
+                            <em class="fa fa-arrow-right"></em>
+                        </a>
                         <div class="text-info">Average Monthly Uploads</div>
                         <div class="text-center py-4">
                             <div ref="easypie" class="easypie-chart easypie-chart-lg" data-percent="70">

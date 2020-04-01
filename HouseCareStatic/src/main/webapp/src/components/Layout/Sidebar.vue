@@ -18,8 +18,8 @@
                                 </div>
                                 <!-- Name and Job-->
                                 <div class="user-block-info">
-                                    <span class="user-block-name">Hello, Mike</span>
-                                    <span class="user-block-role">Designer</span>
+                                    <span class="user-block-name">Olá, {{ account.user.nome }}</span>
+                                    <span class="user-block-role">{{ account.user.empresa.nomeFantasia }}</span>
                                 </div>
                             </div>
                         </b-collapse>
@@ -69,7 +69,7 @@
 
 <script>
 
-    import { mapState } from 'vuex';
+    import { mapState } from 'vuex'
     import SidebarRun from './Sidebar.run.js';
     import Menu from '../../menu.js';
 
@@ -86,7 +86,8 @@
         },
         computed: {
             ...mapState({
-                showUserBlock: state => state.setting.showUserBlock
+                showUserBlock: state => state.setting.showUserBlock,
+                account: state => state.account
             })
         },
         watch:{

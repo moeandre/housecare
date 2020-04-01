@@ -1,7 +1,7 @@
 const Menu = [
     {
-        heading: 'Main Navigation',
-        translate: 'sidebar.heading.HEADER'
+        heading: 'Menu Principal',
+        translate: 'Menu Principal'
     },
     {
         name: 'Cliente/Hospedagem',
@@ -128,7 +128,7 @@ const Menu = [
     {
         name: 'Sair',
         icon: 'fa fa-sign-out-alt',
-        path: '/forum'
+        path: '/login'
     }
 ];
 

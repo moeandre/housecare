@@ -33,6 +33,9 @@
                         <em class="icon-user"></em>
                     </a>
                 </li>
+                <li class="nav-item d-none d-md-block" v-if="account.user.empresa">
+                    <span class="nav-link">Empresa: {{account.user.empresa.nomeFantasia}}</span>
+                </li>
                 <!-- END User avatar toggle-->
             </ul>
             <!-- END Left navbar-->
@@ -98,12 +101,21 @@
 </template>
 
 <script>
-    import { mapMutations } from 'vuex'
+    import { mapState, mapMutations } from 'vuex'
     import HeaderSearch from '@/components/Layout/HeaderSearch'
     import ToggleFullscreen from '@/components/Common/ToggleFullscreen'
 
     export default {
         name: 'Header',
+        computed: {
+            ...mapState({
+                account: state => state.account
+            })
+        },
+        created () {
+            
+            console.log(this.account.user.empresa);
+        },
         data: () => {
             return {
                 navSearchOpen: false

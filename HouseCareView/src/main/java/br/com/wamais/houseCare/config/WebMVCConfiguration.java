@@ -17,6 +17,7 @@ import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.jmx.export.annotation.AnnotationMBeanExporter;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -131,6 +132,12 @@ public class WebMVCConfiguration extends WebMvcConfigurerAdapter {
 		objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, true);
 
 		converters.add(jacksonMessageConverter);
+	}
+
+	@Override
+	public void addCorsMappings(final CorsRegistry registry) {
+
+		registry.addMapping("/**");
 	}
 
 }

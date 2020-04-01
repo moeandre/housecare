@@ -112,7 +112,8 @@ const FamiliarEditar = () => import('@/views/Familiar/formulario.vue')
 Vue.use(VueRouter)
 
 
-export default new VueRouter({
+ 
+const router = new VueRouter({
     mode: 'history',
     base: process.env.BASE_URL,
     routes: [
@@ -455,4 +456,19 @@ export default new VueRouter({
             redirect: '/'
         }
     ]
-})
+});
+
+router.beforeEach((to, from, next) => {
+    // redirect to login page if not logged in and trying to access a restricted page
+    //const publicPages = ['/login', '/register'];
+    //const authRequired = !publicPages.includes(to.path);
+    const loggedIn = localStorage.getItem('user');
+ 
+    if (!loggedIn && to.path != '/login') {
+      return next('/login');
+    }
+  
+    next();
+  })
+
+  export default router;
