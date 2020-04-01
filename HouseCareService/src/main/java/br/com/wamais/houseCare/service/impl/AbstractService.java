@@ -49,14 +49,14 @@ public abstract class AbstractService<E, PK extends Serializable> implements ICr
 	@Transactional
 	public E obtemPorId(final PK primaryKey) {
 
-		return this.getRepository().getOne(primaryKey);
+		return this.getRepository().findOne(primaryKey);
 	}
 
 	@Override
 	@Transactional
 	public void excluirPorId(final PK primaryKey) {
 
-		this.getRepository().deleteById(primaryKey);
+		this.getRepository().delete(primaryKey);
 	
 	}
 

@@ -25,8 +25,8 @@ public class Lancamento implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date criacao;
 
-	@Column(name="id_fatura")
-	private int idFatura;
+	@Column(name="id_fatura", nullable = true)
+	private Integer idFatura;
 
 	private String nome;
 
@@ -51,11 +51,11 @@ public class Lancamento implements Serializable {
 		this.criacao = criacao;
 	}
 
-	public int getIdFatura() {
+	public Integer getIdFatura() {
 		return this.idFatura;
 	}
 
-	public void setIdFatura(int idFatura) {
+	public void setIdFatura(Integer idFatura) {
 		this.idFatura = idFatura;
 	}
 
