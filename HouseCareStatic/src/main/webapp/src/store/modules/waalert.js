@@ -2,7 +2,7 @@ import swal from 'sweetalert2'
 
 const actions = {
     showSuccess({}, message){
-        swal({
+        return swal({
                 title: "Bom trabalho!",
                 text: message,
                 type: "success",
@@ -10,7 +10,7 @@ const actions = {
             })
     },
     showError({}, message){
-        swal({
+        return swal({
                 title: "Atenção!",
                 text: message,
                 type: "error",
@@ -18,7 +18,7 @@ const actions = {
             })
     },
     showAlert({}, message){
-        swal({
+        return swal({
                 title: "Atenção!",
                 text: message,
                 type: "warning",

@@ -3,7 +3,7 @@
         <div class="content-heading">
             {{title}}
             <div class="ml-auto">
-                <router-link class="btn btn-secondary right" tag="a" to="/cliente/">Voltar</router-link>
+                <button class="btn btn-secondary right" @click="$router.go(-1)">Voltar</button>
             </div>
         </div>
         <div class="row">
@@ -136,9 +136,10 @@
     </ContentWrapper>
 </template>
 <script>
-    import moment from 'moment'
     
     import Vue from 'vue'
+    import moment from 'moment'
+    
     import { mapState, mapActions } from 'vuex'
     import ClienteDataService from "../../services/ClienteDataService";
     import FamiliarDataService from "../../services/FamiliarDataService";
@@ -207,31 +208,7 @@
             validateBeforeSubmit(scope) {
                 this.$validator.validateAll(scope).then((result) => {
                     if (result) {
-                        
-                        this.cliente.alteracao = new Date();
-
-                        if(this.cliente.id){
-                            ClienteDataService.update(this.account.user.empresa.id, this.$route.params.id, this.cliente)
-                            .then(response => {
-                                this.cliente = response.data;
-                                this.showSuccess('Registro alterado com sucesso!');
-                            })
-                            .catch(e => {
-                                this.showError('Não foi possível alterar o registro!');
-                                console.log(e);
-                            });
-                        }else{
-                            this.cliente.criacao = new Date();
-                            
-                            ClienteDataService.create(this.account.user.empresa.id, this.cliente)
-                            .then(response => {
-                                this.showSuccess('Registro incluído com sucesso!');
-                            })
-                            .catch(e => {
-                                this.showError('Não foi possível incluir o registro!');
-                                console.log(e);
-                            });
-                        }
+                        this.armazenar();                        
                         return;
                     }
                     console.log('Correct them errors!');
@@ -239,6 +216,31 @@
             },
             customFormatter(date) {
                 return moment(date).format('DD/MM/YYYY');
+            },
+            armazenar(){
+                this.cliente.alteracao = new Date();
+                if(this.cliente.id){
+                    ClienteDataService.update(this.account.user.empresa.id, this.$route.params.id, this.cliente)
+                    .then(response => {
+                        this.cliente = response.data;
+                        this.showSuccess('Registro alterado com sucesso!');
+                    })
+                    .catch(e => {
+                        this.showError('Não foi possível alterar o registro!');
+                        console.log(e);
+                    });
+                }else{
+                    this.cliente.criacao = new Date();
+                    
+                    ClienteDataService.create(this.account.user.empresa.id, this.cliente)
+                    .then(response => {
+                        this.showSuccess('Registro incluído com sucesso!');
+                    })
+                    .catch(e => {
+                        this.showError('Não foi possível incluir o registro!');
+                        console.log(e);
+                    });
+                }
             }
             
         },

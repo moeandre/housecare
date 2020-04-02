@@ -19,7 +19,7 @@ class FamiliarDataService {
   }
 
   delete(idEmpresa, idCliente, id) {
-    return http.delete(`/api/rest/empresa/${idEmpresa}/cliente/${idCliente}/familiar/${id}`);
+    return http.delete(`/api/rest/empresa/${idEmpresa}/cliente/${idCliente}/familiar/delete/${id}`);
   }
 
 }

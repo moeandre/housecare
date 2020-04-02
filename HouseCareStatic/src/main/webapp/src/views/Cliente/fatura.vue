@@ -1,136 +1,287 @@
 <template>
-    <ContentWrapper>
-        <div class="content-heading">Lançamentos da Fatura
-            <div class="ml-auto">
-               <router-link class="btn btn-secondary right" tag="a" to="/cliente/1/fatura/criar">Adicionar Novo</router-link>
-               <router-link class="btn btn-secondary right" tag="a" to="/cliente/editar/1">Voltar</router-link>
-            </div>
+
+  <ContentWrapper>
+    <div class="content-heading">
+      {{title}}
+      <div class="ml-auto">
+        <div class="btn-group">
+          <button class="btn btn-secondary right" @click="openForm()">Adicionar Novo</button>
+          <button class="btn btn-secondary right" @click="$router.go(-1)">Voltar</button>
         </div>
-        <div class="card card-default">
-            <div class="table-responsive">
-               <table class="table table-bordered table-hover" id="table-familiares">
-                    <thead>
-                        <tr>
-                            <th>UID</th>
-                            <th>Item</th>
-                            <th>Valor</th>
-                            <th>Faturado</th>
-                            <th>Data</th>
-                            <th>Ação</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Compra</td>
-                            <td class="text-right"> R$ 1,30</td>
-                            <td class="text-right">
-                                
-                            </td>
-                            <td>10/03/2020</td>
-                            <td class="text-right">
-                                <div class="btn-group">
-                                    <a class="btn btn-secondary btn-xs" :href="'/familiar/editar/1'"><i class="fa fa-edit"></i></a>
-                                    <button class="btn btn-danger btn-xs" type="button"><i class="fa fa-trash"></i></button>
-                                </div> 
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>Compra</td>
-                            <td class="text-right"> R$ 1,30</td>
-                            <td class="text-right">
-                                10
-                            </td>
-                            <td>10/03/2020</td>
-                            <td class="text-right">
-                                <div class="btn-group">
-                                    <a class="btn btn-secondary btn-xs disabled" :href="'/familiar/editar/1'"><i class="fa fa-edit"></i></a>
-                                    <button class="btn btn-danger btn-xs disabled" type="button" disabled="disabled"><i class="fa fa-trash"></i></button>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-               </table>
-            </div>
+      </div>
+    </div>
+    <div class="card card-default d-none d-lg-block" v-if="showForm">
+      <div class="card-header">
+        <div class="card-title text-center">Lançamento</div>
+      </div>
+      <div class="card-body">
+        <div class="row py-4 justify-content-center">
+          <div class="col-12 col-sm-12">
+            <form
+              class="form-horizontal"
+              @submit.prevent="validateBeforeSubmit('lancamento')"
+              data-vv-scope="lancamento"
+            >
+              <div class="form-group row">
+                <label
+                  class="text-bold col-xl-3 col-md-3 col-4 col-form-label text-right"
+                  for="nome"
+                >Nome</label>
+                <div class="col-xl-9 col-md-9 col-8">
+                  <input
+                    class="form-control"
+                    id="nome"
+                    type="text"
+                    placeholder="Nome do Item"
+                    v-model="lancamento.nome"
+                  />
+                </div>
+              </div>
+              <div class="form-group row">
+                <label
+                  class="text-bold col-xl-3 col-md-3 col-4 col-form-label text-right"
+                  for="valor"
+                >Valor</label>
+                <div class="col-xl-9 col-md-9 col-8">
+                  <input
+                    class="form-control"
+                    id="valor"
+                    type="text"
+                    placeholder="Valor do Item"
+                    v-model="lancamento.valor"
+                  />
+                </div>
+              </div>
+              <div class="form-group row">
+                <label
+                  class="text-bold col-xl-3 col-md-3 col-4 col-form-label text-right"
+                  for="inputContact8"
+                >Cadastro</label>
+                <div class="col-xl-9 col-md-9 col-8">
+                  <p class="form-control-plaintext">{{lancamento.criacao | formatDate}}</p>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-md-12 text-right">
+                  <button class="btn btn-primary mr-1" type="submit">Armazenar</button>
+                  <button class="btn btn-secondary mr-1" type="button" @click="closeForm()">Cancelar</button>
+                </div>
+              </div>
+            </form>
+          </div>
         </div>
-    </ContentWrapper>
+      </div>
+    </div>
+
+    <div class="card card-default">
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover" id="table-familiares">
+          <thead>
+            <tr>
+              <th>UID</th>
+              <th>Item</th>
+              <th>Valor</th>
+              <th>Faturado</th>
+              <th>Data</th>
+              <th>Ação</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="lancamento of lancamentos" v-bind:key="lancamento.id.id">
+              <td>{{lancamento.id.id}}</td>
+              <td>{{lancamento.nome}}</td>
+              <td class="text-right">R$ {{lancamento.valor}}</td>
+              <td class="text-right">{{lancamento.idFatura}}</td>
+              <td>{{lancamento.criacao | formatDate}}</td>
+              <td class="text-right">
+                <div class="btn-group">
+                  <button
+                    :disabled="lancamento.idFatura"
+                    class="btn btn-secondary btn-xs"
+                    @click="editar(lancamento)"
+                  >
+                    <i class="fa fa-edit"></i>
+                  </button>
+                  <button
+                    :disabled="lancamento.idFatura"
+                    class="btn btn-danger btn-xs"
+                    @click="apagar(lancamento)"
+                  >
+                    <i class="fa fa-trash"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </ContentWrapper>
 </template>
 <script>
-    import Vue from 'vue';
-    import { ClientTable } from 'vue-tables-2';
+import Vue from "vue";
 
-    Vue.use(ClientTable);
+import moment from "moment";
+import { mapState, mapActions } from "vuex";
 
-    const tableData = [
-        {"engine": "Trident", "browser": "Internet Explorer 4.0", "platform": "Win 95+", "version": "4", "grade": "X"},
-        {"engine": "Trident","browser": "Internet Explorer 5.0","platform": "Win 95+","version": "5","grade": "C"},
-        {"engine": "Trident","browser": "Internet Explorer 5.5","platform": "Win 95+","version": "5.5","grade": "A"},
-        {"engine": "Trident","browser": "Internet Explorer 6","platform": "Win 98+","version": "6","grade": "A"},
-        {"engine": "Trident", "browser": "Internet Explorer 7", "platform": "Win XP SP2+", "version": "7", "grade": "A"},
-        {"engine": "Trident", "browser": "AOL browser (AOL desktop)", "platform": "Win XP", "version": "6", "grade": "A"},
-        {"engine": "Gecko", "browser": "Firefox 1.0", "platform": "Win 98+ / OSX.2+", "version": "1.7", "grade": "A"},
-        {"engine": "Gecko", "browser": "Firefox 1.5", "platform": "Win 98+ / OSX.2+", "version": "1.8", "grade": "A"},
-        {"engine": "Gecko", "browser": "Firefox 2.0", "platform": "Win 98+ / OSX.2+", "version": "1.8", "grade": "A"},
-        {"engine": "Gecko", "browser": "Firefox 3.0", "platform": "Win 2k+ / OSX.3+", "version": "1.9", "grade": "A"},
-        {"engine": "Gecko", "browser": "Camino 1.0", "platform": "OSX.2+", "version": "1.8", "grade": "A"},
-        {"engine": "Gecko", "browser": "Camino 1.5", "platform": "OSX.3+", "version": "1.8", "grade": "A"},
-        {"engine": "Trident", "browser": "Internet Explorer 4.0", "platform": "Win 95+", "version": "4", "grade": "X"},
-        {"engine": "Trident","browser": "Internet Explorer 5.0","platform": "Win 95+","version": "5","grade": "C"},
-        {"engine": "Trident","browser": "Internet Explorer 5.5","platform": "Win 95+","version": "5.5","grade": "A"},
-        {"engine": "Trident","browser": "Internet Explorer 6","platform": "Win 98+","version": "6","grade": "A"},
-        {"engine": "Trident", "browser": "Internet Explorer 7", "platform": "Win XP SP2+", "version": "7", "grade": "A"},
-        {"engine": "Trident", "browser": "AOL browser (AOL desktop)", "platform": "Win XP", "version": "6", "grade": "A"},
-        {"engine": "Gecko", "browser": "Firefox 1.0", "platform": "Win 98+ / OSX.2+", "version": "1.7", "grade": "A"},
-        {"engine": "Gecko", "browser": "Firefox 1.5", "platform": "Win 98+ / OSX.2+", "version": "1.8", "grade": "A"},
-        {"engine": "Gecko", "browser": "Firefox 2.0", "platform": "Win 98+ / OSX.2+", "version": "1.8", "grade": "A"},
-        {"engine": "Gecko", "browser": "Firefox 3.0", "platform": "Win 2k+ / OSX.3+", "version": "1.9", "grade": "A"},
-        {"engine": "Gecko", "browser": "Camino 1.0", "platform": "OSX.2+", "version": "1.8", "grade": "A"},
-        {"engine": "Gecko", "browser": "Camino 1.5", "platform": "OSX.3+", "version": "1.8", "grade": "A"},
-        {"engine": "Trident", "browser": "AOL browser (AOL desktop)", "platform": "Win XP", "version": "6", "grade": "A"}
-    ]
+import ClienteDataService from "../../services/ClienteDataService";
+import FaturaDataService from "../../services/FaturaDataService";
+import VeeValidate from "vee-validate";
+import Datepicker from "vuejs-datepicker";
 
-    export default {
-        components: {
-            ClientTable
-        },
-        data() {
-            return {
-                tableData: [],
-                columns: ['engine', 'browser', 'version', 'action'],
-                options: {
-                  pagination: { chunk: 5 },
-                  
-                  filterable: false,
-                  sortIcon: {
-                    is: 'fa-sort',
-                    base: 'fas',
-                    up: 'fa-sort-up',
-                    down: 'fa-sort-down'
-                  }
-                }
-            }
-        },
-        created () {
-            // Add IDs for child rows functionality
-            this.tableData = tableData.map((item, index) => {
-                item['id'] = index
-                return item
-            })
-        },
-        methods: {
-            edit (row) {
-              alert(`Editing row id: ${row.id}`)
-            },
-            remove (row) {
-                this.tableData = this.tableData.filter(item => (row.id !== item.id));
-            },
-            reload() {
-                this.tableData = tableData;
-            },
-            clear() {
-                this.tableData = [];
-            }
-        }
+Vue.use(VeeValidate, {
+  fieldsBagName: "formFields" // fix issue with b-table
+});
+
+Vue.filter("formatDate", function(value) {
+  if (value) {
+    return moment(value).format("DD/MM/YYYY HH:mm:ss");
+  }
+});
+
+export default {
+  name: "lancamento-edit",
+  computed: {
+    ...mapState({
+      account: state => state.account
+    })
+  },
+  data() {
+    return {
+      title: "",
+      lancamento: {
+        criacao: null,
+        idFatura: null,
+        nome: "",
+        valor: null
+      },
+      cliente: {},
+      lancamentos: [],
+      showForm: false
+    };
+  },
+  mounted() {
+    if (this.$route.params.id) {
+      let id = this.$route.params.id;
+      this.obterCliente(id);
+      this.listar(id);
     }
+  },
+  methods: {
+    ...mapActions("waAlert", ["showSuccess", "showError", "showConfirmation"]),
+    openForm() {
+      if (this.showForm) return;
+
+      this.showForm = true;
+      this.lancamento = {};
+      this.lancamento.criacao = new Date();
+    },
+    closeForm() {
+      this.showForm = false;
+      this.lancamento = {};
+    },
+    editar(lancamento) {
+      this.showForm = true;
+      this.lancamento = lancamento;
+    },
+    apagar(lancamento) {
+      this.showConfirmation(
+        "Confirma a remoção do '" + lancamento.nome + "'?"
+      ).then(result => {
+        console.log(result.value);
+        if (result.value) {
+          this.remover(lancamento);
+        }
+      });
+    },
+    listar(id) {
+      FaturaDataService.getAll(this.account.user.empresa.id, id)
+        .then(response => {
+          this.lancamentos = response.data;
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    },
+    obterCliente(id) {
+      ClienteDataService.get(this.account.user.empresa.id, id)
+        .then(response => {
+          this.cliente = response.data;
+          this.title = "Lançamentos da Fatura - " + this.cliente.apelido;
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    },
+    validateBeforeSubmit(scope) {
+      this.$validator.validateAll(scope).then(result => {
+        if (result) {
+          this.armazenar();
+          return;
+        }
+        console.log("Correct them errors!");
+      });
+    },
+    armazenar() {
+      if (this.lancamento.id) {
+        FaturaDataService.update(
+          this.account.user.empresa.id,
+          this.$route.params.id,
+          this.lancamento.id.id,
+          this.lancamento
+        )
+          .then(response => {
+            this.showSuccess("Registro alterado com sucesso!").then(result => {
+              if (result.value) {
+                this.listar(this.$route.params.id);
+                this.closeForm();
+              }
+            });
+          })
+          .catch(e => {
+            this.showError("Não foi possível alterar o registro!");
+            console.log(e);
+          });
+      } else {
+        this.lancamento.criacao = new Date();
+        FaturaDataService.create(
+          this.account.user.empresa.id,
+          this.$route.params.id,
+          this.lancamento
+        )
+          .then(response => {
+            this.showSuccess("Registro incluído com sucesso!").then(result => {
+              if (result.value) {
+                this.listar(this.$route.params.id);
+                this.closeForm();
+              }
+            });
+          })
+          .catch(e => {
+            this.showError("Não foi possível incluir o registro!");
+            console.log(e);
+          });
+      }
+    },
+    remover(lancamento) {
+      FaturaDataService.delete(
+        this.account.user.empresa.id,
+        this.$route.params.id,
+        lancamento.id.id
+      )
+        .then(response => {
+          this.showSuccess("Registro removido com sucesso!").then(result => {
+            if (result.value) {
+              this.listar(this.$route.params.id);
+              this.closeForm();
+            }
+          });
+        })
+        .catch(e => {
+          this.showError("Não foi possível remover o registro!");
+          console.log(e);
+        });
+    }
+  }
+};
 </script>
