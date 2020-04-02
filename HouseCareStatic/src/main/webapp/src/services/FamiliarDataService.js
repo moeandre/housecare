@@ -2,24 +2,24 @@ import http from "./http-common";
 
 class FamiliarDataService {
   
-  getAll() {
-    return http.get("/api/rest/cliente/listar");
+  getAll(idEmpresa, idCliente) {
+    return http.get(`/api/rest/empresa/${idEmpresa}/cliente/${idCliente}/familiar/listar`);
   }
 
-  get(id) {
-    return http.get(`/api/rest/cliente/${id}`);
+  get(idEmpresa, idCliente, id) {
+    return http.get(`/api/rest/empresa/${idEmpresa}/cliente/${idCliente}/familiar/detalhar/${id}/`);
   }
 
-  create(data) {
-    return http.post("/api/rest/cliente", data);
+  create(idEmpresa, idCliente, data) {
+    return http.post(`/api/rest/empresa/${idEmpresa}/cliente/${idCliente}/familiar/criar`, data);
   }
 
-  update(id, data) {
-    return http.put(`/api/rest/cliente/${id}`, data);
+  update(idEmpresa, idCliente, id, data) {
+    return http.put(`/api/rest/empresa/${idEmpresa}/cliente/${idCliente}/familiar/editar/${id}`, data);
   }
 
-  delete(id) {
-    return http.delete(`/api/rest/cliente/${id}`);
+  delete(idEmpresa, idCliente, id) {
+    return http.delete(`/api/rest/empresa/${idEmpresa}/cliente/${idCliente}/familiar/${id}`);
   }
 
 }

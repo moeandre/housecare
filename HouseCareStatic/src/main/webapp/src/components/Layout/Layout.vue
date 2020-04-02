@@ -1,5 +1,7 @@
 <template>
     <div class="wrapper">
+        
+        <nprogress-container />
 
         <!-- top navbar-->
         <Header />
@@ -29,6 +31,7 @@
     import Offsidebar from './Offsidebar'
     import Footer from './Footer'
     import ContentWrapper from './ContentWrapper'
+    import NprogressContainer from 'vue-nprogress/src/NprogressContainer'
 
     Vue.component('ContentWrapper', ContentWrapper)
 
@@ -38,7 +41,8 @@
             Header,
             Sidebar,
             Offsidebar,
-            Footer
+            Footer,
+            NprogressContainer
         }
     }
 </script>

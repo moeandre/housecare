@@ -7,7 +7,7 @@ const state = user
     : { status: {}, user: null };
 
 const actions = {
-    loginRequest({ dispatch, commit }, loginForm) {
+    loginRequest({ commit }, loginForm) {
         
         commit('loginRequest', loginForm.user);
  

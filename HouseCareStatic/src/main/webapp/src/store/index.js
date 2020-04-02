@@ -7,6 +7,7 @@ import SettingPlugin from './plugins/setting.js'
 import ThemeModule from './modules/theme.js'
 import ThemePlugin from './plugins/theme.js'
 import AccountModule from './modules/account.js'
+import waAlertModule from './modules/waalert.js'
 
 Vue.use(Vuex)
 
@@ -14,7 +15,8 @@ export default new Vuex.Store({
     modules: {
         setting: SettingModule,
         theme: ThemeModule,
-        account: AccountModule
+        account: AccountModule,
+        waAlert: waAlertModule
     },
     plugins: [
         createPersistedState({

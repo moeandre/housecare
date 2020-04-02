@@ -9,9 +9,10 @@
  *
  */
 
-import Vue from 'vue'
-import BootstrapVue from 'bootstrap-vue'
+import Vue from 'vue';
+import BootstrapVue from 'bootstrap-vue';
 import VueI18Next from '@panter/vue-i18next';
+
 
 import './vendor.js'
 

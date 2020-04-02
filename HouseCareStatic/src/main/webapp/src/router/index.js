@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import nprogress from 'nprogress'
 
 // Layouts
 import Layout from '@/components/Layout/Layout'
@@ -110,8 +111,6 @@ const FamiliarHome = () => import('@/views/Familiar/lista.vue')
 const FamiliarEditar = () => import('@/views/Familiar/formulario.vue')
 
 Vue.use(VueRouter)
-
-
  
 const router = new VueRouter({
     mode: 'history',
@@ -467,12 +466,20 @@ router.beforeEach((to, from, next) => {
     //const publicPages = ['/login', '/register'];
     //const authRequired = !publicPages.includes(to.path);
     const loggedIn = localStorage.getItem('user');
- 
+
+    if(to.name){
+        nprogress.start();
+    }
     if (!loggedIn && to.path != '/login') {
       return next('/login');
     }
   
     next();
+  });
+
+  router.afterEach((to, from) => {
+    // Complete the animation of the route progress bar.
+    nprogress.done();
   })
 
   export default router;

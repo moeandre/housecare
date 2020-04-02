@@ -24,35 +24,11 @@
                         <div class="card-title text-center">Familiares</div>
                     </div>
                     <div class="card-body">
-                        <div class="media">
+                        <div class="media"  v-for="familiar of familiars" v-bind:key="familiar.id.idFamiliar">
                             <img class="align-self-center mr-2 rounded-circle img-thumbnail thumb48" src="img/user/05.jpg" alt="Contact" />
                             <div class="media-body py-2">
-                                <div class="text-bold">Filha
-                                    <div class="text-sm text-muted">6677-0000</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="media">
-                            <img class="align-self-center mr-2 rounded-circle img-thumbnail thumb48" src="img/user/05.jpg" alt="Contact" />
-                            <div class="media-body py-2">
-                                <div class="text-bold">Luis Vasquez
-                                    <div class="text-sm text-muted">2h ago</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="media">
-                            <img class="align-self-center mr-2 rounded-circle img-thumbnail thumb48" src="img/user/06.jpg" alt="Contact" />
-                            <div class="media-body py-2">
-                                <div class="text-bold">Duane Mckinney
-                                    <div class="text-sm text-muted">yesterday</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="media">
-                            <img class="align-self-center mr-2 rounded-circle img-thumbnail thumb48" src="img/user/07.jpg" alt="Contact" />
-                            <div class="media-body py-2">
-                                <div class="text-bold">Connie Lambert
-                                    <div class="text-sm text-muted">2 weeks ago</div>
+                                <div class="text-bold">{{familiar.nome}}
+                                    <div class="text-sm text-muted">{{familiar.ultimoContato | formatDate}}</div>
                                 </div>
                             </div>
                         </div>
@@ -132,13 +108,13 @@
                                     <div class="form-group row">
                                         <label class="text-bold col-xl-3 col-md-3 col-4 col-form-label text-right" for="inputContact8">Cadastro</label>
                                         <div class="col-xl-9 col-md-9 col-8 ">
-                                            {{cliente.criacao | formatDate}}
+                                            <p class="form-control-plaintext">{{cliente.criacao | formatDate}}</p>
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label class="text-bold col-xl-3 col-md-3 col-4 col-form-label text-right" for="inputContact8">Alteração</label>
                                         <div class="col-xl-9 col-md-9 col-8">
-                                            {{cliente.alteracao | formatDate}}
+                                            <p class="form-control-plaintext">{{cliente.alteracao | formatDate}}</p>
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -163,8 +139,9 @@
     import moment from 'moment'
     
     import Vue from 'vue'
-    import { mapState, mapMutations } from 'vuex'
+    import { mapState, mapActions } from 'vuex'
     import ClienteDataService from "../../services/ClienteDataService";
+    import FamiliarDataService from "../../services/FamiliarDataService";
     import VeeValidate from 'vee-validate';
 
     import Datepicker from 'vuejs-datepicker'
@@ -202,15 +179,26 @@
                     'nome': '',
                     'sobrenome': ''
                 },
+                familiars: [],
                 title: "Novo Cliente"
             };
         },
         methods: {
+            ...mapActions('waAlert',['showSuccess', 'showError']),
             detalhar(id) {
                 ClienteDataService.get(this.account.user.empresa.id, id)
                     .then(response => {
                         this.cliente = response.data;
                         this.title = 'Editar '+this.cliente.apelido
+                    })
+                    .catch(e => {
+                        console.log(e);
+                    });
+            },
+            listarFamiliars(id) {
+                FamiliarDataService.getAll(this.account.user.empresa.id, id)
+                    .then(response => {
+                        this.familiars = response.data;
                     })
                     .catch(e => {
                         console.log(e);
@@ -226,8 +214,10 @@
                             ClienteDataService.update(this.account.user.empresa.id, this.$route.params.id, this.cliente)
                             .then(response => {
                                 this.cliente = response.data;
+                                this.showSuccess('Registro alterado com sucesso!');
                             })
                             .catch(e => {
+                                this.showError('Não foi possível alterar o registro!');
                                 console.log(e);
                             });
                         }else{
@@ -235,9 +225,10 @@
                             
                             ClienteDataService.create(this.account.user.empresa.id, this.cliente)
                             .then(response => {
-                                
+                                this.showSuccess('Registro incluído com sucesso!');
                             })
                             .catch(e => {
+                                this.showError('Não foi possível incluir o registro!');
                                 console.log(e);
                             });
                         }
@@ -253,7 +244,9 @@
         },
         mounted() {
             if(this.$route.params.id){
-                this.detalhar(this.$route.params.id);
+                let id = this.$route.params.id;
+                this.detalhar(id);
+                this.listarFamiliars(id);
             }
         }
     };
