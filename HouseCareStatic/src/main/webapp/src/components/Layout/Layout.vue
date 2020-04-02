@@ -8,7 +8,7 @@
         <Sidebar />
 
         <!-- offsidebar-->
-        <Offsidebar />
+        <!-- Offsidebar /-->
 
         <!-- Main section-->
         <section class="section-container">

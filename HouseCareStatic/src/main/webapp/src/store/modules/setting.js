@@ -22,7 +22,7 @@ const SettingModule = {
         /* Toggle for the sidebar offcanvas (mobile) */
         asideToggled: false,
         /* Toggle for the sidebar user block */
-        showUserBlock: false,
+        showUserBlock: true,
         /* Enables layout horizontal */
         horizontal: false,
         /* Full size layout */

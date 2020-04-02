@@ -26,13 +26,7 @@
                         <em class="fas fa-bars"></em>
                     </a>
                 </li>
-                <!-- START User avatar toggle-->
-                <li class="nav-item d-none d-md-block">
-                    <!-- Button used to collapse the left sidebar. Only visible on tablet and desktops-->
-                    <a class="nav-link" href="" @click.prevent="toggleUserBlock">
-                        <em class="icon-user"></em>
-                    </a>
-                </li>
+                
                 <li class="nav-item d-none d-md-block" v-if="account.user.empresa">
                     <span class="nav-link">Empresa: {{account.user.empresa.nomeFantasia}}</span>
                 </li>
@@ -41,12 +35,6 @@
             <!-- END Left navbar-->
             <!-- START Right Navbar-->
             <ul class="navbar-nav flex-row">
-                <!-- Search icon-->
-                <li class="nav-item">
-                    <a class="nav-link" href="#" @click.prevent="toggleNavSearch">
-                        <em class="icon-magnifier"></em>
-                    </a>
-                </li>
                 <!-- Fullscreen (only desktops)-->
                 <li class="nav-item d-none d-md-block">
                     <ToggleFullscreen tag="A" class="nav-link" href="#" />
@@ -85,16 +73,7 @@
                     </b-dropdown-item>
                 </b-nav-item-dropdown>
                 <!-- END Alert menu-->
-                <!-- START Offsidebar button-->
-                <li class="nav-item">
-                    <a href="" class="nav-link" @click.prevent.prevent="toggleOffsidebar">
-                        <em class="icon-notebook"></em>
-                    </a>
-                </li>
-                <!-- END Offsidebar.prevent menu-->
             </ul>
-            <!-- END Right Navbar-->
-            <HeaderSearch :isOpen="navSearchOpen" :onClose.prevent="closeNavSearch"/>
         </nav>
         <!-- END Top Navbar-->
     </header>
@@ -111,10 +90,6 @@
             ...mapState({
                 account: state => state.account
             })
-        },
-        created () {
-            
-            console.log(this.account.user.empresa);
         },
         data: () => {
             return {

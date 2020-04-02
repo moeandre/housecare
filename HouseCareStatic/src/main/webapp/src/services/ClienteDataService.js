@@ -2,25 +2,23 @@ import http from "./http-common";
 
 class ClienteDataService {
   
-  getAll() {
-    return http.get("/api/rest/cliente/listar");
+  getAll(idEmpresa) {
+    return http.get(`/api/rest/empresa/${idEmpresa}/cliente/listar`);
   }
 
-  get(id) {
-    return http.get(`/api/rest/cliente/${id}`);
+  get(idEmpresa, id) {
+    return http.get(`/api/rest/empresa/${idEmpresa}/cliente/detalhar/${id}/`);
   }
 
-  create(data) {
-    return http.post("/api/rest/cliente", data);
+  create(idEmpresa, data) {
+    return http.post(`/api/rest/empresa/${idEmpresa}/cliente/criar`, data);
   }
 
-  update(id, data) {
-    return http.put(`/api/rest/cliente/${id}`, data);
+  update(idEmpresa, id, data) {
+    return http.put(`/api/rest/empresa/${idEmpresa}/cliente/editar/${id}`, data);
   }
 
-  delete(id) {
-    return http.delete(`/api/rest/cliente/${id}`);
-  }
+  
 
 }
 

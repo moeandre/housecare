@@ -134,18 +134,22 @@ const router = new VueRouter({
                     component: ClienteEditar
                 },
                 {
+                    name: 'editar-cliente',
                     path: '/cliente/editar/:id',
                     component: ClienteEditar
                 },
                 {
+                    name: 'fatura-cliente',
                     path: '/cliente/:id/fatura',
                     component: FaturaClienteEditar
                 }, 
                 {
+                    name: 'anotacao-cliente',
                     path: '/cliente/:id/anotacao',
                     component: AnotacaoClienteEditar
                 },            
                 {
+                    name: 'hospedagem-cliente',
                     path: '/cliente/:id/hospedagem',
                     component: HospedagemClienteEditar
                 },            
