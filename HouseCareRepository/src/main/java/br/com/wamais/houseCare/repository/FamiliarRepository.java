@@ -13,7 +13,16 @@ import br.com.wamais.houseCare.domain.FamiliarPK;
 @Repository
 public interface FamiliarRepository extends JpaRepository<Familiar, FamiliarPK> {
 
-	@Query(value = "SELECT F.* FROM familiar F WHERE F.id_cliente = :idCliente AND F.id_empresa = :idEmpresa", nativeQuery = true)
-	List<Familiar> findByIdClienteIdEmpresa(@Param("idCliente") Integer idCliente, @Param("idEmpresa") Integer idEmpresa);
+	@Query("SELECT F, C FROM Familiar F, Cliente C WHERE F.id.idFamiliar = :idFamiliar AND F.id.idEmpresa = :idEmpresa AND C.id.id = F.id.idCliente")
+	List<Object[]> obterPorIdFamiliar(@Param("idFamiliar") Integer idFamiliar, @Param("idEmpresa") Integer idEmpresa);
+	
+	@Query("SELECT F, C FROM Familiar F, Cliente C WHERE F.id.idEmpresa = :idEmpresa AND C.id.id = F.id.idCliente")
+	List<Object[]> findByIdEmpresa(@Param("idEmpresa") Integer idEmpresa);
+	
+	@Query("SELECT F, C FROM Familiar F, Cliente C WHERE F.id.idCliente = :idCliente AND F.id.idEmpresa = :idEmpresa AND C.id.id = F.id.idCliente")
+	List<Object[]> findByIdClienteIdEmpresa(@Param("idCliente") Integer idCliente, @Param("idEmpresa") Integer idEmpresa);
+	
+	@Query("DELETE FROM Familiar F WHERE F.id.idFamiliar = :idFamiliar AND F.id.idEmpresa = :idEmpresa")
+	void excluirPorIdFamiliar(@Param("idFamiliar") Integer idFamiliar, @Param("idEmpresa") Integer idEmpresa);
 
 }

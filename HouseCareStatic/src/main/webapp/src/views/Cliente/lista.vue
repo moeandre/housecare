@@ -10,19 +10,22 @@
 
                 <div class="card card-default">
                     <div class="card-header text-right">
-                        <b-dropdown id="ddown1" variant="link" no-caret right>
+                        <b-dropdown id="opcoes-cliente" variant="link" no-caret right>
                             <template slot="button-content">
                                 <em class="fa fa-ellipsis-v fa-lg text-muted"></em>
                             </template>
                             <b-dropdown-item>
-                                <router-link tag="a" :to="{ name: 'fatura-cliente', params: { id: cliente.id.id }}">Lançamentos de Fatura</router-link>
+                                <router-link tag="a" :to="{ name: 'familiar-cliente', params: { id: cliente.id.id }}">Familiares</router-link>
                             </b-dropdown-item>
-                            <b-dropdown-divider></b-dropdown-divider>
                             <b-dropdown-item>
                                 <router-link tag="a" :to="{ name: 'anotacao-cliente', params: { id: cliente.id.id }}">Anotações</router-link>
                             </b-dropdown-item>
                             <b-dropdown-item>
                                 <router-link tag="a" :to="{ name: 'hospedagem-cliente', params: { id: cliente.id.id }}">Hospedagem</router-link>
+                            </b-dropdown-item>
+                            <b-dropdown-divider></b-dropdown-divider>
+                            <b-dropdown-item>
+                                <router-link tag="a" :to="{ name: 'fatura-cliente', params: { id: cliente.id.id }}">Lançamentos de Fatura</router-link>
                             </b-dropdown-item>
                         </b-dropdown>
                     </div>

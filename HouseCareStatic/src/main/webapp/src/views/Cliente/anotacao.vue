@@ -146,13 +146,14 @@
                 if (this.showForm) return;
 
                 this.showForm = true;
-                this.anocatao = {};
-                this.anocatao.criacao = new Date();
-                this.anocatao.alteracao = new Date();
+                this.anotacao = {};
+                this.anotacao.criacao = new Date();
+                this.anotacao.alteracao = new Date();
+                this.anotacao.usuario = this.account.user
             },
             closeForm() {
                 this.showForm = false;
-                this.anocatao = {};
+                this.anotacao = {};
             },
             editar(anotacao) {
                 this.showForm = true;

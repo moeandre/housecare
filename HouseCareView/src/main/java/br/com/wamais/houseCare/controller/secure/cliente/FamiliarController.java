@@ -21,20 +21,27 @@ import br.com.wamais.houseCare.service.IFamiliarService;
 
 @RestController
 @Transactional
-@RequestMapping("/empresa/{idEmpresa}/cliente/{idCliente}/familiar")
+@RequestMapping("/empresa/{idEmpresa}")
 public class FamiliarController extends AbstractController {
 
 	@Autowired
 	private transient IFamiliarService service;
 
-	@RequestMapping(value = "/listar", method = RequestMethod.GET)
+	@RequestMapping(value = "/cliente/{idCliente}/familiar/listar", method = RequestMethod.GET)
 	@Produces(MediaType.APPLICATION_JSON)
 	public @ResponseBody List<Familiar> listar(@PathVariable final Integer idEmpresa, @PathVariable final Integer idCliente) {
 
 		return this.service.listarPorIdClienteIdEmpresa(idCliente, idEmpresa);
 	}
 
-	@RequestMapping(value = "/detalhar/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/familiar/listar", method = RequestMethod.GET)
+	@Produces(MediaType.APPLICATION_JSON)
+	public @ResponseBody List<Familiar> listar(@PathVariable final Integer idEmpresa) {
+
+		return this.service.listarPorIdEmpresa(idEmpresa);
+	}
+
+	@RequestMapping(value = "/cliente/{idCliente}/familiar/detalhar/{id}", method = RequestMethod.GET)
 	@Produces(MediaType.APPLICATION_JSON)
 	public @ResponseBody Familiar detalhar(@PathVariable final Integer idEmpresa, @PathVariable final Integer idCliente,
 			@PathVariable final Integer id) {
@@ -47,7 +54,14 @@ public class FamiliarController extends AbstractController {
 		return this.service.obtemPorId(familiarPk);
 	}
 
-	@RequestMapping(value = "/criar", method = RequestMethod.POST, consumes = "application/json")
+	@RequestMapping(value = "/familiar/detalhar/{idFamiliar}", method = RequestMethod.GET)
+	@Produces(MediaType.APPLICATION_JSON)
+	public @ResponseBody Familiar detalhar(@PathVariable final Integer idEmpresa, @PathVariable final Integer idFamiliar) {
+
+		return this.service.obterPorIdFamiliar(idFamiliar, idEmpresa);
+	}
+
+	@RequestMapping(value = "/cliente/{idCliente}/familiar/criar", method = RequestMethod.POST, consumes = "application/json")
 	public @ResponseBody Familiar criar(@PathVariable final Integer idEmpresa, @PathVariable final Integer idCliente,
 			@RequestBody final Familiar familiar) {
 
@@ -59,7 +73,7 @@ public class FamiliarController extends AbstractController {
 		return this.service.alterar(familiar);
 	}
 
-	@RequestMapping(value = "/editar/{id}", method = RequestMethod.PUT, consumes = "application/json")
+	@RequestMapping(value = "/cliente/{idCliente}/familiar/editar/{id}", method = RequestMethod.PUT, consumes = "application/json")
 	public @ResponseBody Familiar editar(@PathVariable final Integer idEmpresa, @PathVariable final Integer idCliente,
 			@RequestBody final Familiar familiar, @PathVariable final Integer id) {
 
@@ -73,7 +87,7 @@ public class FamiliarController extends AbstractController {
 		return this.service.alterar(familiar);
 	}
 
-	@RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/cliente/{idCliente}/familiar/delete/{id}", method = RequestMethod.DELETE)
 	public @ResponseBody void delete(@PathVariable final Integer idEmpresa, @PathVariable final Integer idCliente, @PathVariable final Integer id) {
 
 		final FamiliarPK familiarPk = new FamiliarPK();
@@ -82,6 +96,13 @@ public class FamiliarController extends AbstractController {
 		familiarPk.setIdFamiliar(id);
 
 		this.service.excluirPorId(familiarPk);
+
+	}
+
+	@RequestMapping(value = "/familiar/delete/{idFamiliar}", method = RequestMethod.DELETE)
+	public @ResponseBody void delete(@PathVariable final Integer idEmpresa, @PathVariable final Integer idFamiliar) {
+
+		this.service.excluirPorIdFamiliar(idFamiliar, idEmpresa);
 
 	}
 

@@ -2,13 +2,17 @@ import axios from "axios"
 import nprogress from 'nprogress'
 
 const user = JSON.parse(localStorage.getItem('user')) || []; 
-const uuid = user.sessao.uuid || '';
+const uuid = function(){
+  return (user.sessao) ? user.sessao.uuid || '' : '';
+};
+
+
 
 const axiosInstance = axios.create({
   baseURL: "http://localhost/",
   headers: {
     "Content-type": "application/json",
-    'user-token': uuid
+    'user-token': uuid()
   }
 });
 

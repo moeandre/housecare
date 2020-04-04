@@ -153,6 +153,11 @@ const router = new VueRouter({
                     component: HospedagemClienteEditar
                 },            
                 {
+                    name: 'familiar-cliente',
+                    path: '/cliente/:id/familiar',
+                    component: FamiliarHome
+                },            
+                {
                     path: '/familiar',
                     component: FamiliarHome
                 },

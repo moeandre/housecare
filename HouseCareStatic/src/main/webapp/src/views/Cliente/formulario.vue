@@ -42,21 +42,24 @@
                             <div class="h4 m-0">Dados Cadastrais</div>
                         </div>
                         <div class="d-flex justify-content-end">
-                                <b-dropdown id="ddown1" variant="link" no-caret right v-if="cliente.id">
-                                    <template slot="button-content">
-                                        <em class="fa fa-ellipsis-v fa-lg text-muted"></em>
-                                    </template>
-                                    <b-dropdown-item>
-                                        <router-link tag="a" :to="{ name: 'fatura-cliente', params: { id: cliente.id.id }}">Lançamentos de Fatura</router-link>
-                                    </b-dropdown-item>
-                                    <b-dropdown-divider></b-dropdown-divider>
-                                    <b-dropdown-item>
-                                        <router-link tag="a" :to="{ name: 'anotacao-cliente', params: { id: cliente.id.id }}">Anotações</router-link>
-                                    </b-dropdown-item>
-                                    <b-dropdown-item>
-                                        <router-link tag="a" :to="{ name: 'hospedagem-cliente', params: { id: cliente.id.id }}">Hospedagem</router-link>
-                                    </b-dropdown-item>
-                                </b-dropdown>
+                            <b-dropdown id="opcoes-cliente" variant="link" no-caret right>
+                                <template slot="button-content">
+                                    <em class="fa fa-ellipsis-v fa-lg text-muted"></em>
+                                </template>
+                                <b-dropdown-item>
+                                    <router-link tag="a" :to="{ name: 'familiar-cliente', params: { id: cliente.id.id }}">Familiares</router-link>
+                                </b-dropdown-item>
+                                <b-dropdown-item>
+                                    <router-link tag="a" :to="{ name: 'anotacao-cliente', params: { id: cliente.id.id }}">Anotações</router-link>
+                                </b-dropdown-item>
+                                <b-dropdown-item>
+                                    <router-link tag="a" :to="{ name: 'hospedagem-cliente', params: { id: cliente.id.id }}">Hospedagem</router-link>
+                                </b-dropdown-item>
+                                <b-dropdown-divider></b-dropdown-divider>
+                                <b-dropdown-item>
+                                    <router-link tag="a" :to="{ name: 'fatura-cliente', params: { id: cliente.id.id }}">Lançamentos de Fatura</router-link>
+                                </b-dropdown-item>
+                            </b-dropdown>
                         </div>
                     </div>
                     <div class="card-body">

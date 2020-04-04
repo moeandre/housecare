@@ -9,4 +9,10 @@ public interface IFamiliarService extends ICrudService<Familiar, FamiliarPK> {
 
 	List<Familiar> listarPorIdClienteIdEmpresa(Integer idCliente, Integer idEmpresa);
 
+	List<Familiar> listarPorIdEmpresa(Integer idEmpresa);
+
+	Familiar obterPorIdFamiliar(Integer idFamiliar, Integer idEmpresa);
+
+	void excluirPorIdFamiliar(Integer idFamiliar, Integer idEmpresa);
+
 }

@@ -12,6 +12,10 @@ const Menu = [
                 path: '/cliente'
             },
             {
+                name: 'Familiares',
+                path: '/familiar'
+            },
+            /*{
                 name: 'Hospedagem',
                 path: '/cliente'
             },
@@ -34,7 +38,7 @@ const Menu = [
             {
                 name: 'Fatura',
                 path: '/cliente'
-            }
+            }*/
         ]
     },
     {
