@@ -8,14 +8,15 @@ import javax.persistence.Entity;
 import javax.persistence.Lob;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
+import javax.persistence.Transient;
 
 /**
  * The persistent class for the anotacao database table.
- * 
+ *
  */
 @Entity
 public class Anotacao implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 
 	@EmbeddedId
@@ -30,39 +31,61 @@ public class Anotacao implements Serializable {
 	@Lob
 	private String texto;
 
+	@Transient
+	private Usuario usuario;
+
 	public Anotacao() {
+
 	}
 
 	public AnotacaoPK getId() {
+
 		return this.id;
 	}
 
-	public void setId(AnotacaoPK id) {
+	public void setId(final AnotacaoPK id) {
+
 		this.id = id;
 	}
 
 	public Date getAlteracao() {
+
 		return this.alteracao;
 	}
 
-	public void setAlteracao(Date alteracao) {
+	public void setAlteracao(final Date alteracao) {
+
 		this.alteracao = alteracao;
 	}
 
 	public Date getCriacao() {
+
 		return this.criacao;
 	}
 
-	public void setCriacao(Date criacao) {
+	public void setCriacao(final Date criacao) {
+
 		this.criacao = criacao;
 	}
 
 	public String getTexto() {
+
 		return this.texto;
 	}
 
-	public void setTexto(String texto) {
+	public void setTexto(final String texto) {
+
 		this.texto = texto;
+	}
+
+	public Usuario getUsuario() {
+
+		return this.usuario;
+	}
+
+	public void setUsuario(final Usuario usuario) {
+
+		this.usuario = usuario;
 	}
 
 }

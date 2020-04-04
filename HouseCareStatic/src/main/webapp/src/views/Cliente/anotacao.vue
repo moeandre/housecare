@@ -1,9 +1,51 @@
 <template>
     <ContentWrapper>
-        <div class="content-heading">Anotações
+        <div class="content-heading">{{title}}
             <div class="ml-auto">
-               <router-link class="btn btn-secondary right" tag="a" to="/cliente/1/anotacao/criar">Adicionar Novo</router-link>
-               <router-link class="btn btn-secondary right" tag="a" to="/cliente/editar/1">Voltar</router-link>
+                <div class="btn-group">
+                    <button class="btn btn-secondary right" @click="openForm()">Adicionar Novo</button>
+                    <button class="btn btn-secondary right" @click="$router.go(-1)">Voltar</button>
+                </div>
+            </div>
+        </div>
+        <div class="card card-default d-none d-lg-block" v-if="showForm">
+            <div class="card-header">
+                <div class="card-title text-center">Anotação</div>
+            </div>
+            <div class="card-body">
+                <div class="row py-4 justify-content-center">
+                    <div class="col-12 col-sm-12">
+                        <form class="form-horizontal" @submit.prevent="validateBeforeSubmit('anotacao')" data-vv-scope="anotacao">
+                            <div class="form-group row">
+                                <div class="col-xl-12 col-md-12 col-12">
+                                    <b-textarea class="form-control" placeholder="Anotação" v-model="anotacao.texto"></b-textarea>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="text-bold col-xl-3 col-md-3 col-4  col-form-label text-right" for="criacao">Cadastro</label>
+                                <div class="col-xl-9 col-md-9 col-8">
+                                    <p class="form-control-plaintext">{{anotacao.usuario.nome}}</p>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="text-bold col-xl-3 col-md-3 col-2 col-form-label text-right" for="criacao">Cadastro</label>
+                                <div class="col-xl-3 col-md-3 col-4">
+                                    <p class="form-control-plaintext">{{anotacao.criacao | formatDate}}</p>
+                                </div>
+                                <label class="text-bold col-xl-3 col-md-3 col-2 col-form-label text-right" for="alteracao">Alteração</label>
+                                <div class="col-xl-3 col-md-3 col-4">
+                                    <p class="form-control-plaintext">{{anotacao.alteracao | formatDate}}</p>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-12 text-right">
+                                    <button class="btn btn-primary mr-1" type="submit">Armazenar</button>
+                                    <button class="btn btn-secondary mr-1" type="button" @click="closeForm()">Cancelar</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="row">
@@ -13,16 +55,33 @@
                         <!-- p.lead.text-centerNo mails here-->
                         <table class="table table-hover mb-mails">
                             <tbody>
-                                <tr>
+                                <tr v-for="anotacao of anotacaos" v-bind:key="anotacao.id.id">
                                     <td>
                                         <div class="d-flex">
                                             <img class="mb-mail-avatar mr-2" alt="Mail Avatar" src="img/user/01.jpg" />
                                             <div class="mb-mail-meta">
-                                                <div class="mb-mail-subject">Admin web application</div>
-                                                <div class="mb-mail-from">Evelyn Holmes</div>
-                                                <div class="mb-mail-preview">Fusce gravida, diam ac adipiscing pretium, sem nibh bibendum diam, non consequat quam metus non nunc</div>
+                                                <div class="mb-mail-subject">{{anotacao.usuario.nome}}</div>
+                                                <div class="mb-mail-preview">{{anotacao.texto}}</div>
                                             </div>
-                                            <div class="mb-mail-date ml-auto">10 minutes ago</div>
+                                            <div class="mb-mail-date ml-auto">{{anotacao.criacao | formatDate}}</div>
+                                        </div>
+                                    </td>
+                                    <td class="text-right">
+                                        <div class="btn-group">
+                                            <button
+                                                :disabled="anotacao.id.idUsuario != account.user.id"
+                                                class="btn btn-secondary btn-xs"
+                                                @click="editar(anotacao)"
+                                            >
+                                                <i class="fa fa-edit"></i>
+                                            </button>
+                                            <button
+                                                :disabled="anotacao.id.idUsuario != account.user.id"
+                                                class="btn btn-danger btn-xs"
+                                                @click="apagar(lancamento)"
+                                                >
+                                                <i class="fa fa-trash"></i>
+                                            </button>
                                         </div>
                                     </td>
                                 </tr>
@@ -34,3 +93,170 @@
         </div>
     </ContentWrapper>
 </template>
+<script>
+    import Vue from "vue";
+
+    import moment from "moment";
+    import { mapState, mapActions } from "vuex";
+
+    import ClienteDataService from "../../services/ClienteDataService";
+    import AnotacaoDataService from "../../services/AnotacaoDataService";
+    import VeeValidate from "vee-validate";
+
+    Vue.use(VeeValidate, {
+        fieldsBagName: "formFields" // fix issue with b-table
+    });
+
+    Vue.filter("formatDate", function(value) {
+        if (value) {
+            return moment(value).format("DD/MM/YYYY HH:mm:ss");
+        }
+    });
+
+    export default {
+        name: "anotacao-edit",
+        computed: {
+            ...mapState({
+                account: state => state.account
+            })
+        },
+        data() {
+            return {
+                title: "",
+                anotacao: {
+                    'alteracao': null,
+                    'criacao': null,
+                    'texto': 'teste'
+                },
+                cliente: {},
+                anotacaos: [],
+                showForm: false
+            };
+        },
+        mounted() {
+            if (this.$route.params.id) {
+                let id = this.$route.params.id;
+                this.obterCliente(id);
+                this.listar(id);
+            }
+        },
+        methods: {
+            ...mapActions("waAlert", ["showSuccess", "showError", "showConfirmation"]),
+            openForm() {
+                if (this.showForm) return;
+
+                this.showForm = true;
+                this.anocatao = {};
+                this.anocatao.criacao = new Date();
+                this.anocatao.alteracao = new Date();
+            },
+            closeForm() {
+                this.showForm = false;
+                this.anocatao = {};
+            },
+            editar(anotacao) {
+                this.showForm = true;
+                this.anotacao = anotacao;
+            },
+            apagar(anotacao) {
+                this.showConfirmation(
+                    "Confirma a remoção do resgistro?"
+                ).then(result => {
+                    if (result.value) {
+                        this.remover(anotacao);
+                    }
+                });
+            },
+            listar(id) {
+                AnotacaoDataService.getAll(this.account.user.empresa.id, id)
+                    .then(response => {
+                        this.anotacaos = response.data;
+                    })
+                    .catch(e => {
+                        console.log(e);
+                    });
+            },
+            obterCliente(id) {
+                ClienteDataService.get(this.account.user.empresa.id, id)
+                    .then(response => {
+                        this.cliente = response.data;
+                        this.title = "Anotações - " + this.cliente.apelido;
+                    })
+                    .catch(e => {
+                        console.log(e);
+                    });
+            },
+            validateBeforeSubmit(scope) {
+                this.$validator.validateAll(scope).then(result => {
+                    if (result) {
+                        this.armazenar();
+                        return;
+                    }
+                    console.log("Correct them errors!");
+                });
+            },
+            armazenar() {
+                if (this.anotacao.id) {
+                    this.anotacao.alteracao = new Date();
+                    
+                    AnotacaoDataService.update(
+                        this.account.user.empresa.id,
+                        this.$route.params.id,
+                        this.anotacao.id.id,
+                        this.anotacao
+                    )
+                    .then(response => {
+                        this.showSuccess("Registro alterado com sucesso!").then(result => {
+                            if (result.value) {
+                                this.listar(this.$route.params.id);
+                                this.closeForm();
+                            }
+                        });
+                    })
+                    .catch(e => {
+                        this.showError("Não foi possível alterar o registro!");
+                        console.log(e);
+                    });
+                } else {
+                    this.anotacao.criacao = new Date();
+                    AnotacaoDataService.create(
+                        this.account.user.empresa.id,
+                        this.$route.params.id,
+                        this.anotacao
+                    )
+                    .then(response => {
+                        this.showSuccess("Registro incluído com sucesso!").then(result => {
+                            if (result.value) {
+                                this.listar(this.$route.params.id);
+                                this.closeForm();
+                            }
+                        });
+                    })
+                    .catch(e => {
+                        this.showError("Não foi possível incluir o registro!");
+                        console.log(e);
+                    });
+                }
+            },
+            remover(anotacao) {
+                AnotacaoDataService.delete(
+                    this.account.user.empresa.id,
+                    this.$route.params.id,
+                    anotacao.id.id
+                )
+                .then(response => {
+                    this.showSuccess("Registro removido com sucesso!").then(result => {
+                        if (result.value) {
+                            this.listar(this.$route.params.id);
+                            this.closeForm();
+                        }
+                    });
+                })
+                .catch(e => {
+                    this.showError("Não foi possível remover o registro!");
+                    console.log(e);
+                });
+            }
+        }
+    };
+</script>

@@ -1,5 +1,6 @@
 package br.com.wamais.houseCare.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.com.wamais.houseCare.domain.Anotacao;
 import br.com.wamais.houseCare.domain.AnotacaoPK;
+import br.com.wamais.houseCare.domain.Usuario;
 import br.com.wamais.houseCare.repository.AnotacaoRepository;
 import br.com.wamais.houseCare.service.IAnotacaoService;
 
@@ -27,13 +29,31 @@ public class AnotacaoServiceImpl extends AbstractService<Anotacao, AnotacaoPK> i
 	@Override
 	public List<Anotacao> listarPorIdClienteIdEmpresa(final Integer idCliente, final Integer idEmpresa) {
 
-		return this.repository.findByIdClienteIdEmpresa(idCliente, idEmpresa);
+		final List<Anotacao> anotacaos = new ArrayList<Anotacao>();
+		final List<Object[]> listaEntidades = this.repository.findByIdClienteIdEmpresa(idCliente, idEmpresa);
+		for (final Object entidade[] : listaEntidades) {
+			final Anotacao anotacao = (Anotacao) entidade[0];
+			final Usuario usuario = (Usuario) entidade[1];
+			anotacao.setUsuario(usuario);
+			anotacaos.add(anotacao);
+		}
+
+		return anotacaos;
 	}
 
 	@Override
 	public Anotacao obterPorIdClienteIdEmpresaIdAnotacao(final Integer idCliente, final Integer idEmpresa, final Integer idAnocatao) {
 
-		return this.repository.findByIdIdClienteIdEmpresa(idCliente, idEmpresa, idAnocatao);
+		Anotacao anotacao = new Anotacao();
+		final List<Object[]> listaEntidades = this.repository.findByIdIdClienteIdEmpresa(idCliente, idEmpresa, idAnocatao);
+		if (listaEntidades.isEmpty() == false && listaEntidades.get(0) != null) {
+			final Object entidade[] = listaEntidades.get(0);
+			anotacao = (Anotacao) entidade[0];
+			final Usuario usuario = (Usuario) entidade[1];
+			anotacao.setUsuario(usuario);
+		}
+
+		return anotacao;
 	}
 
 	@Override

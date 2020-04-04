@@ -13,11 +13,12 @@ import br.com.wamais.houseCare.domain.AnotacaoPK;
 @Repository
 public interface AnotacaoRepository extends JpaRepository<Anotacao, AnotacaoPK> {
 
-	@Query(value = "SELECT A.* FROM anotacao A WHERE A.id_cliente = :idCliente AND A.id_empresa = :idEmpresa", nativeQuery = true)
-	List<Anotacao> findByIdClienteIdEmpresa(@Param("idCliente") Integer idCliente, @Param("idEmpresa") Integer idEmpresa);
+	@Query("SELECT A, U FROM Anotacao A, Usuario U WHERE A.id.idCliente = :idCliente AND A.id.idEmpresa = :idEmpresa AND U.id = A.id.idUsuario")
+	List<Object[]> findByIdClienteIdEmpresa(@Param("idCliente") Integer idCliente, @Param("idEmpresa") Integer idEmpresa);
 
-	@Query(value = "SELECT A.* FROM anotacao A WHERE A.id = :idAnotacao AND A.id_cliente = :idCliente AND A.id_empresa = :idEmpresa", nativeQuery = true)
-	Anotacao findByIdIdClienteIdEmpresa(@Param("idCliente") Integer idCliente, @Param("idEmpresa") Integer idEmpresa, @Param("idAnotacao") Integer idAnotacao);
+	//SELECT A, U FROM Anotacao A, Usuario U WHERE A.id.idCliente = :idCliente AND A.id.idEmpresa = :idEmpresa AND U.id = A.id.idUsuario
+	@Query("SELECT A, U FROM Anotacao A, Usuario U WHERE A.id.id = :idAnotacao AND A.id.idCliente = :idCliente AND A.id.idEmpresa = :idEmpresa AND U.id = A.id.idUsuario")
+	List<Object[]> findByIdIdClienteIdEmpresa(@Param("idCliente") Integer idCliente, @Param("idEmpresa") Integer idEmpresa, @Param("idAnotacao") Integer idAnotacao);
 	
 	@Query(value = "DETELE FROM anotacao A WHERE A.id = :idAnotacao AND A.id_cliente = :idCliente AND A.id_empresa = :idEmpresa", nativeQuery = true)
 	void deleteByIdIdClienteIdEmpresa(@Param("idAnotacao") Integer idAnotacao, @Param("idCliente") Integer idCliente, @Param("idEmpresa") Integer idEmpresa);
