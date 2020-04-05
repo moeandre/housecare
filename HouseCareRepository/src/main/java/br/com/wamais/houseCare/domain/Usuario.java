@@ -5,12 +5,15 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * The persistent class for the usuario database table.
@@ -22,6 +25,7 @@ public class Usuario implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 
 	@Temporal(TemporalType.TIMESTAMP)
@@ -170,11 +174,13 @@ public class Usuario implements Serializable {
 		this.nome = nome;
 	}
 
+	@JsonIgnore
 	public String getSenha() {
 
 		return this.senha;
 	}
 
+	@JsonProperty
 	public void setSenha(final String senha) {
 
 		this.senha = senha;

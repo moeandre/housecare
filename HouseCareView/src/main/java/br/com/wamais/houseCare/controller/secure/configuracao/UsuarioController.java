@@ -21,7 +21,7 @@ import br.com.wamais.houseCare.service.IUsuarioService;
 
 @RestController
 @Transactional
-@RequestMapping("/usuario")
+@RequestMapping("/admin/usuario")
 public class UsuarioController extends AbstractController {
 
 	@Autowired

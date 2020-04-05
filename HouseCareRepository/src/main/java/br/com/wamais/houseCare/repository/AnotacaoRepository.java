@@ -16,7 +16,6 @@ public interface AnotacaoRepository extends JpaRepository<Anotacao, AnotacaoPK> 
 	@Query("SELECT A, U FROM Anotacao A, Usuario U WHERE A.id.idCliente = :idCliente AND A.id.idEmpresa = :idEmpresa AND U.id = A.id.idUsuario")
 	List<Object[]> findByIdClienteIdEmpresa(@Param("idCliente") Integer idCliente, @Param("idEmpresa") Integer idEmpresa);
 
-	//SELECT A, U FROM Anotacao A, Usuario U WHERE A.id.idCliente = :idCliente AND A.id.idEmpresa = :idEmpresa AND U.id = A.id.idUsuario
 	@Query("SELECT A, U FROM Anotacao A, Usuario U WHERE A.id.id = :idAnotacao AND A.id.idCliente = :idCliente AND A.id.idEmpresa = :idEmpresa AND U.id = A.id.idUsuario")
 	List<Object[]> findByIdIdClienteIdEmpresa(@Param("idCliente") Integer idCliente, @Param("idEmpresa") Integer idEmpresa, @Param("idAnotacao") Integer idAnotacao);
 	

@@ -28,21 +28,21 @@ public abstract class AbstractService<E, PK extends Serializable> implements ICr
 	@Transactional
 	public void salvar(final E entity) {
 
-		this.getRepository().save(entity);
+		this.getRepository().saveAndFlush(entity);
 	}
 
 	@Override
 	@Transactional
 	public E salvarComRetorno(final E entity) {
 
-		return this.getRepository().save(entity);
+		return this.getRepository().saveAndFlush(entity);
 	}
 
 	@Override
 	@Transactional
 	public E alterar(final E entity) {
 
-		return this.getRepository().save(entity);
+		return this.getRepository().saveAndFlush(entity);
 	}
 
 	@Override

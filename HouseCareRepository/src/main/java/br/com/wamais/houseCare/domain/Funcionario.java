@@ -4,14 +4,15 @@ import java.io.Serializable;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-
+import javax.persistence.Transient;
 
 /**
  * The persistent class for the funcionario database table.
- * 
+ *
  */
 @Entity
 public class Funcionario implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 
 	@EmbeddedId
@@ -21,31 +22,51 @@ public class Funcionario implements Serializable {
 
 	private String situacao;
 
+	@Transient
+	private Usuario usuario;
+
 	public Funcionario() {
+
 	}
 
 	public FuncionarioPK getId() {
+
 		return this.id;
 	}
 
-	public void setId(FuncionarioPK id) {
+	public void setId(final FuncionarioPK id) {
+
 		this.id = id;
 	}
 
 	public byte getResponsavel() {
+
 		return this.responsavel;
 	}
 
-	public void setResponsavel(byte responsavel) {
+	public void setResponsavel(final byte responsavel) {
+
 		this.responsavel = responsavel;
 	}
 
 	public String getSituacao() {
+
 		return this.situacao;
 	}
 
-	public void setSituacao(String situacao) {
+	public void setSituacao(final String situacao) {
+
 		this.situacao = situacao;
+	}
+
+	public Usuario getUsuario() {
+
+		return this.usuario;
+	}
+
+	public void setUsuario(final Usuario usuario) {
+
+		this.usuario = usuario;
 	}
 
 }
