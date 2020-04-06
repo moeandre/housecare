@@ -7,6 +7,8 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 
 
 /**
@@ -23,22 +25,29 @@ public class Cliente implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date alteracao;
 
+	@NotNull(message = "Por favor, informe o apelido")
 	private String apelido;
 
+	@NotNull(message = "Por favor, informe o cpf")
 	private String cpf;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date criacao;
 
+	@NotNull(message = "Por favor, informe a nacionalidade")
 	private String nacionalidade;
 
 	@Temporal(TemporalType.TIMESTAMP)
+	@NotNull(message = "Por favor, informe o nascimento")
+	@Past
 	private Date nascimento;
 
 	private String naturalidade;
 
+	@NotNull(message = "Por favor, informe o nome")
 	private String nome;
 
+	@NotNull(message = "Por favor, informe o sobrenome")
 	private String sobrenome;
 
 	public Cliente() {

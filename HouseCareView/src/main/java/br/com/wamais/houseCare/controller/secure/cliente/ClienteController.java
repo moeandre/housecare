@@ -2,6 +2,7 @@ package br.com.wamais.houseCare.controller.secure.cliente;
 
 import java.util.List;
 
+import javax.validation.Valid;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
@@ -46,7 +47,7 @@ public class ClienteController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/criar", method = RequestMethod.POST, consumes = "application/json")
-	public @ResponseBody Cliente criar(@PathVariable final Integer idEmpresa, @RequestBody final Cliente cliente) {
+	public @ResponseBody Cliente criar(@PathVariable final Integer idEmpresa, @Valid @RequestBody final Cliente cliente) {
 
 		final ClientePK clientePk = new ClientePK();
 		clientePk.setIdEmpresa(idEmpresa);
@@ -56,7 +57,7 @@ public class ClienteController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/editar/{id}", method = RequestMethod.PUT, consumes = "application/json")
-	public @ResponseBody Cliente editar(@PathVariable final Integer idEmpresa, @RequestBody final Cliente cliente, @PathVariable final Integer id) {
+	public @ResponseBody Cliente editar(@PathVariable final Integer idEmpresa, @Valid @RequestBody final Cliente cliente, @PathVariable final Integer id) {
 
 		final ClientePK clientePk = new ClientePK();
 		clientePk.setId(id);

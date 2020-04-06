@@ -3,6 +3,8 @@ package br.com.wamais.houseCare.service.impl;
 import java.io.Serializable;
 import java.util.Collection;
 
+import javax.validation.Valid;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -26,21 +28,21 @@ public abstract class AbstractService<E, PK extends Serializable> implements ICr
 
 	@Override
 	@Transactional
-	public void salvar(final E entity) {
+	public void salvar(@Valid final E entity) {
 
 		this.getRepository().saveAndFlush(entity);
 	}
 
 	@Override
 	@Transactional
-	public E salvarComRetorno(final E entity) {
+	public E salvarComRetorno(@Valid final E entity) {
 
 		return this.getRepository().saveAndFlush(entity);
 	}
 
 	@Override
 	@Transactional
-	public E alterar(final E entity) {
+	public E alterar(@Valid final E entity) {
 
 		return this.getRepository().saveAndFlush(entity);
 	}

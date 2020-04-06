@@ -9,6 +9,8 @@ import javax.persistence.Lob;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 /**
  * The persistent class for the anotacao database table.
@@ -29,6 +31,7 @@ public class Anotacao implements Serializable {
 	private Date criacao;
 
 	@Lob
+	@NotNull
 	private String texto;
 
 	@Transient
