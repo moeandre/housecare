@@ -103,11 +103,13 @@
                                     <div class="form-group row">
                                         <label class="text-bold col-xl-3 col-md-3 col-4 col-form-label text-right" for="cpf">CPF</label>
                                         <div class="col-xl-9 col-md-9 col-8">
-                                            <input name="cpf" id="cpf" type="text" placeholder="CPF do Cliente" 
+                                            <masked-input 
+                                                name="cpf" id="cpf" type="text" placeholder="CPF do Cliente"
                                                 v-model="cliente.cpf" 
                                                 v-validate="'required|cpf|max:14'"
                                                 :class="{'form-control':true, 'is-invalid': errors.has('cliente.cpf')}"
-                                             />
+                                                :mask="cpfMask" 
+                                                />
                                             <span v-if="errors.has('cliente.cpf')" class="invalid-feedback">{{ errors.first('cliente.cpf') }}</span>
                                         </div>
                                     </div>
@@ -182,6 +184,10 @@
     import { mapState, mapActions } from 'vuex'
     import ClienteDataService from "../../services/ClienteDataService";
     import FamiliarDataService from "../../services/FamiliarDataService";
+
+    import MaskedInput from 'vue-text-mask'
+    import * as textMaskAddons from 'text-mask-addons/dist/textMaskAddons'
+
     import VeeValidate, { Validator } from 'vee-validate';
     import CpfValidator from '../../components/validators/cpf.validator'
 
@@ -205,7 +211,8 @@
 
     export default {
         components: {
-            Datepicker
+            Datepicker,
+            MaskedInput
         },
         name: "cliente-edit",
         computed: {
@@ -227,7 +234,8 @@
                     'sobrenome': ''
                 },
                 familiars: [],
-                title: "Novo Cliente"
+                title: "Novo Cliente",
+                cpfMask: [/\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/,'.', /\d/, /\d/, /\d/, '-', /\d/, /\d/]
             };
         },
         methods: {
