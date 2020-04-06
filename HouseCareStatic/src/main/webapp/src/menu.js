@@ -47,7 +47,7 @@ const Menu = [
         translate: 'Usuários',
         submenu: [{
                 name: 'Cadastro',
-                path: '/cliente'
+                path: '/usuario'
             }
         ]
     },

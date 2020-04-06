@@ -110,6 +110,10 @@ const HospedagemClienteEditar = () => import('@/views/Cliente/hospedagem.vue')
 const FamiliarHome = () => import('@/views/Familiar/lista.vue')
 const FamiliarEditar = () => import('@/views/Familiar/formulario.vue')
 
+//Funcionario
+const FuncionarioHome = () => import('@/views/Usuario/lista.vue')
+const FuncionarioEditar = () => import('@/views/Usuario/formulario.vue')
+
 Vue.use(VueRouter)
  
 const router = new VueRouter({
@@ -168,7 +172,21 @@ const router = new VueRouter({
                 {
                     path: '/familiar/editar/:id',
                     component: FamiliarEditar,
+                },
+                {
+                    path: '/usuario',
+                    component: FuncionarioHome
+                },
+                {
+                    path: '/usuario/criar',
+                    component: FuncionarioEditar,
+                },
+                {
+                    name: 'editar-funcionario',
+                    path: '/usuario/editar/:id',
+                    component: FuncionarioEditar,
                 }
+
             ]
         },
         // Admin Pages

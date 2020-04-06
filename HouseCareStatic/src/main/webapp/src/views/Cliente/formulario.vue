@@ -123,7 +123,7 @@
                                     <div class="form-group row">
                                         <div class="col-md-12 text-right">
                                             <button class="btn btn-primary mr-1" type="submit">Armazenar</button>
-                                            <button class="btn btn-secondary mr-1" type="button">Cancelar</button>
+                                            <button class="btn btn-secondary mr-1" type="button" @click="$router.go(-1)">Cancelar</button>
                                         </div>
                                     </div>
                                 </form>

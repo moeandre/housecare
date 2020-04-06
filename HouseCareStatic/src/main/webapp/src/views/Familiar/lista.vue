@@ -54,7 +54,7 @@
                                     <div class="checkbox c-checkbox">
                                         <label>
                                             <input type="checkbox" id="responsavel" v-model="familiar.responsavel" />
-                                            <span class="fa fa-check"></span> Responsável pelo Cliente
+                                            <span class="fa fa-check"></span> Responsável Solidário
                                         </label>
                                     </div>
                                 </div>
