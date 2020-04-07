@@ -19,25 +19,48 @@
                             <div class="form-group row">
                                 <label class="text-bold col-xl-3 col-md-3 col-4 col-form-label text-right" for="nome">Nome</label>
                                 <div class="col-xl-9 col-md-9 col-8">
-                                    <input class="form-control" id="nome" type="text" placeholder="Nome do Familiar" v-model="familiar.nome" />
+                                    <input class="form-control" 
+                                        name="nome" id="nome" type="text" placeholder="Nome do Familiar" 
+                                        v-model="familiar.nome" 
+                                        v-validate="'required|max:75'"
+                                        :class="{'form-control':true, 'is-invalid': errors.has('familiar.nome')}"
+                                    />
+                                    <span v-if="errors.has('familiar.nome')" class="invalid-feedback">{{ errors.first('familiar.nome') }}</span>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label class="text-bold col-xl-3 col-md-3 col-4 col-form-label text-right" for="parentesco">Parentesco</label>
                                 <div class="col-xl-9 col-md-9 col-8">
-                                    <input class="form-control" id="parentesco" type="text" placeholder="Parentesco do Familiar" v-model="familiar.parentesco" />
+                                    <select name="parentesco" id="parentesco" 
+                                        v-model="familiar.parentesco"
+                                        v-validate="'required'"
+                                        :class="{'custom-select':true, 'is-invalid': errors.has('familiar.parentesco')}">
+                                        <option>Selecione o Parentesco do Familiar</option>
+                                        <option v-for="parentesco in parentescos.values" v-bind:value="parentesco.key" v-bind:key="parentesco.key" :selected="parentesco.key === familiar.parentesco" >{{ parentesco.value }}</option>
+                                    </select>
+                                    <span v-if="errors.has('familiar.parentesco')" class="invalid-feedback">{{ errors.first('familiar.parentesco') }}</span>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label class="text-bold col-xl-3 col-md-3 col-4 col-form-label text-right" for="telefone">Telefone</label>
                                 <div class="col-xl-9 col-md-9 col-8">
-                                    <input class="form-control" id="telefone" type="text" placeholder="Telefone do Familiar" v-model="familiar.telefone" />
+                                    <the-mask input name="telefone" id="telefone" type="text" placeholder="Telefone do Familiar" 
+                                        v-model="familiar.telefone" 
+                                        v-validate="'required'"
+                                        :class="{'form-control':true, 'is-invalid': errors.has('familiar.telefone')}"
+                                        :mask="['(##) ####-####', '(##) #####-####']"/>
+                                    <span v-if="errors.has('familiar.telefone')" class="invalid-feedback">{{ errors.first('familiar.telefone') }}</span>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label class="text-bold col-xl-3 col-md-3 col-4 col-form-label text-right" for="email">E-mail</label>
                                 <div class="col-xl-9 col-md-9 col-8">
-                                    <input class="form-control" id="email" type="text" placeholder="E-mail do Familiar" v-model="familiar.email" />
+                                    <input name="email" id="email" type="text" placeholder="E-mail do Familiar" 
+                                        v-model="familiar.email"
+                                        v-validate="'email'"
+                                        :class="{'form-control':true, 'is-invalid': errors.has('familiar.email')}"
+                                    />
+                                    <span v-if="errors.has('familiar.email')" class="invalid-feedback">{{ errors.first('familiar.email') }}</span>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -95,8 +118,8 @@
                             <th>Parentesco</th>
                             <th>Telefone</th>
                             <th>E-mail</th>
-                            <th>Ultimo Contato</th>
-                            <th>Responsável</th>
+                            <th>Responsável Solidário</th>
+                            <th>Último Contato</th>
                             <th>Ação</th>
                         </tr>
                     </thead>
@@ -105,13 +128,13 @@
                             <td>{{familiar.id.idFamiliar}}</td>
                             <td v-if="!$route.params.id">{{familiar.cliente.apelido}}</td>
                             <td>{{familiar.nome}}</td>
-                            <td>{{familiar.parentesco}}</td>
+                            <td>{{parentescos.get(familiar.parentesco)}}</td>
                             <td>{{familiar.telefone}}</td>
                             <td>{{familiar.email}}</td>
-                            <td>{{familiar.ultimoContato | formatDate}}</td>
                             <td class="text-center">
                                 {{familiar.responsavel ? 'Sim' : 'Não'}}
                             </td>
+                            <td>{{familiar.ultimoContato | formatDate}}</td>
                             <td class="text-right">
                                 <div class="btn-group">
                                     <button
@@ -143,12 +166,22 @@
     import moment from "moment";
     import { mapState, mapActions } from "vuex";
 
+    import parentescos from '../../components/domain/parentesco';
+
     import ClienteDataService from "../../services/ClienteDataService";
     import FamiliarDataService from "../../services/FamiliarDataService";
-    import VeeValidate from "vee-validate";
 
+    import {TheMask} from 'vue-the-mask'
+    
+    import VeeValidate, { Validator } from 'vee-validate';
+
+    import msgBR from 'vee-validate/dist/locale/pt_BR';
+    
+    Validator.localize('pt_BR', msgBR);
+    
     Vue.use(VeeValidate, {
-        fieldsBagName: "formFields" // fix issue with b-table
+        fieldsBagName: 'formFields',  // fix issue with b-table
+        locale: 'pt_BR'
     });
 
     Vue.filter("formatDate", function(value) {
@@ -156,9 +189,12 @@
             return moment(value).format("DD/MM/YYYY HH:mm:ss");
         }
     });
-
+                
     export default {
         name: "familiar-edit",
+        components: {
+            TheMask
+        },
         computed: {
             ...mapState({
                 account: state => state.account
@@ -183,7 +219,9 @@
                 cliente: {},
                 clientes: {},
                 familiars: [],
-                showForm: false
+                showForm: false,
+                parentescos,
+                phoneMask: '\d',
             };
         },
         methods: {

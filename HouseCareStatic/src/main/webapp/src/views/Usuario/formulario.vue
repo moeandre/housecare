@@ -13,7 +13,7 @@
                         <div class="py-4">
                             <img class="img-fluid rounded-circle img-thumbnail thumb96" src="img/user/13.jpg" alt="Contact" />
                         </div>
-                        <h3 class="m-0 text-bold">{{funcionario.usuario.nome ||  'Novo Cliente'}}</h3>
+                        <h3 class="m-0 text-bold">{{funcionario.usuario.nome ||  'Novo Usuário'}}</h3>
                         <div class="my-3">
                             <p>{{funcionario.usuario.email}} </p>
                         </div>
@@ -37,19 +37,37 @@
                                     <div class="form-group row">
                                         <label class="text-bold col-xl-3 col-md-3 col-4 col-form-label text-right" for="nome">Nome</label>
                                         <div class="col-xl-9 col-md-9 col-8">
-                                            <input class="form-control" id="nome" type="text" placeholder="Nome do Usuário" v-model="funcionario.usuario.nome" />
+                                            <input 
+                                                name="nome" id="nome" type="text" placeholder="Nome do Usuário" 
+                                                v-model="funcionario.usuario.nome" 
+                                                v-validate="'required|max:75'"
+                                                :class="{'form-control':true, 'is-invalid': errors.has('funcionario.usuario.nome')}"
+                                            />
+                                            <span v-if="errors.has('funcionario.usuario.nome')" class="invalid-feedback">{{ errors.first('funcionario.usuario.nome') }}</span>
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label class="text-bold col-xl-3 col-md-3 col-4 col-form-label text-right" for="email">E-mail</label>
                                         <div class="col-xl-9 col-md-9 col-8">
-                                            <input class="form-control" id="email" type="email" placeholder="E-mail do Usuário" v-model="funcionario.usuario.email" />
+                                            <input 
+                                                name="email" id="email" type="text" placeholder="E-mail do Usuário" 
+                                                v-model="funcionario.usuario.email"
+                                                v-validate="'email'"
+                                                :class="{'form-control':true, 'is-invalid': errors.has('funcionario.usuario.email')}"
+                                            />
+                                            <span v-if="errors.has('funcionario.usuario.email')" class="invalid-feedback">{{ errors.first('funcionario.usuario.email') }}</span>
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label class="text-bold col-xl-3 col-md-3 col-4 col-form-label text-right" for="telefone">Telefone</label>
-                                        <div class="col-xl-9 col-md-9 col-8">
-                                            <input class="form-control" id="telefone" type="number" placeholder="Telefone do Usuário" v-model="funcionario.usuario.telefone" />
+                                         <div class="col-xl-9 col-md-9 col-8">
+                                            <the-mask 
+                                                name="telefone" id="telefone" type="text" placeholder="Telefone do Usuário" 
+                                                v-model="funcionario.usuario.telefone" 
+                                                v-validate="'required'"
+                                                :class="{'form-control':true, 'is-invalid': errors.has('funcionario.usuario.telefone')}"
+                                                :mask="['(##) ####-####', '(##) #####-####']"/>
+                                            <span v-if="errors.has('funcionario.usuario.telefone')" class="invalid-feedback">{{ errors.first('funcionario.usuario.telefone') }}</span>
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -115,13 +133,23 @@
     
     import { mapState, mapActions } from 'vuex'
     import FuncionarioDataService from "../../services/FuncionarioDataService";
-    import VeeValidate from 'vee-validate';
 
+    import parentescos from '../../components/domain/parentesco';
+   
     import Datepicker from 'vuejs-datepicker'
     
+    import {TheMask} from 'vue-the-mask'
+
+    import VeeValidate, { Validator } from 'vee-validate';
+
+    import msgBR from 'vee-validate/dist/locale/pt_BR';
+    
+    Validator.localize('pt_BR', msgBR);
+
     Vue.use(VeeValidate, {
-        fieldsBagName: 'formFields'  // fix issue with b-table
-    })
+        fieldsBagName: 'formFields',  // fix issue with b-table
+        locale: 'pt_BR'
+    });
 
     Vue.filter('formatDate', function(value) {
         if (value) {
@@ -131,7 +159,8 @@
 
     export default {
         components: {
-            Datepicker
+            Datepicker,
+            TheMask
         },
         name: "usuario-edit",
         computed: {

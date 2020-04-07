@@ -51,7 +51,7 @@ public abstract class VelocityEngineUtils {
      * @throws VelocityException if the template wasn't found or rendering failed
      */
     public static void mergeTemplate(
-            VelocityEngine velocityEngine, String templateLocation, Map model, Writer writer, String toolboxConfigurationPath)
+            VelocityEngine velocityEngine, String templateLocation, Map<?, ?> model, Writer writer, String toolboxConfigurationPath)
             throws VelocityException {
  
         try {
@@ -83,7 +83,7 @@ public abstract class VelocityEngineUtils {
      * @throws VelocityException if the template wasn't found or rendering failed
      */
     public static void mergeTemplate(
-            VelocityEngine velocityEngine, String templateLocation, String encoding, Map model, Writer writer, String toolboxConfigurationPath)
+            VelocityEngine velocityEngine, String templateLocation, String encoding, Map<?, ?> model, Writer writer, String toolboxConfigurationPath)
             throws VelocityException {
  
         try {
@@ -122,7 +122,7 @@ public abstract class VelocityEngineUtils {
      * @see org.springframework.mail.MailPreparationException
      */
     public static String mergeTemplateIntoString(
-            VelocityEngine velocityEngine, String templateLocation, Map model, String toolboxConfigurationPath)
+            VelocityEngine velocityEngine, String templateLocation, Map<?, ?> model, String toolboxConfigurationPath)
             throws VelocityException {
  
         StringWriter result = new StringWriter();
@@ -145,7 +145,7 @@ public abstract class VelocityEngineUtils {
      * @see org.springframework.mail.MailPreparationException
      */
     public static String mergeTemplateIntoString(
-            VelocityEngine velocityEngine, String templateLocation, String encoding, Map model, String toolboxConfigurationPath)
+            VelocityEngine velocityEngine, String templateLocation, String encoding, Map<?, ?> model, String toolboxConfigurationPath)
             throws VelocityException {
  
         StringWriter result = new StringWriter();

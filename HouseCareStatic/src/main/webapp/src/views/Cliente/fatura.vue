@@ -43,7 +43,7 @@
                   <masked-input
                     id="valor"
                     nome="valor"
-                    type="number"
+                    type="text"
                     placeholder="Valor do Item"
                     v-model="lancamento.valor"
                     v-validate="'required'"
@@ -167,7 +167,12 @@ export default {
       cliente: {},
       lancamentos: [],
       showForm: false,
-      numberMask: textMaskAddons.createNumberMask({ prefix: 'R$ '})
+      numberMask: textMaskAddons.createNumberMask({ 
+        prefix: 'R$ ',
+        allowDecimal: true,
+        thousandsSeparatorSymbol: '.',
+        decimalSymbol: ','
+        })
     };
   },
   mounted() {
