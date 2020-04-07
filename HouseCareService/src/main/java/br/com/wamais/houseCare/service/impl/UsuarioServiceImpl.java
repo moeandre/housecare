@@ -5,6 +5,8 @@ import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.validation.ConstraintViolationException;
+
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeanWrapper;
@@ -29,8 +31,7 @@ public class UsuarioServiceImpl extends AbstractService<Usuario, Integer> implem
 	}
 
 	@Override
-	public Usuario alterar(final Usuario usuario) {
-
+	public Usuario alterar(final Usuario usuario) throws ConstraintViolationException {
 
 		if (!StringUtils.isEmpty(usuario.getSenha())) {
 			try {
@@ -39,8 +40,8 @@ public class UsuarioServiceImpl extends AbstractService<Usuario, Integer> implem
 				e.printStackTrace();
 			}
 		}
-		
-		//Edita apenas as propriedades alteradas
+
+		// Edita apenas as propriedades alteradas
 		Usuario usuarioExistente = usuario;
 		if (usuario.getId() != 0) {
 			usuarioExistente = this.obtemPorId(usuario.getId());
@@ -59,18 +60,21 @@ public class UsuarioServiceImpl extends AbstractService<Usuario, Integer> implem
 
 		return super.salvarComRetorno(usuarioExistente);
 	}
-	
-	public static String[] getNullPropertyNames (Object source) {
-	    final BeanWrapper src = new BeanWrapperImpl(source);
-	    java.beans.PropertyDescriptor[] pds = src.getPropertyDescriptors();
 
-	    Set<String> emptyNames = new HashSet<String>();
-	    for(java.beans.PropertyDescriptor pd : pds) {
-	        Object srcValue = src.getPropertyValue(pd.getName());
-	        if (srcValue == null) emptyNames.add(pd.getName());
-	    }
-	    String[] result = new String[emptyNames.size()];
-	    return emptyNames.toArray(result);
+	public static String[] getNullPropertyNames(final Object source) {
+
+		final BeanWrapper src = new BeanWrapperImpl(source);
+		final java.beans.PropertyDescriptor[] pds = src.getPropertyDescriptors();
+
+		final Set<String> emptyNames = new HashSet<String>();
+		for (final java.beans.PropertyDescriptor pd : pds) {
+			final Object srcValue = src.getPropertyValue(pd.getName());
+			if (srcValue == null) {
+				emptyNames.add(pd.getName());
+			}
+		}
+		final String[] result = new String[emptyNames.size()];
+		return emptyNames.toArray(result);
 	}
 
 }

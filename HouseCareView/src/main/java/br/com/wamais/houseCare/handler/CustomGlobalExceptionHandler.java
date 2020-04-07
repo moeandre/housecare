@@ -18,18 +18,20 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
+	public static final String FORMATO_MENSAGEM = "'%s' %s";
+
 	// error handle for @Valid
 	@Override
-	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status,
-			WebRequest request) {
+	protected ResponseEntity<Object> handleMethodArgumentNotValid(final MethodArgumentNotValidException ex, final HttpHeaders headers,
+			final HttpStatus status, final WebRequest request) {
 
-		Map<String, Object> body = new LinkedHashMap<>();
+		final Map<String, Object> body = new LinkedHashMap<>();
 		body.put("timestamp", new Date());
 		body.put("status", status.value());
 
-		List<String> errors = new ArrayList<String>();
-		for (FieldError fieldError : ex.getBindingResult().getFieldErrors()) {
-			errors.add(fieldError.getDefaultMessage());
+		final List<String> errors = new ArrayList<String>();
+		for (final FieldError fieldError : ex.getBindingResult().getFieldErrors()) {
+			errors.add(String.format(FORMATO_MENSAGEM, fieldError.getField(), fieldError.getDefaultMessage()));
 		}
 
 		body.put("errors", errors);

@@ -5,6 +5,10 @@ import java.io.Serializable;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Transient;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  * The persistent class for the funcionario database table.
@@ -18,11 +22,14 @@ public class Funcionario implements Serializable {
 	@EmbeddedId
 	private FuncionarioPK id;
 
+	@NotNull
 	private byte responsavel;
 
+	@NotBlank
 	private String situacao;
 
 	@Transient
+	@Valid
 	private Usuario usuario;
 
 	public Funcionario() {

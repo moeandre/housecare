@@ -2,6 +2,7 @@ package br.com.wamais.houseCare.controller.secure.cliente;
 
 import java.util.List;
 
+import javax.validation.Valid;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
@@ -49,7 +50,7 @@ public class FaturaController extends AbstractController {
 
 	@RequestMapping(value = "/criar", method = RequestMethod.POST, consumes = "application/json")
 	public @ResponseBody Lancamento criar(@PathVariable final Integer idEmpresa, @PathVariable final Integer idCliente,
-			@RequestBody final Lancamento lancamento) {
+			@Valid @RequestBody final Lancamento lancamento) {
 
 		final LancamentoPK lancamentoPk = new LancamentoPK();
 		lancamentoPk.setIdEmpresa(idEmpresa);
@@ -62,7 +63,7 @@ public class FaturaController extends AbstractController {
 
 	@RequestMapping(value = "/editar/{id}", method = RequestMethod.PUT, consumes = "application/json")
 	public @ResponseBody Lancamento editar(@PathVariable final Integer idEmpresa, @PathVariable final Integer idCliente,
-			@RequestBody final Lancamento lancamento, @PathVariable final Integer id) {
+			@Valid @RequestBody final Lancamento lancamento, @PathVariable final Integer id) {
 
 		final LancamentoPK lancamentoPk = new LancamentoPK();
 		lancamentoPk.setIdEmpresa(idEmpresa);

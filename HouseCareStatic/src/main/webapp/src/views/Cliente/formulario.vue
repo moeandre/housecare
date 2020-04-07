@@ -185,6 +185,8 @@
     import ClienteDataService from "../../services/ClienteDataService";
     import FamiliarDataService from "../../services/FamiliarDataService";
 
+    import Datepicker from 'vuejs-datepicker'
+
     import MaskedInput from 'vue-text-mask'
     import * as textMaskAddons from 'text-mask-addons/dist/textMaskAddons'
 
@@ -192,8 +194,6 @@
     import CpfValidator from '../../components/validators/cpf.validator'
 
     import msgBR from 'vee-validate/dist/locale/pt_BR';
-
-    import Datepicker from 'vuejs-datepicker'
     
     Validator.localize('pt_BR', msgBR);
     Validator.extend('cpf', CpfValidator)

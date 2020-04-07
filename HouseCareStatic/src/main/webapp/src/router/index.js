@@ -108,7 +108,6 @@ const HospedagemClienteEditar = () => import('@/views/Cliente/hospedagem.vue')
 
 //Familiar
 const FamiliarHome = () => import('@/views/Familiar/lista.vue')
-const FamiliarEditar = () => import('@/views/Familiar/formulario.vue')
 
 //Funcionario
 const FuncionarioHome = () => import('@/views/Usuario/lista.vue')
@@ -164,14 +163,6 @@ const router = new VueRouter({
                 {
                     path: '/familiar',
                     component: FamiliarHome
-                },
-                {
-                    path: '/familiar/criar',
-                    component: FamiliarEditar,
-                },
-                {
-                    path: '/familiar/editar/:id',
-                    component: FamiliarEditar,
                 },
                 {
                     path: '/usuario',

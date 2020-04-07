@@ -10,6 +10,9 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
+
 /**
  * The persistent class for the familiar database table.
  *
@@ -28,15 +31,19 @@ public class Familiar implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date criacao;
 
-	private String email;
-
+	@NotBlank
 	private String nome;
 
+	@NotBlank
 	private String parentesco;
 
-	private byte responsavel;
-
+	@NotBlank
 	private String telefone;
+
+	@Email
+	private String email;
+
+	private byte responsavel;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "ultimo_contato")

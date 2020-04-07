@@ -2,6 +2,7 @@ package br.com.wamais.houseCare.controller.secure.empresa;
 
 import java.util.List;
 
+import javax.validation.Valid;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
@@ -42,7 +43,7 @@ public class FuncionarioController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/criar", method = RequestMethod.POST, consumes = "application/json")
-	public @ResponseBody Funcionario criar(@PathVariable final Integer idEmpresa, @RequestBody final Funcionario funcionario) {
+	public @ResponseBody Funcionario criar(@PathVariable final Integer idEmpresa, @Valid @RequestBody final Funcionario funcionario) {
 
 		final FuncionarioPK funcionarioPk = new FuncionarioPK();
 		funcionarioPk.setIdEmpresa(idEmpresa);
@@ -53,7 +54,7 @@ public class FuncionarioController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/editar/{idUsuario}", method = RequestMethod.PUT, consumes = "application/json")
-	public @ResponseBody Funcionario editar(@PathVariable final Integer idEmpresa, @RequestBody final Funcionario funcionario, @PathVariable final Integer idUsuario) {
+	public @ResponseBody Funcionario editar(@PathVariable final Integer idEmpresa, @Valid @RequestBody final Funcionario funcionario, @PathVariable final Integer idUsuario) {
 
 		final FuncionarioPK funcionarioPk = new FuncionarioPK();
 		funcionarioPk.setIdEmpresa(idEmpresa);

@@ -18,7 +18,13 @@
                         <form class="form-horizontal" @submit.prevent="validateBeforeSubmit('anotacao')" data-vv-scope="anotacao">
                             <div class="form-group row">
                                 <div class="col-xl-12 col-md-12 col-12">
-                                    <b-textarea class="form-control" placeholder="Anotação" v-model="anotacao.texto"></b-textarea>
+                                    <b-textarea id="anotacao" name="anotacao" placeholder="Anotação" 
+                                        v-model="anotacao.texto" 
+                                        v-validate="'required'"
+                                        :class="{'form-control':true, 'is-invalid': errors.has('anotacao.texto')}"
+                                    >
+                                    </b-textarea>
+                                    <span v-if="errors.has('anotacao.texto')" class="invalid-feedback">{{ errors.first('anotacao.texto') }}</span>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -101,11 +107,20 @@
 
     import ClienteDataService from "../../services/ClienteDataService";
     import AnotacaoDataService from "../../services/AnotacaoDataService";
-    import VeeValidate from "vee-validate";
+    
+    import VeeValidate, { Validator } from 'vee-validate';
+    import CpfValidator from '../../components/validators/cpf.validator'
+
+    import msgBR from 'vee-validate/dist/locale/pt_BR';
+    
+    Validator.localize('pt_BR', msgBR);
+    Validator.extend('cpf', CpfValidator)
 
     Vue.use(VeeValidate, {
-        fieldsBagName: "formFields" // fix issue with b-table
+        fieldsBagName: 'formFields',  // fix issue with b-table
+        locale: 'pt_BR'
     });
+
 
     Vue.filter("formatDate", function(value) {
         if (value) {

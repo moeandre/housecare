@@ -9,7 +9,10 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  * The persistent class for the lancamento database table.
@@ -17,6 +20,7 @@ import javax.persistence.TemporalType;
  */
 @Entity
 public class Lancamento implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 
 	@EmbeddedId
@@ -25,53 +29,67 @@ public class Lancamento implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date criacao;
 
-	@Column(name="id_fatura", nullable = true)
+	@Column(name = "id_fatura", nullable = true)
 	private Integer idFatura;
 
+	@NotBlank
 	private String nome;
 
+	@NotNull
+	@Digits(integer = 10, fraction = 2)
 	private BigDecimal valor;
 
 	public Lancamento() {
+
 	}
 
 	public LancamentoPK getId() {
+
 		return this.id;
 	}
 
 	public void setId(LancamentoPK id) {
+
 		this.id = id;
 	}
 
 	public Date getCriacao() {
+
 		return this.criacao;
 	}
 
 	public void setCriacao(Date criacao) {
+
 		this.criacao = criacao;
 	}
 
 	public Integer getIdFatura() {
+
 		return this.idFatura;
 	}
 
 	public void setIdFatura(Integer idFatura) {
+
 		this.idFatura = idFatura;
 	}
 
 	public String getNome() {
+
 		return this.nome;
 	}
 
 	public void setNome(String nome) {
+
 		this.nome = nome;
 	}
 
 	public BigDecimal getValor() {
+
 		return this.valor;
 	}
 
 	public void setValor(BigDecimal valor) {
+
 		this.valor = valor;
 	}
 

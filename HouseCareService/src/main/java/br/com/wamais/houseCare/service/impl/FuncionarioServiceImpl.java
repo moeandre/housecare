@@ -3,6 +3,8 @@ package br.com.wamais.houseCare.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.ConstraintViolationException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,7 +33,7 @@ public class FuncionarioServiceImpl extends AbstractService<Funcionario, Funcion
 	}
 	
 	@Override
-	public Funcionario alterar(final Funcionario funcionario) {
+	public Funcionario alterar(final Funcionario funcionario) throws ConstraintViolationException {
 		
 		if(funcionario.getUsuario() != null) {
 			

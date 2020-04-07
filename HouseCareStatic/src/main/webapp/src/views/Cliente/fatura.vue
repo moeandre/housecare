@@ -23,40 +23,38 @@
               data-vv-scope="lancamento"
             >
               <div class="form-group row">
-                <label
-                  class="text-bold col-xl-3 col-md-3 col-4 col-form-label text-right"
-                  for="nome"
-                >Nome</label>
+                <label class="text-bold col-xl-3 col-md-3 col-4 col-form-label text-right" for="nome">Nome</label>
                 <div class="col-xl-9 col-md-9 col-8">
                   <input
-                    class="form-control"
                     id="nome"
+                    name="nome"
                     type="text"
                     placeholder="Nome do Item"
                     v-model="lancamento.nome"
-                  />
+                    v-validate="'required|max:75'"
+                    :class="{'form-control':true, 'is-invalid': errors.has('lancamento.nome')}"
+                    />
+                    <span v-if="errors.has('lancamento.nome')" class="invalid-feedback">{{ errors.first('lancamento.nome') }}</span>
                 </div>
               </div>
               <div class="form-group row">
-                <label
-                  class="text-bold col-xl-3 col-md-3 col-4 col-form-label text-right"
-                  for="valor"
-                >Valor</label>
+                <label class="text-bold col-xl-3 col-md-3 col-4 col-form-label text-right" for="valor" >Valor</label>
                 <div class="col-xl-9 col-md-9 col-8">
-                  <input
-                    class="form-control"
+                  <masked-input
                     id="valor"
-                    type="text"
+                    nome="valor"
+                    type="number"
                     placeholder="Valor do Item"
                     v-model="lancamento.valor"
-                  />
+                    v-validate="'required'"
+                    :mask="numberMask"
+                    :class="{'form-control':true, 'is-invalid': errors.has('lancamento.valor')}"
+                    />
+                    <span v-if="errors.has('lancamento.valor')" class="invalid-feedback">{{ errors.first('lancamento.valor') }}</span>
                 </div>
               </div>
               <div class="form-group row">
-                <label
-                  class="text-bold col-xl-3 col-md-3 col-4 col-form-label text-right"
-                  for="criacao"
-                >Cadastro</label>
+                <label class="text-bold col-xl-3 col-md-3 col-4 col-form-label text-right" for="criacao">Cadastro</label>
                 <div class="col-xl-9 col-md-9 col-8">
                   <p class="form-control-plaintext">{{lancamento.criacao | formatDate}}</p>
                 </div>
@@ -126,11 +124,19 @@ import { mapState, mapActions } from "vuex";
 
 import ClienteDataService from "../../services/ClienteDataService";
 import FaturaDataService from "../../services/FaturaDataService";
-import VeeValidate from "vee-validate";
-import Datepicker from "vuejs-datepicker";
+
+import MaskedInput from 'vue-text-mask'
+import * as textMaskAddons from 'text-mask-addons/dist/textMaskAddons'
+
+import VeeValidate, { Validator } from 'vee-validate';
+
+import msgBR from 'vee-validate/dist/locale/pt_BR';
+    
+Validator.localize('pt_BR', msgBR);
 
 Vue.use(VeeValidate, {
-  fieldsBagName: "formFields" // fix issue with b-table
+    fieldsBagName: 'formFields',  // fix issue with b-table
+    locale: 'pt_BR'
 });
 
 Vue.filter("formatDate", function(value) {
@@ -140,6 +146,9 @@ Vue.filter("formatDate", function(value) {
 });
 
 export default {
+  components: {
+    MaskedInput
+  },
   name: "lancamento-edit",
   computed: {
     ...mapState({
@@ -157,7 +166,8 @@ export default {
       },
       cliente: {},
       lancamentos: [],
-      showForm: false
+      showForm: false,
+      numberMask: textMaskAddons.createNumberMask({ prefix: 'R$ '})
     };
   },
   mounted() {

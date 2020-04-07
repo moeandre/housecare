@@ -2,6 +2,7 @@ package br.com.wamais.houseCare.controller.secure.cliente;
 
 import java.util.List;
 
+import javax.validation.Valid;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
@@ -63,7 +64,7 @@ public class FamiliarController extends AbstractController {
 
 	@RequestMapping(value = "/cliente/{idCliente}/familiar/criar", method = RequestMethod.POST, consumes = "application/json")
 	public @ResponseBody Familiar criar(@PathVariable final Integer idEmpresa, @PathVariable final Integer idCliente,
-			@RequestBody final Familiar familiar) {
+			@Valid @RequestBody final Familiar familiar) {
 
 		final FamiliarPK familiarPk = new FamiliarPK();
 		familiarPk.setIdEmpresa(idEmpresa);
@@ -75,7 +76,7 @@ public class FamiliarController extends AbstractController {
 
 	@RequestMapping(value = "/cliente/{idCliente}/familiar/editar/{id}", method = RequestMethod.PUT, consumes = "application/json")
 	public @ResponseBody Familiar editar(@PathVariable final Integer idEmpresa, @PathVariable final Integer idCliente,
-			@RequestBody final Familiar familiar, @PathVariable final Integer id) {
+			@Valid @RequestBody final Familiar familiar, @PathVariable final Integer id) {
 
 		final FamiliarPK familiarPk = new FamiliarPK();
 		familiarPk.setIdEmpresa(idEmpresa);

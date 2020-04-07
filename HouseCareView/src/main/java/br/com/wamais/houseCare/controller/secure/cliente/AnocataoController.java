@@ -2,6 +2,7 @@ package br.com.wamais.houseCare.controller.secure.cliente;
 
 import java.util.List;
 
+import javax.validation.Valid;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
@@ -46,7 +47,7 @@ public class AnocataoController extends AbstractController {
 
 	@RequestMapping(value = "/criar", method = RequestMethod.POST, consumes = "application/json")
 	public @ResponseBody Anotacao criar(@PathVariable final Integer idEmpresa, @PathVariable final Integer idCliente,
-			@RequestBody final Anotacao anotacao, final Usuario usuario) {
+			@Valid @RequestBody final Anotacao anotacao, final Usuario usuario) {
 
 		final AnotacaoPK anotacaoPk = new AnotacaoPK();
 		anotacaoPk.setIdEmpresa(idEmpresa);
@@ -60,7 +61,7 @@ public class AnocataoController extends AbstractController {
 
 	@RequestMapping(value = "/editar/{id}", method = RequestMethod.PUT, consumes = "application/json")
 	public @ResponseBody Anotacao editar(@PathVariable final Integer idEmpresa, @PathVariable final Integer idCliente,
-			@RequestBody final Anotacao anotacao, @PathVariable final Integer id, final Usuario usuario) {
+			@Valid @RequestBody final Anotacao anotacao, @PathVariable final Integer id, final Usuario usuario) {
 
 		final AnotacaoPK anotacaoPk = new AnotacaoPK();
 		anotacaoPk.setIdEmpresa(idEmpresa);
