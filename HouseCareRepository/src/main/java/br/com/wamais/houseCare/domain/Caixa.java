@@ -6,6 +6,7 @@ import java.util.Date;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -15,6 +16,7 @@ import javax.persistence.TemporalType;
  * 
  */
 @Entity
+@Table(name="caixa")
 public class Caixa implements Serializable {
 	private static final long serialVersionUID = 1L;
 

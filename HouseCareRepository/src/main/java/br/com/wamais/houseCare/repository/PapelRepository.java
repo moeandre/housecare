@@ -12,6 +12,6 @@ import br.com.wamais.houseCare.domain.Papel;
 @Repository
 public interface PapelRepository extends JpaRepository<Papel, Integer> {
 
-	@Query(value="SELECT P.* FROM papel P, papel_empresa_usuario peu WHERE p.id = peu.id_papel AND peu.id_usuario = :idUsuario", nativeQuery=true)
+	@Query("SELECT P FROM Papel P, PapelEmpresaUsuario PEU WHERE P.id = PEU.id.idPapel AND PEU.id.idUsuario = :idUsuario")
 	public List<Papel> findByIdUsuario(@Param("idUsuario") Integer idUsuario);
 }

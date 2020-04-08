@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 
 
 /**
@@ -11,6 +12,7 @@ import javax.persistence.Entity;
  * 
  */
 @Entity
+@Table(name="quarto")
 public class Quarto implements Serializable {
 	private static final long serialVersionUID = 1L;
 

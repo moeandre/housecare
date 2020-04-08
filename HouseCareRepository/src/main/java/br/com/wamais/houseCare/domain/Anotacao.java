@@ -6,6 +6,7 @@ import java.util.Date;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Lob;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
@@ -17,6 +18,7 @@ import org.hibernate.validator.constraints.NotBlank;
  *
  */
 @Entity
+@Table(name="anotacao")
 public class Anotacao implements Serializable {
 
 	private static final long serialVersionUID = 1L;

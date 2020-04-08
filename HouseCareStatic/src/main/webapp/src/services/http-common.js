@@ -9,7 +9,7 @@ const uuid = function(){
 
 
 const axiosInstance = axios.create({
-  baseURL: "http://localhost/",
+  baseURL: "/",
   headers: {
     "Content-type": "application/json",
     'user-token': uuid()

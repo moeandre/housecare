@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -15,6 +16,7 @@ import org.hibernate.validator.constraints.NotBlank;
  *
  */
 @Entity
+@Table(name="funcionario")
 public class Funcionario implements Serializable {
 
 	private static final long serialVersionUID = 1L;

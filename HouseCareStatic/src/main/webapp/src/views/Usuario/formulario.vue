@@ -37,13 +37,12 @@
                                     <div class="form-group row">
                                         <label class="text-bold col-xl-3 col-md-3 col-4 col-form-label text-right" for="nome">Nome</label>
                                         <div class="col-xl-9 col-md-9 col-8">
-                                            <input 
-                                                name="nome" id="nome" type="text" placeholder="Nome do Usuário" 
-                                                v-model="funcionario.usuario.nome" 
-                                                v-validate="'required|max:75'"
-                                                :class="{'form-control':true, 'is-invalid': errors.has('funcionario.usuario.nome')}"
-                                            />
-                                            <span v-if="errors.has('funcionario.usuario.nome')" class="invalid-feedback">{{ errors.first('funcionario.usuario.nome') }}</span>
+                                            <input id="nome" name="nome" type="text" placeholder="Nome do Cliente" 
+                                                v-model="funcionario.usuario.nome"
+                                                v-validate="'required|max:75'"  
+                                                :class="{'form-control':true, 'is-invalid': errors.has('funcionario.nome')}"
+                                             />
+                                            <span v-if="errors.has('funcionario.nome')" class="invalid-feedback">{{ errors.first('funcionario.nome') }}</span>
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -52,10 +51,10 @@
                                             <input 
                                                 name="email" id="email" type="text" placeholder="E-mail do Usuário" 
                                                 v-model="funcionario.usuario.email"
-                                                v-validate="'email'"
-                                                :class="{'form-control':true, 'is-invalid': errors.has('funcionario.usuario.email')}"
+                                                v-validate="'required|email'"
+                                                :class="{'form-control':true, 'is-invalid': errors.has('funcionario.email')}"
                                             />
-                                            <span v-if="errors.has('funcionario.usuario.email')" class="invalid-feedback">{{ errors.first('funcionario.usuario.email') }}</span>
+                                            <span v-if="errors.has('funcionario.email')" class="invalid-feedback">{{ errors.first('funcionario.email') }}</span>
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -65,25 +64,47 @@
                                                 name="telefone" id="telefone" type="text" placeholder="Telefone do Usuário" 
                                                 v-model="funcionario.usuario.telefone" 
                                                 v-validate="'required'"
-                                                :class="{'form-control':true, 'is-invalid': errors.has('funcionario.usuario.telefone')}"
+                                                :class="{'form-control':true, 'is-invalid': errors.has('funcionario.telefone')}"
                                                 :mask="['(##) ####-####', '(##) #####-####']"/>
-                                            <span v-if="errors.has('funcionario.usuario.telefone')" class="invalid-feedback">{{ errors.first('funcionario.usuario.telefone') }}</span>
+                                            <span v-if="errors.has('funcionario.telefone')" class="invalid-feedback">{{ errors.first('funcionario.telefone') }}</span>
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label class="text-bold col-xl-3 col-md-3 col-4 col-form-label text-right" for="senha">Senha</label>
                                         <div class="col-xl-9 col-md-9 col-8">
-                                            <input class="form-control" id="senha" type="password" placeholder="Senha do Usuário" v-model="funcionario.usuario.senha" />
-                                        </div>
+                                            <input 
+                                                name="senha" id="senha" type="password" placeholder="Senha do Usuário" 
+                                                ref="compareto"
+                                                v-model="funcionario.usuario.senha" 
+                                                v-validate="'required'"
+                                                :class="{'form-control':true, 'is-invalid': errors.has('funcionario.senha')}"
+                                                :mask="['(##) ####-####', '(##) #####-####']"/>
+                                            <span v-if="errors.has('funcionario.senha')" class="invalid-feedback">{{ errors.first('funcionario.senha') }}</span>
+                                       </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="text-bold col-xl-3 col-md-3 col-4 col-form-label text-right" for="confirm">Confirmação Senha</label>
+                                        <div class="col-xl-9 col-md-9 col-8">
+                                            <input 
+                                                name="confirm" id="confirm" type="password" placeholder="confirm do Usuário" 
+                                                v-model="funcionario.confirm" 
+                                                v-validate="'required|confirmed:compareto'"
+                                                :class="{'form-control':true, 'is-invalid': errors.has('funcionario.confirm')}"
+                                                :mask="['(##) ####-####', '(##) #####-####']"/>
+                                            <span v-if="errors.has('funcionario.confirm')" class="invalid-feedback">{{ errors.first('funcionario.confirm') }}</span>
+                                       </div>
                                     </div>
                                     <div class="form-group row">
                                         <label class="text-bold col-xl-3 col-md-3 col-4 col-form-label text-right" for="situacao">Situação</label>
                                         <div class="col-xl-9 col-md-9 col-8">
-                                            <select class="custom-select" id="cliente" v-model="funcionario.situacao">
-                                                <option >Selecione</option>
-                                                <option value="A" :selected="funcionario.situacao == 'A'">Ativo</option>
-                                                <option value="I" :selected="funcionario.situacao == 'I'">Inativo</option>
+                                            <select name="situacao" id="situacao" 
+                                                v-model="funcionario.situacao"
+                                                v-validate="'required'"
+                                                :class="{'custom-select':true, 'is-invalid': errors.has('funcionario.situacao')}">
+                                                <option>Selecione a Situação</option>
+                                                <option v-for="situacao in situacaos.values" v-bind:value="situacao.key" v-bind:key="situacao.key" :selected="situacao.key === funcionario.situacao" >{{ situacao.value }}</option>
                                             </select>
+                                            <span v-if="errors.has('funcionario.situacao')" class="invalid-feedback">{{ errors.first('funcionario.situacao') }}</span>
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -132,12 +153,11 @@
     import moment from 'moment'
     
     import { mapState, mapActions } from 'vuex'
+
+    import situacaos from '../../components/domain/situacao';
+
     import FuncionarioDataService from "../../services/FuncionarioDataService";
 
-    import parentescos from '../../components/domain/parentesco';
-   
-    import Datepicker from 'vuejs-datepicker'
-    
     import {TheMask} from 'vue-the-mask'
 
     import VeeValidate, { Validator } from 'vee-validate';
@@ -159,7 +179,6 @@
 
     export default {
         components: {
-            Datepicker,
             TheMask
         },
         name: "usuario-edit",
@@ -182,8 +201,8 @@
                         'telefone': null
                     }
                 },
-                
-                title: "Novo Usuário"
+                title: "Novo Usuário",
+                situacaos
             };
         },
         methods: {

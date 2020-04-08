@@ -5,6 +5,7 @@ import java.util.Date;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
@@ -16,6 +17,7 @@ import javax.validation.constraints.Past;
  * 
  */
 @Entity
+@Table(name="cliente")
 public class Cliente implements Serializable {
 	private static final long serialVersionUID = 1L;
 

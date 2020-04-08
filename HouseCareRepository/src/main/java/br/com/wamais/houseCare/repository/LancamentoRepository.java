@@ -13,7 +13,7 @@ import br.com.wamais.houseCare.domain.LancamentoPK;
 @Repository
 public interface LancamentoRepository extends JpaRepository<Lancamento, LancamentoPK> {
 
-	@Query(value = "SELECT L.* FROM lancamento L WHERE L.id_cliente = :idCliente AND L.id_empresa = :idEmpresa", nativeQuery = true)
+	@Query("SELECT L FROM Lancamento L WHERE L.id.idCliente = :idCliente AND L.id.idEmpresa = :idEmpresa")
 	List<Lancamento> findByIdClienteIdEmpresa(@Param("idCliente") Integer idCliente, @Param("idEmpresa") Integer idEmpresa);
 
 }

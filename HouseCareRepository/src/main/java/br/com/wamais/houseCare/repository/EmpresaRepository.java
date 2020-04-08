@@ -10,6 +10,6 @@ import br.com.wamais.houseCare.domain.Empresa;
 @Repository
 public interface EmpresaRepository extends JpaRepository<Empresa, Integer> {
 
-	@Query(value = "SELECT E.* FROM empresa E, funcionario F WHERE E.id = F.id_empresa AND F.id_usuario = :idUsuario AND F.situacao = 'A'", nativeQuery = true)
+	@Query("SELECT E FROM Empresa E, Funcionario F WHERE E.id = F.id.idEmpresa AND F.id.idUsuario = :idUsuario AND F.situacao = 'A'")
 	public Empresa findByIdUsuario(@Param("idUsuario") Integer idUsuario);
 }

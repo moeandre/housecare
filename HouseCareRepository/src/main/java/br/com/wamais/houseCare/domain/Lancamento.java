@@ -7,6 +7,7 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Digits;
@@ -19,6 +20,7 @@ import org.hibernate.validator.constraints.NotBlank;
  * 
  */
 @Entity
+@Table(name="lancamento")
 public class Lancamento implements Serializable {
 
 	private static final long serialVersionUID = 1L;
