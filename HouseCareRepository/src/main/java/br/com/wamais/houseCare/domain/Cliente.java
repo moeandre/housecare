@@ -2,23 +2,24 @@ package br.com.wamais.houseCare.domain;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
-
+import javax.persistence.Transient;
 
 /**
  * The persistent class for the cliente database table.
- * 
+ *
  */
 @Entity
-@Table(name="cliente")
+@Table(name = "cliente")
 public class Cliente implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 
 	@EmbeddedId
@@ -27,112 +28,159 @@ public class Cliente implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date alteracao;
 
-	@NotNull(message = "Por favor, informe o apelido")
+	@Column(nullable = false, length = 75)
 	private String apelido;
 
-	@NotNull(message = "Por favor, informe o cpf")
+	@Column(nullable = false, length = 14)
 	private String cpf;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date criacao;
 
-	@NotNull(message = "Por favor, informe a nacionalidade")
+	@Column(name = "estado_civil", length = 2)
+	private String estadoCivil;
+
+	@Column(nullable = false, length = 75)
 	private String nacionalidade;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@NotNull(message = "Por favor, informe o nascimento")
-	@Past
+	@Column(nullable = false)
 	private Date nascimento;
 
+	@Column(length = 75)
 	private String naturalidade;
 
-	@NotNull(message = "Por favor, informe o nome")
+	@Column(nullable = false, length = 75)
 	private String nome;
 
-	@NotNull(message = "Por favor, informe o sobrenome")
+	@Column(nullable = false, length = 75)
 	private String sobrenome;
 
+	@Transient
+	private List<AtributoCliente> atributos;
+
 	public Cliente() {
+
 	}
 
 	public ClientePK getId() {
+
 		return this.id;
 	}
 
-	public void setId(ClientePK id) {
+	public void setId(final ClientePK id) {
+
 		this.id = id;
 	}
 
 	public Date getAlteracao() {
+
 		return this.alteracao;
 	}
 
-	public void setAlteracao(Date alteracao) {
+	public void setAlteracao(final Date alteracao) {
+
 		this.alteracao = alteracao;
 	}
 
 	public String getApelido() {
+
 		return this.apelido;
 	}
 
-	public void setApelido(String apelido) {
+	public void setApelido(final String apelido) {
+
 		this.apelido = apelido;
 	}
 
 	public String getCpf() {
+
 		return this.cpf;
 	}
 
-	public void setCpf(String cpf) {
+	public void setCpf(final String cpf) {
+
 		this.cpf = cpf;
 	}
 
 	public Date getCriacao() {
+
 		return this.criacao;
 	}
 
-	public void setCriacao(Date criacao) {
+	public void setCriacao(final Date criacao) {
+
 		this.criacao = criacao;
 	}
 
+	public String getEstadoCivil() {
+
+		return this.estadoCivil;
+	}
+
+	public void setEstadoCivil(final String estadoCivil) {
+
+		this.estadoCivil = estadoCivil;
+	}
+
 	public String getNacionalidade() {
+
 		return this.nacionalidade;
 	}
 
-	public void setNacionalidade(String nacionalidade) {
+	public void setNacionalidade(final String nacionalidade) {
+
 		this.nacionalidade = nacionalidade;
 	}
 
 	public Date getNascimento() {
+
 		return this.nascimento;
 	}
 
-	public void setNascimento(Date nascimento) {
+	public void setNascimento(final Date nascimento) {
+
 		this.nascimento = nascimento;
 	}
 
 	public String getNaturalidade() {
+
 		return this.naturalidade;
 	}
 
-	public void setNaturalidade(String naturalidade) {
+	public void setNaturalidade(final String naturalidade) {
+
 		this.naturalidade = naturalidade;
 	}
 
 	public String getNome() {
+
 		return this.nome;
 	}
 
-	public void setNome(String nome) {
+	public void setNome(final String nome) {
+
 		this.nome = nome;
 	}
 
 	public String getSobrenome() {
+
 		return this.sobrenome;
 	}
 
-	public void setSobrenome(String sobrenome) {
+	public void setSobrenome(final String sobrenome) {
+
 		this.sobrenome = sobrenome;
+	}
+
+	public List<AtributoCliente> getAtributos() {
+
+		return this.atributos;
+	}
+
+	public void setAtributos(final List<AtributoCliente> atributos) {
+
+		this.atributos = atributos;
 	}
 
 }

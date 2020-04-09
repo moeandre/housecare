@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.wamais.houseCare.controller.AbstractController;
 import br.com.wamais.houseCare.domain.Familiar;
-import br.com.wamais.houseCare.domain.FamiliarPK;
 import br.com.wamais.houseCare.service.IFamiliarService;
 
 @RestController
@@ -47,12 +46,15 @@ public class FamiliarController extends AbstractController {
 	public @ResponseBody Familiar detalhar(@PathVariable final Integer idEmpresa, @PathVariable final Integer idCliente,
 			@PathVariable final Integer id) {
 
+		/**
+		 * 
+		 TODO: Implementar
 		final FamiliarPK familiarPk = new FamiliarPK();
 		familiarPk.setIdEmpresa(idEmpresa);
 		familiarPk.setIdCliente(idCliente);
 		familiarPk.setIdFamiliar(id);
-
-		return this.service.obtemPorId(familiarPk);
+		 */
+		return this.service.obtemPorId(id);
 	}
 
 	@RequestMapping(value = "/familiar/detalhar/{idFamiliar}", method = RequestMethod.GET)
@@ -66,10 +68,13 @@ public class FamiliarController extends AbstractController {
 	public @ResponseBody Familiar criar(@PathVariable final Integer idEmpresa, @PathVariable final Integer idCliente,
 			@Valid @RequestBody final Familiar familiar) {
 
+		/**
+		 * 
+		 * TODO: implementar
 		final FamiliarPK familiarPk = new FamiliarPK();
 		familiarPk.setIdEmpresa(idEmpresa);
 		familiarPk.setIdCliente(idCliente);
-		familiar.setId(familiarPk);
+		familiar.setId(familiarPk);*/
 
 		return this.service.alterar(familiar);
 	}
@@ -78,12 +83,10 @@ public class FamiliarController extends AbstractController {
 	public @ResponseBody Familiar editar(@PathVariable final Integer idEmpresa, @PathVariable final Integer idCliente,
 			@Valid @RequestBody final Familiar familiar, @PathVariable final Integer id) {
 
-		final FamiliarPK familiarPk = new FamiliarPK();
-		familiarPk.setIdEmpresa(idEmpresa);
-		familiarPk.setIdCliente(idCliente);
-		familiarPk.setIdFamiliar(id);
+//		familiarPk.setIdCliente(idCliente);
 
-		familiar.setId(familiarPk);
+		familiar.setIdFamiliar(id);
+		familiar.setIdEmpresa(idEmpresa);
 
 		return this.service.alterar(familiar);
 	}
@@ -91,12 +94,13 @@ public class FamiliarController extends AbstractController {
 	@RequestMapping(value = "/cliente/{idCliente}/familiar/delete/{id}", method = RequestMethod.DELETE)
 	public @ResponseBody void delete(@PathVariable final Integer idEmpresa, @PathVariable final Integer idCliente, @PathVariable final Integer id) {
 
-		final FamiliarPK familiarPk = new FamiliarPK();
-		familiarPk.setIdEmpresa(idEmpresa);
-		familiarPk.setIdCliente(idCliente);
-		familiarPk.setIdFamiliar(id);
+		/**
+		TODO: implementar
+		*/ 
+//		familiar.setIdFamiliar(id);
+//		familiar.setIdEmpresa(idEmpresa);
 
-		this.service.excluirPorId(familiarPk);
+		this.service.excluirPorId(id);
 
 	}
 

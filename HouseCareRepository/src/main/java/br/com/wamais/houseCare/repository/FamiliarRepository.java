@@ -8,18 +8,17 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import br.com.wamais.houseCare.domain.Familiar;
-import br.com.wamais.houseCare.domain.FamiliarPK;
 
 @Repository
-public interface FamiliarRepository extends JpaRepository<Familiar, FamiliarPK> {
+public interface FamiliarRepository extends JpaRepository<Familiar, Integer> {
 
-	@Query("SELECT F, C FROM Familiar F, Cliente C WHERE F.id.idFamiliar = :idFamiliar AND F.id.idEmpresa = :idEmpresa AND C.id.id = F.id.idCliente")
+	@Query("SELECT F, C FROM Familiar F, Cliente C, Parentesco P WHERE F.idFamiliar = :idFamiliar AND F.idEmpresa = :idEmpresa AND P.id.idFamiliar = F.idFamiliar AND C.id.id = P.id.idCliente")
 	List<Object[]> obterPorIdFamiliar(@Param("idFamiliar") Integer idFamiliar, @Param("idEmpresa") Integer idEmpresa);
 	
-	@Query("SELECT F, C FROM Familiar F, Cliente C WHERE F.id.idEmpresa = :idEmpresa AND C.id.id = F.id.idCliente")
+	@Query("SELECT F, C FROM Familiar F, Cliente C, Parentesco P WHERE F.idEmpresa = :idEmpresa AND P.id.idFamiliar = F.idFamiliar AND C.id.id = P.id.idCliente")
 	List<Object[]> findByIdEmpresa(@Param("idEmpresa") Integer idEmpresa);
 	
-	@Query("SELECT F, C FROM Familiar F, Cliente C WHERE F.id.idCliente = :idCliente AND F.id.idEmpresa = :idEmpresa AND C.id.id = F.id.idCliente")
+	@Query("SELECT F, C FROM Familiar F, Cliente C, Parentesco P WHERE F.idEmpresa = :idEmpresa AND P.id.idCliente = :idCliente AND C.id.id = P.id.idCliente")
 	List<Object[]> findByIdClienteIdEmpresa(@Param("idCliente") Integer idCliente, @Param("idEmpresa") Integer idEmpresa);
 	
 	@Query("DELETE FROM Familiar F WHERE F.id.idFamiliar = :idFamiliar AND F.id.idEmpresa = :idEmpresa")

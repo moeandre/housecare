@@ -10,17 +10,13 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.Digits;
-import javax.validation.constraints.NotNull;
-
-import org.hibernate.validator.constraints.NotBlank;
 
 /**
  * The persistent class for the lancamento database table.
- * 
+ *
  */
 @Entity
-@Table(name="lancamento")
+@Table(name = "lancamento")
 public class Lancamento implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -29,16 +25,16 @@ public class Lancamento implements Serializable {
 	private LancamentoPK id;
 
 	@Temporal(TemporalType.TIMESTAMP)
+	@Column(nullable = false)
 	private Date criacao;
 
-	@Column(name = "id_fatura", nullable = true)
-	private Integer idFatura;
+	@Column(name = "id_fatura")
+	private int idFatura;
 
-	@NotBlank
+	@Column(nullable = false, length = 75)
 	private String nome;
 
-	@NotNull
-	@Digits(integer = 10, fraction = 2)
+	@Column(nullable = false, precision = 10, scale = 2)
 	private BigDecimal valor;
 
 	public Lancamento() {
@@ -50,7 +46,7 @@ public class Lancamento implements Serializable {
 		return this.id;
 	}
 
-	public void setId(LancamentoPK id) {
+	public void setId(final LancamentoPK id) {
 
 		this.id = id;
 	}
@@ -60,17 +56,17 @@ public class Lancamento implements Serializable {
 		return this.criacao;
 	}
 
-	public void setCriacao(Date criacao) {
+	public void setCriacao(final Date criacao) {
 
 		this.criacao = criacao;
 	}
 
-	public Integer getIdFatura() {
+	public int getIdFatura() {
 
 		return this.idFatura;
 	}
 
-	public void setIdFatura(Integer idFatura) {
+	public void setIdFatura(final int idFatura) {
 
 		this.idFatura = idFatura;
 	}
@@ -80,7 +76,7 @@ public class Lancamento implements Serializable {
 		return this.nome;
 	}
 
-	public void setNome(String nome) {
+	public void setNome(final String nome) {
 
 		this.nome = nome;
 	}
@@ -90,7 +86,7 @@ public class Lancamento implements Serializable {
 		return this.valor;
 	}
 
-	public void setValor(BigDecimal valor) {
+	public void setValor(final BigDecimal valor) {
 
 		this.valor = valor;
 	}

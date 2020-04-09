@@ -2,21 +2,19 @@ package br.com.wamais.houseCare.domain;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-
-import org.hibernate.validator.constraints.NotBlank;
 
 /**
  * The persistent class for the funcionario database table.
  *
  */
 @Entity
-@Table(name="funcionario")
+@Table(name = "funcionario")
 public class Funcionario implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -24,10 +22,10 @@ public class Funcionario implements Serializable {
 	@EmbeddedId
 	private FuncionarioPK id;
 
-	@NotNull
+	@Column(nullable = false)
 	private byte responsavel;
 
-	@NotBlank
+	@Column(nullable = false, length = 1)
 	private String situacao;
 
 	@Transient

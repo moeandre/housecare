@@ -2,50 +2,84 @@ package br.com.wamais.houseCare.domain;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
-
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotBlank;
 
 /**
  * The persistent class for the familiar database table.
  *
  */
 @Entity
-@Table(name="familiar")
+@Table(name = "familiar")
 public class Familiar implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@EmbeddedId
-	private FamiliarPK id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id_familiar", unique = true, nullable = false)
+	private int idFamiliar;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date alteracao;
 
+	@Column(length = 75)
+	private String bairro;
+
+	@Column(length = 9)
+	private String cep;
+
+	@Column(length = 45)
+	private String complemento;
+
+	@Column(length = 14)
+	private String cpf;
+
 	@Temporal(TemporalType.TIMESTAMP)
+	@Column(nullable = false)
 	private Date criacao;
 
-	@NotBlank
-	private String nome;
-
-	@NotBlank
-	private String parentesco;
-
-	@NotBlank
-	private String telefone;
-
-	@Email
+	@Column(length = 75)
 	private String email;
 
-	private byte responsavel;
+	@Column(name = "envio_fatura", length = 1)
+	private String envioFatura;
+
+	@Column(length = 2)
+	private String estado;
+
+	@Column(name = "id_contato")
+	private Integer idContato;
+
+	@Column(name = "id_empresa", nullable = false)
+	private int idEmpresa;
+
+	@Column(length = 150)
+	private String logradouro;
+
+	@Column(length = 75)
+	private String municipio;
+
+	@Column(nullable = false, length = 100)
+	private String nome;
+
+	@Column(length = 6)
+	private String numero;
+
+	@Column(length = 14)
+	private String rg;
+
+	@Column(nullable = false, length = 15)
+	private String telefone;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "ultimo_contato")
@@ -54,18 +88,21 @@ public class Familiar implements Serializable {
 	@Transient
 	private Cliente cliente;
 
+	@Transient
+	private List<AtributoFamiliar> atributos;
+
 	public Familiar() {
 
 	}
 
-	public FamiliarPK getId() {
+	public int getIdFamiliar() {
 
-		return this.id;
+		return this.idFamiliar;
 	}
 
-	public void setId(final FamiliarPK id) {
+	public void setIdFamiliar(final int idFamiliar) {
 
-		this.id = id;
+		this.idFamiliar = idFamiliar;
 	}
 
 	public Date getAlteracao() {
@@ -76,6 +113,46 @@ public class Familiar implements Serializable {
 	public void setAlteracao(final Date alteracao) {
 
 		this.alteracao = alteracao;
+	}
+
+	public String getBairro() {
+
+		return this.bairro;
+	}
+
+	public void setBairro(final String bairro) {
+
+		this.bairro = bairro;
+	}
+
+	public String getCep() {
+
+		return this.cep;
+	}
+
+	public void setCep(final String cep) {
+
+		this.cep = cep;
+	}
+
+	public String getComplemento() {
+
+		return this.complemento;
+	}
+
+	public void setComplemento(final String complemento) {
+
+		this.complemento = complemento;
+	}
+
+	public String getCpf() {
+
+		return this.cpf;
+	}
+
+	public void setCpf(final String cpf) {
+
+		this.cpf = cpf;
 	}
 
 	public Date getCriacao() {
@@ -98,6 +175,56 @@ public class Familiar implements Serializable {
 		this.email = email;
 	}
 
+	public String getEnvioFatura() {
+
+		return this.envioFatura;
+	}
+
+	public void setEnvioFatura(final String envioFatura) {
+
+		this.envioFatura = envioFatura;
+	}
+
+	public String getEstado() {
+
+		return this.estado;
+	}
+
+	public void setEstado(final String estado) {
+
+		this.estado = estado;
+	}
+
+	public int getIdEmpresa() {
+
+		return this.idEmpresa;
+	}
+
+	public void setIdEmpresa(final int idEmpresa) {
+
+		this.idEmpresa = idEmpresa;
+	}
+
+	public String getLogradouro() {
+
+		return this.logradouro;
+	}
+
+	public void setLogradouro(final String logradouro) {
+
+		this.logradouro = logradouro;
+	}
+
+	public String getMunicipio() {
+
+		return this.municipio;
+	}
+
+	public void setMunicipio(final String municipio) {
+
+		this.municipio = municipio;
+	}
+
 	public String getNome() {
 
 		return this.nome;
@@ -108,24 +235,24 @@ public class Familiar implements Serializable {
 		this.nome = nome;
 	}
 
-	public String getParentesco() {
+	public String getNumero() {
 
-		return this.parentesco;
+		return this.numero;
 	}
 
-	public void setParentesco(final String parentesco) {
+	public void setNumero(final String numero) {
 
-		this.parentesco = parentesco;
+		this.numero = numero;
 	}
 
-	public byte getResponsavel() {
+	public String getRg() {
 
-		return this.responsavel;
+		return this.rg;
 	}
 
-	public void setResponsavel(final byte responsavel) {
+	public void setRg(final String rg) {
 
-		this.responsavel = responsavel;
+		this.rg = rg;
 	}
 
 	public String getTelefone() {
@@ -148,6 +275,16 @@ public class Familiar implements Serializable {
 		this.ultimoContato = ultimoContato;
 	}
 
+	public List<AtributoFamiliar> getAtributos() {
+
+		return this.atributos;
+	}
+
+	public void setAtributos(final List<AtributoFamiliar> atributos) {
+
+		this.atributos = atributos;
+	}
+
 	public Cliente getCliente() {
 
 		return this.cliente;
@@ -156,6 +293,16 @@ public class Familiar implements Serializable {
 	public void setCliente(final Cliente cliente) {
 
 		this.cliente = cliente;
+	}
+
+	public Integer getIdContato() {
+
+		return this.idContato;
+	}
+
+	public void setIdContato(final Integer idContato) {
+
+		this.idContato = idContato;
 	}
 
 }

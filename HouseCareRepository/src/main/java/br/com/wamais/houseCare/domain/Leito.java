@@ -14,13 +14,13 @@ import javax.persistence.Table;
  *
  */
 @Entity
-@Table(name="leito")
+@Table(name = "leito")
 public class Leito implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
 	@Column(name = "id_quarto")

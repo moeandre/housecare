@@ -9,13 +9,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.com.wamais.houseCare.domain.Cliente;
 import br.com.wamais.houseCare.domain.Familiar;
-import br.com.wamais.houseCare.domain.FamiliarPK;
 import br.com.wamais.houseCare.repository.FamiliarRepository;
 import br.com.wamais.houseCare.service.IFamiliarService;
 
 @Service
 @Transactional
-public class FamiliarServiceImpl extends AbstractService<Familiar, FamiliarPK> implements IFamiliarService {
+public class FamiliarServiceImpl extends AbstractService<Familiar, Integer> implements IFamiliarService {
 
 	@Autowired
 	private FamiliarRepository repository;

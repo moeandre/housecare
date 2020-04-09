@@ -3,9 +3,8 @@ package br.com.wamais.houseCare.service;
 import java.util.List;
 
 import br.com.wamais.houseCare.domain.Familiar;
-import br.com.wamais.houseCare.domain.FamiliarPK;
 
-public interface IFamiliarService extends ICrudService<Familiar, FamiliarPK> {
+public interface IFamiliarService extends ICrudService<Familiar, Integer> {
 
 	List<Familiar> listarPorIdClienteIdEmpresa(Integer idCliente, Integer idEmpresa);
 

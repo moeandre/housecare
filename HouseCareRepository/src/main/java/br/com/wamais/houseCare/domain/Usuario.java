@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,7 +15,6 @@ import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -24,33 +24,35 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  *
  */
 @Entity
-@Table(name="usuario")
+@Table(name = "usuario")
 public class Usuario implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(unique = true, nullable = false)
 	private int id;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date alteracao;
 
 	@Temporal(TemporalType.TIMESTAMP)
+	@Column(nullable = false)
 	private Date criacao;
 
+	@Column(nullable = false, length = 100)
 	@Email
 	private String email;
 
-	@NotBlank
-	private String login;
-
-	@NotBlank
+	@Column(nullable = false, length = 100)
 	private String nome;
 
+	@Column(nullable = false, length = 45)
 	@JsonIgnore
 	private String senha;
 
+	@Column(length = 15)
 	private String telefone;
 
 	@Transient
@@ -60,63 +62,13 @@ public class Usuario implements Serializable {
 	private Empresa empresa;
 
 	@Transient
-	private List<AtributoPapel> atributos;
-
-	@Transient
 	private List<Papel> papeis;
 
 	@Transient
+	private List<AtributoUsuario> atributos;
+
+	@Transient
 	private Sessao sessao;
-
-	public Empresa getEmpresa() {
-
-		return empresa;
-	}
-
-	public void setEmpresa(Empresa empresa) {
-
-		this.empresa = empresa;
-	}
-
-	public List<Empresa> getEmpresas() {
-
-		return this.empresas;
-	}
-
-	public void setEmpresas(final List<Empresa> empresas) {
-
-		this.empresas = empresas;
-	}
-
-	public List<AtributoPapel> getAtributos() {
-
-		return this.atributos;
-	}
-
-	public void setAtributos(final List<AtributoPapel> atributos) {
-
-		this.atributos = atributos;
-	}
-
-	public List<Papel> getPapeis() {
-
-		return this.papeis;
-	}
-
-	public void setPapeis(final List<Papel> papeis) {
-
-		this.papeis = papeis;
-	}
-
-	public Sessao getSessao() {
-
-		return this.sessao;
-	}
-
-	public void setSessao(final Sessao sessao) {
-
-		this.sessao = sessao;
-	}
 
 	public Usuario() {
 
@@ -162,16 +114,6 @@ public class Usuario implements Serializable {
 		this.email = email;
 	}
 
-	public String getLogin() {
-
-		return this.login;
-	}
-
-	public void setLogin(final String login) {
-
-		this.login = login;
-	}
-
 	public String getNome() {
 
 		return this.nome;
@@ -202,6 +144,56 @@ public class Usuario implements Serializable {
 	public void setTelefone(final String telefone) {
 
 		this.telefone = telefone;
+	}
+
+	public List<Empresa> getEmpresas() {
+
+		return this.empresas;
+	}
+
+	public void setEmpresas(final List<Empresa> empresas) {
+
+		this.empresas = empresas;
+	}
+
+	public Empresa getEmpresa() {
+
+		return this.empresa;
+	}
+
+	public void setEmpresa(final Empresa empresa) {
+
+		this.empresa = empresa;
+	}
+
+	public List<Papel> getPapeis() {
+
+		return this.papeis;
+	}
+
+	public void setPapeis(final List<Papel> papeis) {
+
+		this.papeis = papeis;
+	}
+
+	public List<AtributoUsuario> getAtributos() {
+
+		return this.atributos;
+	}
+
+	public void setAtributos(final List<AtributoUsuario> atributos) {
+
+		this.atributos = atributos;
+	}
+
+	public Sessao getSessao() {
+
+		return this.sessao;
+	}
+
+	public void setSessao(final Sessao sessao) {
+
+		this.sessao = sessao;
 	}
 
 }
