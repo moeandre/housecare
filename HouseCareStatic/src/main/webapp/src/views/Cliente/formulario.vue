@@ -63,113 +63,96 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <div class="row py-4 justify-content-center">
-                            <div class="col-12 col-sm-10">
-                                <form class="form-horizontal" @submit.prevent="validateBeforeSubmit('cliente')" data-vv-scope="cliente">
-                                    <div class="form-group row">
-                                        <label class="text-bold col-xl-3 col-md-3 col-4 col-form-label text-right" for="nome">Nome</label>
-                                        <div class="col-xl-9 col-md-9 col-8">
-                                            <input id="nome" name="nome" type="text" placeholder="Nome do Cliente" 
-                                                maxlength="75"
-                                                v-model="cliente.nome"
-                                                v-validate="'required|max:75'"
-                                                :class="{'form-control':true, 'is-invalid': errors.has('cliente.nome')}"
-                                             />
-                                            <span v-if="errors.has('cliente.nome')" class="invalid-feedback">{{ errors.first('cliente.nome') }}</span>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label class="text-bold col-xl-3 col-md-3 col-4 col-form-label text-right" for="sobrenome">Sobrenome</label>
-                                        <div class="col-xl-9 col-md-9 col-8">
-                                            <input name="sobrenome" id="sobrenome" type="text" placeholder="Sobrenome do Cliente" 
-                                                v-model="cliente.sobrenome" 
-                                                v-validate="'required|max:75'"
-                                                :class="{'form-control':true, 'is-invalid': errors.has('cliente.sobrenome')}"
-                                             />
-                                            <span v-if="errors.has('cliente.sobrenome')" class="invalid-feedback">{{ errors.first('cliente.sobrenome') }}</span>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label class="text-bold col-xl-3 col-md-3 col-4 col-form-label text-right" for="apelido">Apelido</label>
-                                        <div class="col-xl-9 col-md-9 col-8">
-                                            <input name="apelido" id="apelido" type="text" placeholder="Apelido do Cliente" 
-                                                v-model="cliente.apelido" 
-                                                v-validate="'required|max:75'"
-                                                :class="{'form-control':true, 'is-invalid': errors.has('cliente.apelido')}"
-                                             />
-                                            <span v-if="errors.has('cliente.apelido')" class="invalid-feedback">{{ errors.first('cliente.apelido') }}</span>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label class="text-bold col-xl-3 col-md-3 col-4 col-form-label text-right" for="cpf">CPF</label>
-                                        <div class="col-xl-9 col-md-9 col-8">
-                                            <masked-input 
-                                                name="cpf" id="cpf" type="text" placeholder="CPF do Cliente"
-                                                v-model="cliente.cpf" 
-                                                v-validate="'required|cpf|max:14'"
-                                                :class="{'form-control':true, 'is-invalid': errors.has('cliente.cpf')}"
-                                                :mask="cpfMask" 
-                                                />
-                                            <span v-if="errors.has('cliente.cpf')" class="invalid-feedback">{{ errors.first('cliente.cpf') }}</span>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label class="text-bold col-xl-3 col-md-3 col-4 col-form-label text-right" for="nascimento">Nascimento</label>
-                                        <div class="col-xl-9 col-md-9 col-8 ">
-                                            <datepicker v-model="cliente.nascimento" :bootstrapStyling="true" name="nascimento" id="nascimento" 
-                                                :format="customFormatter"  
-                                                v-validate="'required'"
-                                                :class="{'is-invalid': errors.has('cliente.nascimento')}"
-                                             />
-                                            <span v-if="errors.has('cliente.nascimento')" class="invalid-feedback">{{ errors.first('cliente.nascimento') }}</span>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label class="text-bold col-xl-3 col-md-3 col-4 col-form-label text-right" for="nacionalidade">Nacionalidade</label>
-                                        <div class="col-xl-9 col-md-9 col-8">
-                                            <input name="nacionalidade" id="nacionalidade" type="text" placeholder="Nacionalidade do Cliente" 
-                                                v-model="cliente.nacionalidade" 
-                                                v-validate="'required|max:75'"
-                                                :class="{'form-control':true, 'is-invalid': errors.has('cliente.nacionalidade')}"
-                                             />
-                                            <span v-if="errors.has('cliente.nacionalidade')" class="invalid-feedback">{{ errors.first('cliente.nacionalidade') }}</span>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label class="text-bold col-xl-3 col-md-3 col-4 col-form-label text-right" for="naturalidade">Naturalidade</label>
-                                        <div class="col-xl-9 col-md-9 col-8">
-                                            <input class="form-control" name="naturalidade" id="naturalidade" type="text" placeholder="Naturalidade do Cliente" 
-                                                v-model="cliente.naturalidade" 
-                                                v-validate="'max:75'"
-                                                :class="{'form-control':true, 'is-invalid': errors.has('cliente.naturalidade')}"
-                                             />
-                                            <span v-if="errors.has('cliente.naturalidade')" class="invalid-feedback">{{ errors.first('cliente.naturalidade') }}</span>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label class="text-bold col-xl-3 col-md-3 col-4 col-form-label text-right" for="inputContact8">Cadastro</label>
-                                        <div class="col-xl-9 col-md-9 col-8 ">
-                                            <p class="form-control-plaintext">{{cliente.criacao | formatDate}}</p>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label class="text-bold col-xl-3 col-md-3 col-4 col-form-label text-right" for="inputContact8">Alteração</label>
-                                        <div class="col-xl-9 col-md-9 col-8">
-                                            <p class="form-control-plaintext">{{cliente.alteracao | formatDate}}</p>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <div class="col-md-12 text-right">
-                                            <button class="btn btn-primary mr-1" type="submit">Armazenar</button>
-                                            <button class="btn btn-secondary mr-1" type="button" @click="$router.go(-1)">Cancelar</button>
-                                        </div>
-                                    </div>
-                                </form>
-                                <div class="text-right">
-                                    
+                        <form class="form-horizontal" @submit.prevent="validateBeforeSubmit('cliente')" data-vv-scope="cliente">
+                            <div class="form-row">
+                                <div class="col-xl-6 col-md-9 col-6 mb-3">
+                                    <label for="nome">Nome: *</label>
+                                    <input id="nome" name="nome" type="text" placeholder="Nome do Cliente" 
+                                        maxlength="75"
+                                        v-model="cliente.nome"
+                                        v-validate="'required|max:75'"
+                                        :class="{'form-control':true, 'is-invalid': errors.has('cliente.nome')}"
+                                        />
+                                    <span v-if="errors.has('cliente.nome')" class="invalid-feedback">{{ errors.first('cliente.nome') }}</span>
+                                </div>
+                                <div class="col-xl-6 col-md-6 col-6 mb-3">
+                                    <label for="sobrenome">Sobrenome: *</label>
+                                    <input name="sobrenome" id="sobrenome" type="text" placeholder="Sobrenome do Cliente" 
+                                        v-model="cliente.sobrenome" 
+                                        v-validate="'required|max:75'"
+                                        :class="{'form-control':true, 'is-invalid': errors.has('cliente.sobrenome')}"
+                                        />
+                                    <span v-if="errors.has('cliente.sobrenome')" class="invalid-feedback">{{ errors.first('cliente.sobrenome') }}</span>
                                 </div>
                             </div>
-                        </div>
+                            <div class="form-row">
+                                <div class="col-xl-4 col-md-4 col-4 mb-3">
+                                    <label for="apelido">Apelido: *</label>
+                                    <input name="apelido" id="apelido" type="text" placeholder="Apelido do Cliente" 
+                                        v-model="cliente.apelido" 
+                                        v-validate="'required|max:75'"
+                                        :class="{'form-control':true, 'is-invalid': errors.has('cliente.apelido')}"
+                                        />
+                                    <span v-if="errors.has('cliente.apelido')" class="invalid-feedback">{{ errors.first('cliente.apelido') }}</span>
+                                </div>
+                                <div class="col-xl-4 col-md-4 col-4 mb-3">
+                                    <label for="cpf">CPF: *</label>
+                                    <masked-input 
+                                        name="cpf" id="cpf" type="text" placeholder="CPF do Cliente"
+                                        v-model="cliente.cpf" 
+                                        v-validate="'required|cpf|max:14'"
+                                        :class="{'form-control':true, 'is-invalid': errors.has('cliente.cpf')}"
+                                        :mask="cpfMask" 
+                                        />
+                                    <span v-if="errors.has('cliente.cpf')" class="invalid-feedback">{{ errors.first('cliente.cpf') }}</span>
+                                </div>
+                                <div class="col-xl-4 col-md-4 col-4 mb-4">
+                                    <label for="nascimento">Nascimento: *</label>
+                                    <datepicker v-model="cliente.nascimento" :bootstrapStyling="true" name="nascimento" id="nascimento" 
+                                        :format="customFormatter"  
+                                        v-validate="'required'"
+                                        :class="{'is-invalid': errors.has('cliente.nascimento')}"
+                                        />
+                                    <span v-if="errors.has('cliente.nascimento')" class="invalid-feedback">{{ errors.first('cliente.nascimento') }}</span>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-xl-6 col-md-6 col-6 mb-3">
+                                    <label for="nacionalidade">Nacionalidade: *</label>
+                                    <input name="nacionalidade" id="nacionalidade" type="text" placeholder="Nacionalidade do Cliente" 
+                                        v-model="cliente.nacionalidade" 
+                                        v-validate="'required|max:75'"
+                                        :class="{'form-control':true, 'is-invalid': errors.has('cliente.nacionalidade')}"
+                                        />
+                                    <span v-if="errors.has('cliente.nacionalidade')" class="invalid-feedback">{{ errors.first('cliente.nacionalidade') }}</span>
+                                </div>
+                                <div class="col-xl-6 col-md-6 col-6 mb-3">
+                                    <label for="naturalidade">Naturalidade: </label>
+                                    <input class="form-control" name="naturalidade" id="naturalidade" type="text" placeholder="Naturalidade do Cliente" 
+                                        v-model="cliente.naturalidade" 
+                                        v-validate="'max:75'"
+                                        :class="{'form-control':true, 'is-invalid': errors.has('cliente.naturalidade')}"
+                                        />
+                                    <span v-if="errors.has('cliente.naturalidade')" class="invalid-feedback">{{ errors.first('cliente.naturalidade') }}</span>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-xl-6 col-md-6 col-6 mb-3">
+                                    <label>Cadastro</label>
+                                    <p class="form-control-plaintext">{{cliente.criacao | formatDate}}</p>
+                                </div>
+                                <div class="col-xl-6 col-md-6 col-6 mb-3">
+                                    <label>Alteração</label>
+                                    <p class="form-control-plaintext">{{cliente.alteracao | formatDate}}</p>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md-12 text-right">
+                                    <button class="btn btn-primary mr-1" type="submit">Armazenar</button>
+                                    <button class="btn btn-secondary mr-1" type="button" @click="$router.go(-1)">Cancelar</button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -251,7 +234,7 @@
                     });
             },
             listarFamiliars(id) {
-                FamiliarDataService.getAll(this.account.user.empresa.id, id)
+                FamiliarDataService.getAllByCliente(this.account.user.empresa.id, id)
                     .then(response => {
                         this.familiars = response.data;
                     })

@@ -217,6 +217,9 @@ export default {
       });
     },
     armazenar() {
+
+      this.lancamento.valor = this.lancamento.valor.replace('.','').replace(',','.').replace('R$ ','');
+
       if (this.lancamento.id) {
         FaturaDataService.update(
           this.account.user.empresa.id,

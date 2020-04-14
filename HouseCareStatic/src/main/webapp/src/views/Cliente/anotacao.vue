@@ -79,7 +79,7 @@
                                             <button
                                                 :disabled="anotacao.id.idUsuario != account.user.id"
                                                 class="btn btn-danger btn-xs"
-                                                @click="apagar(lancamento)"
+                                                @click="apagar(anotacao)"
                                                 >
                                                 <i class="fa fa-trash"></i>
                                             </button>
