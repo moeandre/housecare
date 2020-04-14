@@ -1,6 +1,7 @@
 package br.com.wamais.houseCare.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -13,6 +14,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.validation.Valid;
 
 /**
  * The persistent class for the familiar database table.
@@ -86,13 +88,18 @@ public class Familiar implements Serializable {
 	private Date ultimoContato;
 
 	@Transient
-	private Cliente cliente;
+	private Parentesco parentesco;
+
+	@Transient
+	@Valid
+	private List<Parentesco> parentescos;
 
 	@Transient
 	private List<AtributoFamiliar> atributos;
 
 	public Familiar() {
 
+		this.parentescos = new ArrayList<Parentesco>();
 	}
 
 	public int getIdFamiliar() {
@@ -285,16 +292,6 @@ public class Familiar implements Serializable {
 		this.atributos = atributos;
 	}
 
-	public Cliente getCliente() {
-
-		return this.cliente;
-	}
-
-	public void setCliente(final Cliente cliente) {
-
-		this.cliente = cliente;
-	}
-
 	public Integer getIdContato() {
 
 		return this.idContato;
@@ -303,6 +300,61 @@ public class Familiar implements Serializable {
 	public void setIdContato(final Integer idContato) {
 
 		this.idContato = idContato;
+	}
+
+	public Parentesco getParentesco() {
+
+		return this.parentesco;
+	}
+
+	public void setParentesco(final Parentesco parentesco) {
+
+		this.parentesco = parentesco;
+		this.parentescos.add(parentesco);
+
+	}
+
+	public List<Parentesco> getParentescos() {
+
+		return this.parentescos;
+	}
+
+	public void setParentescos(final List<Parentesco> parentescos) {
+
+		this.parentescos = parentescos;
+	}
+	
+	public void addParentesco(final Parentesco parentesco) {
+
+		this.parentescos.add(parentesco);
+	}
+
+	@Override
+	public int hashCode() {
+
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + this.idFamiliar;
+		return result;
+	}
+
+	@Override
+	public boolean equals(final Object obj) {
+
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (this.getClass() != obj.getClass()) {
+			return false;
+		}
+		final Familiar other = (Familiar) obj;
+		if (this.idFamiliar != other.idFamiliar) {
+			return false;
+		}
+		return true;
 	}
 
 }

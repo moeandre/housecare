@@ -111,7 +111,11 @@
                                         <div class="col-xl-3 col-md-3 offset-md-3 col-4">
                                             <div class="checkbox c-checkbox">
                                                 <label>
-                                                    <input type="checkbox" id="responsavel" v-model="funcionario.responsavel" />
+                                                    <input 
+                                                        type="checkbox" id="responsavel" v-model="funcionario.responsavel" 
+                                                        true-value="1"
+                                                        false-value="0"
+                                                    />
                                                     <span class="fa fa-check"></span> Responsável 
                                                 </label>
                                             </div>
@@ -196,7 +200,6 @@
                         'alteracao': null,
                         'criacao': null,
                         'email': null,
-                        'login': null,
                         'nome': null,
                         'telefone': null
                     }
@@ -231,7 +234,6 @@
             },
             armazenar(){
                 this.funcionario.usuario.alteracao = new Date();
-                this.funcionario.usuario.login = this.funcionario.usuario.email;
                 this.funcionario.responsavel = (this.funcionario.responsavel) ? 1 : 0;
 
                 if(this.funcionario.id){

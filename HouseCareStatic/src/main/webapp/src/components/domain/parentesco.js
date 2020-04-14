@@ -1,14 +1,14 @@
 const parentesco = {
     values : [
-        {key: 'pais', value: 'Pai/Mãe'},
-        {key: 'avos', value: 'Avô/Avó'},
-        {key: 'filhos', value: 'Filho(a)'},
-        {key: 'netos', value: 'Neto(a)'},
-        {key: 'bisnetos', value: 'Bisnetpo(a)'},
-        {key: 'irmaos', value: 'Irmão/Irmã'},
-        {key: 'tios', value: 'Tia(a)'},
-        {key: 'sobrinhos', value: 'Sobrinho(a)'},
-        {key: 'outros', value: 'Outros'}
+        {key: '1', value: 'Pai/Mãe'},
+        {key: '2', value: 'Avô/Avó'},
+        {key: '3', value: 'Filho(a)'},
+        {key: '4', value: 'Neto(a)'},
+        {key: '5', value: 'Bisnetpo(a)'},
+        {key: '6', value: 'Irmão/Irmã'},
+        {key: '7', value: 'Tia(a)'},
+        {key: '8', value: 'Sobrinho(a)'},
+        {key: '0', value: 'Outros'}
     ],
     get (key) { 
         let value = this.values.filter(

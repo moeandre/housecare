@@ -18,12 +18,12 @@ class FamiliarDataService {
     return http.get(`/api/rest/empresa/${idEmpresa}/familiar/detalhar/${id}/`);
   }
 
-  create(idEmpresa, idCliente, data) {
-    return http.post(`/api/rest/empresa/${idEmpresa}/cliente/${idCliente}/familiar/criar`, data);
+  create(idEmpresa, data) {
+    return http.post(`/api/rest/empresa/${idEmpresa}/familiar/criar`, data);
   }
 
-  update(idEmpresa, idCliente, id, data) {
-    return http.put(`/api/rest/empresa/${idEmpresa}/cliente/${idCliente}/familiar/editar/${id}`, data);
+  update(idEmpresa, id, data) {
+    return http.put(`/api/rest/empresa/${idEmpresa}/familiar/editar/${id}`, data);
   }
 
   deleteByCliente(idEmpresa, idCliente, id) {

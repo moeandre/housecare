@@ -24,7 +24,7 @@
                         <div class="card-title text-center">Familiares</div>
                     </div>
                     <div class="card-body">
-                        <div class="media"  v-for="familiar of familiars" v-bind:key="familiar.id.idFamiliar">
+                        <div class="media"  v-for="familiar of familiars" v-bind:key="familiar.idFamiliar">
                             <img class="align-self-center mr-2 rounded-circle img-thumbnail thumb48" src="img/user/05.jpg" alt="Contact" />
                             <div class="media-body py-2">
                                 <div class="text-bold">{{familiar.nome}}

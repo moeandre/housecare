@@ -39,7 +39,7 @@ public class Cobranca implements Serializable {
 	private int idEmpresa;
 
 	@Column(name = "id_familiar")
-	private int idFamiliar;
+	private Integer idFamiliar;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date pagamento;
@@ -95,12 +95,12 @@ public class Cobranca implements Serializable {
 		this.idEmpresa = idEmpresa;
 	}
 
-	public int getIdFamiliar() {
+	public Integer getIdFamiliar() {
 
 		return this.idFamiliar;
 	}
 
-	public void setIdFamiliar(final int idFamiliar) {
+	public void setIdFamiliar(final Integer idFamiliar) {
 
 		this.idFamiliar = idFamiliar;
 	}

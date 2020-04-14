@@ -10,92 +10,144 @@
         </div>
         <div class="card card-default d-none d-lg-block" v-if="showForm">
             <div class="card-header">
-                <div class="card-title text-center">Familiar</div>
+                <div class="card-title text-center">Formulário</div>
             </div>
             <div class="card-body">
                 <div class="row py-4 justify-content-center">
                     <div class="col-12 col-sm-12">
                         <form class="form-horizontal" @submit.prevent="validateBeforeSubmit('familiar')" data-vv-scope="familiar">
-                            <div class="form-group row">
-                                <label class="text-bold col-xl-3 col-md-3 col-4 col-form-label text-right" for="nome">Nome</label>
-                                <div class="col-xl-9 col-md-9 col-8">
-                                    <input class="form-control" 
-                                        name="nome" id="nome" type="text" placeholder="Nome do Familiar" 
-                                        v-model="familiar.nome" 
-                                        v-validate="'required|max:75'"
-                                        :class="{'form-control':true, 'is-invalid': errors.has('familiar.nome')}"
-                                    />
-                                    <span v-if="errors.has('familiar.nome')" class="invalid-feedback">{{ errors.first('familiar.nome') }}</span>
+                            <div class="row">
+                                <div class="col-lg-7 col-md-7">
+                                    <h4 class="m-0">Familiar</h4>
+                                    <hr />
+                                    <div class="form-row">
+                                        <div class="col-xl-12 col-md-12 col-8 mb-3">
+                                            <label for="nome">Nome: *</label>
+                                            <input class="form-control" 
+                                                name="nome" id="nome" type="text" placeholder="Nome do Familiar" 
+                                                v-model="familiar.nome" 
+                                                v-validate="'required|max:75'"
+                                                :class="{'form-control':true, 'is-invalid': errors.has('familiar.nome')}"
+                                            />
+                                            <span v-if="errors.has('familiar.nome')" class="invalid-feedback">{{ errors.first('familiar.nome') }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="col-xl-6 col-md-6 col-6 mb-3">
+                                            <label for="telefone">Telefone: *</label>
+                                            <the-mask input name="telefone" id="telefone" type="text" placeholder="Telefone do Familiar" 
+                                                v-model="familiar.telefone" 
+                                                v-validate="'required'"
+                                                :class="{'form-control':true, 'is-invalid': errors.has('familiar.telefone')}"
+                                                :mask="['(##) ####-####', '(##) #####-####']"/>
+                                            <span v-if="errors.has('familiar.telefone')" class="invalid-feedback">{{ errors.first('familiar.telefone') }}</span>
+                                        </div>
+                                        <div class="col-xl-6 col-md-6 col-6 mb-3">
+                                            <label for="email">E-mail: </label>
+                                            <input name="email" id="email" type="text" placeholder="E-mail do Familiar" 
+                                                v-model="familiar.email"
+                                                v-validate="'email'"
+                                                :class="{'form-control':true, 'is-invalid': errors.has('familiar.email')}"
+                                            />
+                                            <span v-if="errors.has('familiar.email')" class="invalid-feedback">{{ errors.first('familiar.email') }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="col-xl-4 col-md-4 col-4">
+                                            <label>Cadastro</label>
+                                            <p class="form-control-plaintext">{{familiar.criacao | formatDate}}</p>
+                                        </div>
+                                        <div class="col-xl-4 col-md-4 col-4">
+                                            <label>Alteração</label>
+                                            <p class="form-control-plaintext">{{familiar.alteracao | formatDate}}</p>
+                                        </div>
+                                        <div class="col-xl-4 col-md-4 col-4">
+                                            <label>Contato</label>
+                                            <p class="form-control-plaintext">{{familiar.ultimoContato | formatDate}}</p>
+                                        </div>
+                                    </div>
+                                    <hr />
                                 </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="text-bold col-xl-3 col-md-3 col-4 col-form-label text-right" for="parentesco">Parentesco</label>
-                                <div class="col-xl-9 col-md-9 col-8">
-                                    <select name="parentesco" id="parentesco" 
-                                        v-model="familiar.parentesco"
-                                        v-validate="'required'"
-                                        :class="{'custom-select':true, 'is-invalid': errors.has('familiar.parentesco')}">
-                                        <option>Selecione o Parentesco do Familiar</option>
-                                        <option v-for="parentesco in parentescos.values" v-bind:value="parentesco.key" v-bind:key="parentesco.key" :selected="parentesco.key === familiar.parentesco" >{{ parentesco.value }}</option>
-                                    </select>
-                                    <span v-if="errors.has('familiar.parentesco')" class="invalid-feedback">{{ errors.first('familiar.parentesco') }}</span>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="text-bold col-xl-3 col-md-3 col-4 col-form-label text-right" for="telefone">Telefone</label>
-                                <div class="col-xl-9 col-md-9 col-8">
-                                    <the-mask input name="telefone" id="telefone" type="text" placeholder="Telefone do Familiar" 
-                                        v-model="familiar.telefone" 
-                                        v-validate="'required'"
-                                        :class="{'form-control':true, 'is-invalid': errors.has('familiar.telefone')}"
-                                        :mask="['(##) ####-####', '(##) #####-####']"/>
-                                    <span v-if="errors.has('familiar.telefone')" class="invalid-feedback">{{ errors.first('familiar.telefone') }}</span>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="text-bold col-xl-3 col-md-3 col-4 col-form-label text-right" for="email">E-mail</label>
-                                <div class="col-xl-9 col-md-9 col-8">
-                                    <input name="email" id="email" type="text" placeholder="E-mail do Familiar" 
-                                        v-model="familiar.email"
-                                        v-validate="'email'"
-                                        :class="{'form-control':true, 'is-invalid': errors.has('familiar.email')}"
-                                    />
-                                    <span v-if="errors.has('familiar.email')" class="invalid-feedback">{{ errors.first('familiar.email') }}</span>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="text-bold col-xl-3 col-md-3 col-4 col-form-label text-right" for="cliente">Cliente</label>
-                                <div class="col-xl-9 col-md-9 col-8">
-                                    <select class="custom-select" id="cliente" v-model="familiar.id.idCliente" :disabled="familiar.id.idCliente == $route.params.id && $route.params.id !=null">
-                                        <option >Selecione</option>
-                                        <option v-for="cliente in clientes" v-bind:value="cliente.id.id" v-bind:key="cliente.id.id" :selected="cliente.id.id === familiar.id.idCliente" >{{ cliente.nome }}</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <div class="col-xl-3 col-md-3 offset-md-3 col-4">
-                                    <div class="checkbox c-checkbox">
-                                        <label>
-                                            <input type="checkbox" id="responsavel" v-model="familiar.responsavel" />
-                                            <span class="fa fa-check"></span> Responsável Solidário
-                                        </label>
+                                <div class="col-lg-5 coml-md-5">
+                                    <h4 class="m-0">Clientes</h4>
+                                    <div v-for="(parentesco, index) in familiar.parentescos" :key="index">
+                                        <hr />
+                                        <div class="form-row">
+                                            <div class="col-xl-12 col-md-12 col-12 mb-3">
+                                                <label :for="'cliente_'+index">Cliente {{index+1}}</label>
+                                                <select class="custom-select" :name="'familiar.parentescos['+index+'][cliente][id]'" :id="'cliente_'+index" 
+                                                    v-model="parentesco.cliente.id.id"
+                                                    v-validate="'required'"
+                                                    :class="{'custom-select':true, 'is-invalid': errors.has('familiar.parentescos['+index+'][cliente][id]')}">
+                                                    <option >Selecione o Cliente</option>
+                                                    <option v-for="(c, cIndex) in clientes" v-bind:value="c.id.id" v-bind:key="cIndex" :selected="c.id.id === parentesco.cliente.id.id" >{{ c.nome }}</option>
+                                                </select>
+                                                <span v-if="errors.has('familiar.parentescos['+index+'][cliente][id]')" class="invalid-feedback">{{ errors.first('familiar.parentescos['+index+'][cliente][id]') }}</span>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="col-xl-12 col-md-12 col-12 mb-3">
+                                                <label :for="'parentesco_'+index">Parentesco</label>
+                                                <select :name="'familiar.parentescos['+index+'][parentesco]'" :id="'parentesco_'+index" 
+                                                    v-model="parentesco.parentesco"
+                                                    v-validate="'required'"
+                                                    :class="{'custom-select':true, 'is-invalid': errors.has('familiar.parentescos['+index+'][parentesco]')}">
+                                                    <option>Selecione o Parentesco do Familiar</option>
+                                                    <option v-for="p in vParentescos.values" v-bind:value="p.key" v-bind:key="p.key" :selected="p.key === parentesco.parentesco" >{{ p.value }}</option>
+                                                </select>
+                                                <span v-if="errors.has('familiar.parentescos['+index+'][parentesco]')" class="invalid-feedback">{{ errors.first('familiar.parentescos['+index+'][parentesco]') }}</span>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="col-xl-5 col-md-5 col-5">
+                                                <div class="checkbox c-checkbox">
+                                                    <label :for="'financeiro_'+index">
+                                                        <input type="checkbox" :name="'familiar.parentescos['+index+'][financeiro]'" :id="'financeiro_'+index" 
+                                                            v-model="parentesco.financeiro"  
+                                                            true-value="1"
+                                                            false-value="0"
+                                                            />
+                                                        <span class="fa fa-check"></span> Responsável Financeiro
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-5 col-md-5 col-5">
+                                                <div class="checkbox c-checkbox">
+                                                    <label :for="'responsavel_'+index">
+                                                        <input type="checkbox" :name="'familiar.parentescos['+index+'][responsavel]'" :id="'responsavel_'+index" 
+                                                            v-model="parentesco.responsavel" 
+                                                            true-value="1"
+                                                            false-value="0"
+                                                        />
+                                                        <span class="fa fa-check"></span> Responsável Solidário
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-2 col-md-2 col-2 text-right">
+                                                <button
+                                                    class="btn btn-danger btn-xs"
+                                                    @click="removeParentesco(index)"
+                                                >
+                                                    <i class="fa fa-minus-circle"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="col-xl-12 col-md-12 col-12 text-right">
+                                            <button
+                                                    class="btn btn-secondary btn-xs"
+                                                    v-on:click="addParentesco()"
+                                                >
+                                                    <i class="fa fa-plus-circle"></i>
+                                            </button>
+                                            
+                                        </div>
                                     </div>
                                 </div>
-                                <label class="text-bold col-xl-3 col-md-3 col-2 col-form-label text-right" for="criacao">Último Contato</label>
-                                <div class="col-xl-3 col-md-3 col-4">
-                                    <p class="form-control-plaintext">{{familiar.ultimoContato | formatDate}}</p>
-                                </div>
+                                
                             </div>
-                            <div class="form-group row">
-                                <label class="text-bold col-xl-3 col-md-3 col-2 col-form-label text-right" for="criacao">Cadastro</label>
-                                <div class="col-xl-3 col-md-3 col-4">
-                                    <p class="form-control-plaintext">{{familiar.criacao | formatDate}}</p>
-                                </div>
-                                <label class="text-bold col-xl-3 col-md-3 col-2 col-form-label text-right" for="alteracao">Alteração</label>
-                                <div class="col-xl-3 col-md-3 col-4">
-                                    <p class="form-control-plaintext">{{familiar.alteracao | formatDate}}</p>
-                                </div>
-                            </div>
+                            <hr />
                             <div class="form-group row">
                                 <div class="col-md-12 text-right">
                                     <button class="btn btn-primary mr-1" type="submit">Armazenar</button>
@@ -113,27 +165,19 @@
                     <thead>
                         <tr>
                             <th>UUID</th>
-                            <th v-if="!$route.params.id">Cliente</th>
                             <th>Nome</th>
-                            <th>Parentesco</th>
                             <th>Telefone</th>
                             <th>E-mail</th>
-                            <th>Responsável Solidário</th>
                             <th>Último Contato</th>
                             <th>Ação</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="familiar of familiars" v-bind:key="familiar.id.idFamiliar">
-                            <td>{{familiar.id.idFamiliar}}</td>
-                            <td v-if="!$route.params.id">{{familiar.cliente.apelido}}</td>
+                        <tr v-for="familiar of familiars" v-bind:key="familiar.idFamiliar">
+                            <td>{{familiar.idFamiliar}}</td>
                             <td>{{familiar.nome}}</td>
-                            <td>{{parentescos.get(familiar.parentesco)}}</td>
                             <td>{{familiar.telefone}}</td>
                             <td>{{familiar.email}}</td>
-                            <td class="text-center">
-                                {{familiar.responsavel ? 'Sim' : 'Não'}}
-                            </td>
                             <td>{{familiar.ultimoContato | formatDate}}</td>
                             <td class="text-right">
                                 <div class="btn-group">
@@ -166,7 +210,7 @@
     import moment from "moment";
     import { mapState, mapActions } from "vuex";
 
-    import parentescos from '../../components/domain/parentesco';
+    import vParentescos from '../../components/domain/parentesco';
 
     import ClienteDataService from "../../services/ClienteDataService";
     import FamiliarDataService from "../../services/FamiliarDataService";
@@ -204,23 +248,39 @@
             return {
                 title: "Familiares",
                 familiar: {
-                    'id': {
-                        'idCliente' : null,
-                    },
-                    'alteracao': null,
-                    'criacao': null,
-                    'email': '',
-                    'nome': '',
-                    'parentesco': '',
-                    'responsavel': null,
-                    'telefone': '',
-                    'ultimoContato': null
+                    "nome": null,
+                    "bairro": null,
+                    "cep": null,
+                    "complemento": null,
+                    "cpf": null,
+                    "email": null,
+                    "envioFatura": null,
+                    "estado": null,
+                    "idContato": null,
+                    "logradouro": null,
+                    "municipio": null,
+                    "numero": null,
+                    "rg": null,
+                    "telefone": null,
+                    "ultimoContato": null,
+                    "alteracao": null,
+                    "criacao": null,
+                    "parentescos": []
+                        
                 },
+                defaultParentesco: {
+                        "financeiro": null,
+                        "parentesco": null,
+                        "responsavel": null,
+                        "cliente": {},
+                        "alteracao": null,
+                        "criacao": null
+                    },
                 cliente: {},
                 clientes: {},
                 familiars: [],
                 showForm: false,
-                parentescos,
+                vParentescos,
                 phoneMask: '\d',
             };
         },
@@ -233,11 +293,16 @@
                 this.familiar = {};
                 this.familiar.criacao = new Date();
                 this.familiar.alteracao = new Date();
+
+                this.addParentesco();
+
+                /*
                 if(this.$route.params.id){
                     this.familiar.id = {'idCliente': this.$route.params.id};
                 }else{
                     this.familiar.id = {'idCliente': null};
                 }
+                */
                 
             },
             closeForm() {
@@ -246,7 +311,29 @@
             },
             editar(familiar) {
                 this.showForm = true;
-                this.familiar = familiar;
+                FamiliarDataService.get(this.account.user.empresa.id, familiar.idFamiliar)
+                    .then(response => {
+                        this.familiar = response.data;
+                    })
+                    .catch(e => {
+                        console.log(e);
+                    });
+            },
+            addParentesco(){
+                if(!this.familiar.parentescos){
+                    this.familiar.parentescos = [];
+                }
+
+                let newParentesco = Object.assign({}, this.defaultParentesco);
+                newParentesco.cliente = { 'id': {'id' :null } };
+                newParentesco.criacao = new Date();
+                newParentesco.alteracao = new Date();
+                this.familiar.parentescos.push(newParentesco);
+                return false;
+            },
+            removeParentesco(index){
+                this.familiar.parentescos.splice(index,1);
+                return false;
             },
             apagar(familiar) {
                 this.showConfirmation(
@@ -304,15 +391,13 @@
                 });
             },
             armazenar() {
-                this.familiar.responsavel = (this.familiar.responsavel) ? 1 : 0;
 
-                if (this.familiar.id.idFamiliar) {
+                if (this.familiar.idFamiliar) {
                     this.familiar.alteracao = new Date();
                     
                     FamiliarDataService.update(
                         this.account.user.empresa.id,
-                        this.familiar.id.idCliente,
-                        this.familiar.id.idFamiliar,
+                        this.familiar.idFamiliar,
                         this.familiar
                     )
                     .then(response => {
@@ -335,7 +420,6 @@
                     this.familiar.criacao = new Date();
                     FamiliarDataService.create(
                         this.account.user.empresa.id,
-                        this.familiar.id.idCliente,
                         this.familiar
                     )
                     .then(response => {
@@ -357,10 +441,9 @@
                 }
             },
             remover(familiar) {
-                FamiliarDataService.deleteByCliente(
+                FamiliarDataService.delete(
                     this.account.user.empresa.id,
-                    familiar.id.idCliente,
-                    familiar.id.idFamiliar
+                    familiar.idFamiliar
                 )
                 .then(response => {
                     this.showSuccess("Registro removido com sucesso!").then(result => {

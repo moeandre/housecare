@@ -29,7 +29,7 @@ public class Lancamento implements Serializable {
 	private Date criacao;
 
 	@Column(name = "id_fatura")
-	private int idFatura;
+	private Integer idFatura;
 
 	@Column(nullable = false, length = 75)
 	private String nome;
@@ -61,12 +61,12 @@ public class Lancamento implements Serializable {
 		this.criacao = criacao;
 	}
 
-	public int getIdFatura() {
+	public Integer getIdFatura() {
 
 		return this.idFatura;
 	}
 
-	public void setIdFatura(final int idFatura) {
+	public void setIdFatura(final Integer idFatura) {
 
 		this.idFatura = idFatura;
 	}

@@ -46,15 +46,7 @@ public class FamiliarController extends AbstractController {
 	public @ResponseBody Familiar detalhar(@PathVariable final Integer idEmpresa, @PathVariable final Integer idCliente,
 			@PathVariable final Integer id) {
 
-		/**
-		 * 
-		 TODO: Implementar
-		final FamiliarPK familiarPk = new FamiliarPK();
-		familiarPk.setIdEmpresa(idEmpresa);
-		familiarPk.setIdCliente(idCliente);
-		familiarPk.setIdFamiliar(id);
-		 */
-		return this.service.obtemPorId(id);
+		return this.service.obterPorIdFamiliar(id, idCliente, idEmpresa);
 	}
 
 	@RequestMapping(value = "/familiar/detalhar/{idFamiliar}", method = RequestMethod.GET)
@@ -64,26 +56,16 @@ public class FamiliarController extends AbstractController {
 		return this.service.obterPorIdFamiliar(idFamiliar, idEmpresa);
 	}
 
-	@RequestMapping(value = "/cliente/{idCliente}/familiar/criar", method = RequestMethod.POST, consumes = "application/json")
-	public @ResponseBody Familiar criar(@PathVariable final Integer idEmpresa, @PathVariable final Integer idCliente,
-			@Valid @RequestBody final Familiar familiar) {
+	@RequestMapping(value = "/familiar/criar", method = RequestMethod.POST, consumes = "application/json")
+	public @ResponseBody Familiar criar(@PathVariable final Integer idEmpresa, @Valid @RequestBody final Familiar familiar) {
 
-		/**
-		 * 
-		 * TODO: implementar
-		final FamiliarPK familiarPk = new FamiliarPK();
-		familiarPk.setIdEmpresa(idEmpresa);
-		familiarPk.setIdCliente(idCliente);
-		familiar.setId(familiarPk);*/
-
-		return this.service.alterar(familiar);
+		familiar.setIdEmpresa(idEmpresa);
+		
+		return this.service.criar(familiar);
 	}
 
-	@RequestMapping(value = "/cliente/{idCliente}/familiar/editar/{id}", method = RequestMethod.PUT, consumes = "application/json")
-	public @ResponseBody Familiar editar(@PathVariable final Integer idEmpresa, @PathVariable final Integer idCliente,
-			@Valid @RequestBody final Familiar familiar, @PathVariable final Integer id) {
-
-//		familiarPk.setIdCliente(idCliente);
+	@RequestMapping(value = "/familiar/editar/{id}", method = RequestMethod.PUT, consumes = "application/json")
+	public @ResponseBody Familiar editar(@PathVariable final Integer idEmpresa,	@Valid @RequestBody final Familiar familiar, @PathVariable final Integer id) {
 
 		familiar.setIdFamiliar(id);
 		familiar.setIdEmpresa(idEmpresa);
@@ -91,23 +73,10 @@ public class FamiliarController extends AbstractController {
 		return this.service.alterar(familiar);
 	}
 
-	@RequestMapping(value = "/cliente/{idCliente}/familiar/delete/{id}", method = RequestMethod.DELETE)
-	public @ResponseBody void delete(@PathVariable final Integer idEmpresa, @PathVariable final Integer idCliente, @PathVariable final Integer id) {
-
-		/**
-		TODO: implementar
-		*/ 
-//		familiar.setIdFamiliar(id);
-//		familiar.setIdEmpresa(idEmpresa);
-
-		this.service.excluirPorId(id);
-
-	}
-
 	@RequestMapping(value = "/familiar/delete/{idFamiliar}", method = RequestMethod.DELETE)
 	public @ResponseBody void delete(@PathVariable final Integer idEmpresa, @PathVariable final Integer idFamiliar) {
 
-		this.service.excluirPorIdFamiliar(idFamiliar, idEmpresa);
+		this.service.excluir(idFamiliar, idEmpresa);
 
 	}
 

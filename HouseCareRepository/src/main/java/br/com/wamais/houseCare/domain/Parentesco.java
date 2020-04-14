@@ -49,6 +49,9 @@ public class Parentesco implements Serializable {
 	@Transient
 	private List<Familiar> familiars;
 
+	@Transient
+	private Cliente cliente;
+
 	public Parentesco() {
 
 	}
@@ -131,6 +134,16 @@ public class Parentesco implements Serializable {
 	public void setFamiliars(final List<Familiar> familiars) {
 
 		this.familiars = familiars;
+	}
+
+	public Cliente getCliente() {
+
+		return this.cliente;
+	}
+
+	public void setCliente(final Cliente cliente) {
+
+		this.cliente = cliente;
 	}
 
 }

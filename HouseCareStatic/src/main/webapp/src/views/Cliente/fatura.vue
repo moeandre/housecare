@@ -15,36 +15,20 @@
         <div class="card-title text-center">Lançamento</div>
       </div>
       <div class="card-body">
-        <div class="row py-4 justify-content-center">
-          <div class="col-12 col-sm-12">
-            <form
-              class="form-horizontal"
-              @submit.prevent="validateBeforeSubmit('lancamento')"
-              data-vv-scope="lancamento"
-            >
-              <div class="form-group row">
-                <label class="text-bold col-xl-3 col-md-3 col-4 col-form-label text-right" for="nome">Nome</label>
-                <div class="col-xl-9 col-md-9 col-8">
-                  <input
-                    id="nome"
-                    name="nome"
-                    type="text"
-                    placeholder="Nome do Item"
+            <form class="" @submit.prevent="validateBeforeSubmit('lancamento')" data-vv-scope="lancamento">
+              <div class="form-row">
+                <div class="col-xl-4 col-md-4 col-4 mb-3">
+                  <label for="nome">Nome: *</label>
+                  <input id="nome" name="nome" type="text" placeholder="Nome do Item"
                     v-model="lancamento.nome"
                     v-validate="'required|max:75'"
                     :class="{'form-control':true, 'is-invalid': errors.has('lancamento.nome')}"
                     />
                     <span v-if="errors.has('lancamento.nome')" class="invalid-feedback">{{ errors.first('lancamento.nome') }}</span>
                 </div>
-              </div>
-              <div class="form-group row">
-                <label class="text-bold col-xl-3 col-md-3 col-4 col-form-label text-right" for="valor" >Valor</label>
-                <div class="col-xl-9 col-md-9 col-8">
-                  <masked-input
-                    id="valor"
-                    nome="valor"
-                    type="text"
-                    placeholder="Valor do Item"
+                <div class="col-xl-4 col-md-4 col-4 mb-3">
+                  <label for="valor" >Valor: *</label>
+                  <masked-input id="valor" nome="valor" type="text" placeholder="Valor do Item"
                     v-model="lancamento.valor"
                     v-validate="'required'"
                     :mask="numberMask"
@@ -52,22 +36,18 @@
                     />
                     <span v-if="errors.has('lancamento.valor')" class="invalid-feedback">{{ errors.first('lancamento.valor') }}</span>
                 </div>
-              </div>
-              <div class="form-group row">
-                <label class="text-bold col-xl-3 col-md-3 col-4 col-form-label text-right" for="criacao">Cadastro</label>
-                <div class="col-xl-9 col-md-9 col-8">
+                <div class="col-xl-4 col-md-4 col-4 mb-3">
+                  <label for="criacao">Cadastro</label>
                   <p class="form-control-plaintext">{{lancamento.criacao | formatDate}}</p>
                 </div>
               </div>
-              <div class="form-group row">
+              <div class="form-row">
                 <div class="col-md-12 text-right">
                   <button class="btn btn-primary mr-1" type="submit">Armazenar</button>
                   <button class="btn btn-secondary mr-1" type="button" @click="closeForm()">Cancelar</button>
                 </div>
               </div>
             </form>
-          </div>
-        </div>
       </div>
     </div>
 
