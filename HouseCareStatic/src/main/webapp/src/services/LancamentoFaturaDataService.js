@@ -2,24 +2,24 @@ import http from "./http-common";
 
 class LancamentoFaturaDataService {
   
-  getAll() {
-    return http.get("/api/rest/cliente/listar");
+  getAll(idEmpresa, idCliente) {
+    return http.get(`/api/rest/empresa/${idEmpresa}/cliente/${idCliente}/fatura/lancamento/listar`);
   }
 
-  get(id) {
-    return http.get(`/api/rest/cliente/${id}`);
+  get(idEmpresa, idCliente, id) {
+    return http.get(`/api/rest/empresa/${idEmpresa}/cliente/${idCliente}/fatura/lancamento/detalhar/${id}/`);
   }
 
-  create(data) {
-    return http.post("/api/rest/cliente", data);
+  create(idEmpresa, idCliente, data) {
+    return http.post(`/api/rest/empresa/${idEmpresa}/cliente/${idCliente}/fatura/lancamento/criar`, data);
   }
 
-  update(id, data) {
-    return http.put(`/api/rest/cliente/${id}`, data);
+  update(idEmpresa, idCliente, id, data) {
+    return http.put(`/api/rest/empresa/${idEmpresa}/cliente/${idCliente}/fatura/lancamento/editar/${id}`, data);
   }
 
-  delete(id) {
-    return http.delete(`/api/rest/cliente/${id}`);
+  delete(idEmpresa, idCliente, id) {
+    return http.delete(`/api/rest/empresa/${idEmpresa}/cliente/${idCliente}/fatura/lancamento/delete/${id}`);
   }
 
 }

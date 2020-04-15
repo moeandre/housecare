@@ -26,6 +26,9 @@ import br.com.wamais.houseCare.service.ILancamentoService;
 public class FaturaServiceImpl extends AbstractService<Fatura, Integer> implements IFaturaService {
 
 	@Autowired
+	private FaturaRepository repository;
+
+	@Autowired
 	private ICobrancaService cobrancaService;
 
 	@Autowired
@@ -49,6 +52,10 @@ public class FaturaServiceImpl extends AbstractService<Fatura, Integer> implemen
 	@Override
 	public Fatura faturar(final Integer idEmpresa, final Integer idCliente, final Fatura fatura) {
 
+		final Calendar hoje = Calendar.getInstance();
+
+		fatura.setData(hoje.getTime());
+
 		// Armazena a fatura para gerar o ID
 		final Fatura savedFatura = super.alterar(fatura);
 
@@ -71,9 +78,9 @@ public class FaturaServiceImpl extends AbstractService<Fatura, Integer> implemen
 		cobranca.setIdEmpresa(idEmpresa);
 		cobranca.setIdCliente(idCliente);
 
-		cobranca.setData(Calendar.getInstance().getTime());
+		cobranca.setData(hoje.getTime());
 
-		final Calendar vencimento = Calendar.getInstance();
+		final Calendar vencimento = hoje;
 		vencimento.set(Calendar.DAY_OF_MONTH, this.obterDiaVencimento(idEmpresa, idCliente));
 		vencimento.add(Calendar.MONTH, 1);
 
@@ -103,6 +110,44 @@ public class FaturaServiceImpl extends AbstractService<Fatura, Integer> implemen
 			diaVencimento = this.empresaService.obterVencimento(idEmpresa);
 		}
 		return Integer.valueOf(diaVencimento);
+	}
+
+	@Override
+	public List<Fatura> listarPorEmpresa(final Integer idEmpresa) {
+
+		return this.parseFaturas(this.repository.listarPorEmpresa(idEmpresa));
+	}
+
+	@Override
+	public Fatura obterPorIdEmpresa(final Integer idEmpresa, final Integer idFatura) {
+
+		final List<Fatura> faturas = this.parseFaturas(this.repository.obterPorIdEmpresa(idEmpresa, idFatura));
+		final Fatura fatura = (!faturas.isEmpty()) ? faturas.get(0) : new Fatura();
+
+		return fatura;
+	}
+
+	private List<Fatura> parseFaturas(final List<Object[]> listaEntidades) {
+
+		final List<Fatura> faturas = new ArrayList<Fatura>();
+
+		listaEntidades.stream().forEach(entidade -> {
+			final Fatura fatura = (Fatura) entidade[0];
+			final Cobranca cobranca = (Cobranca) entidade[1];
+			fatura.setCobranca(cobranca);
+
+			final Lancamento lancamento = (Lancamento) entidade[2];
+
+			if (faturas.contains(fatura)) {
+				faturas.get(faturas.indexOf(fatura)).addLancamentos(lancamento);
+			} else {
+				fatura.addLancamentos(lancamento);
+				faturas.add(fatura);
+			}
+		});
+
+		return faturas;
+
 	}
 
 }

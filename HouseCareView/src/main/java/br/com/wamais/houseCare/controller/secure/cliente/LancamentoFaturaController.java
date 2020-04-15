@@ -24,8 +24,8 @@ import br.com.wamais.houseCare.service.ILancamentoService;
 
 @RestController
 @Transactional
-@RequestMapping("/empresa/{idEmpresa}/cliente/{idCliente}/fatura")
-public class FaturaController extends AbstractController {
+@RequestMapping("/empresa/{idEmpresa}/cliente/{idCliente}/fatura/lancamento")
+public class LancamentoFaturaController extends AbstractController {
 
 	@Autowired
 	private transient ILancamentoService service;

@@ -21,6 +21,9 @@ public class Configuracao implements Serializable {
 	@EmbeddedId
 	private ConfiguracaoPK id;
 
+	@Column(nullable = false, length = 45)
+	private String chave;
+
 	@Column(nullable = false, length = 75)
 	private String nome;
 
@@ -60,6 +63,16 @@ public class Configuracao implements Serializable {
 	public void setValor(final String valor) {
 
 		this.valor = valor;
+	}
+
+	public String getChave() {
+
+		return this.chave;
+	}
+
+	public void setChave(final String chave) {
+
+		this.chave = chave;
 	}
 
 }

@@ -1,6 +1,7 @@
 package br.com.wamais.houseCare.domain;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
@@ -28,6 +29,9 @@ public class Quarto implements Serializable {
 
 	@Column(nullable = false, length = 1)
 	private String situacao;
+
+	@Column(nullable = false, precision = 10, scale = 2)
+	private BigDecimal valor;
 
 	public Quarto() {
 
@@ -71,6 +75,16 @@ public class Quarto implements Serializable {
 	public void setSituacao(final String situacao) {
 
 		this.situacao = situacao;
+	}
+
+	public BigDecimal getValor() {
+
+		return this.valor;
+	}
+
+	public void setValor(final BigDecimal valor) {
+
+		this.valor = valor;
 	}
 
 }

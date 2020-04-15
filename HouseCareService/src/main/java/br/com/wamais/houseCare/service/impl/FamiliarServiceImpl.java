@@ -31,10 +31,10 @@ public class FamiliarServiceImpl extends AbstractService<Familiar, Integer> impl
 		super.setRepository(repository);
 	}
 
-	
 	@Override
 	public Familiar obterResponsavelFinanceiro(final Integer idCliente, final Integer idEmpresa) {
-		return repository.obterResponsavelFinanceiro(idCliente, idEmpresa);
+
+		return this.repository.obterResponsavelFinanceiro(idCliente, idEmpresa);
 	}
 
 	@Override
@@ -49,8 +49,9 @@ public class FamiliarServiceImpl extends AbstractService<Familiar, Integer> impl
 		// final Object entidade[] = listaEntidades.get(0);
 		// familiar = this.buildFamiliar(entidade);
 		// }
+		final Familiar familiar = (!familiars.isEmpty()) ? familiars.get(0) : new Familiar();
 
-		return familiars.get(0);
+		return familiar;
 
 	}
 
@@ -59,7 +60,9 @@ public class FamiliarServiceImpl extends AbstractService<Familiar, Integer> impl
 
 		final List<Familiar> familiars = this.parseFamiliars(this.repository.obterPorIdFamiliar(idFamiliar, idEmpresa));
 
-		return familiars.get(0);
+		final Familiar familiar = (!familiars.isEmpty()) ? familiars.get(0) : new Familiar();
+
+		return familiar;
 
 	}
 

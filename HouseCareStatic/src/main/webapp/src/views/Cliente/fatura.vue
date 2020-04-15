@@ -103,7 +103,7 @@ import moment from "moment";
 import { mapState, mapActions } from "vuex";
 
 import ClienteDataService from "../../services/ClienteDataService";
-import FaturaDataService from "../../services/FaturaDataService";
+import LancamentoFaturaDataService from "../../services/LancamentoFaturaDataService";
 
 import MaskedInput from 'vue-text-mask'
 import * as textMaskAddons from 'text-mask-addons/dist/textMaskAddons'
@@ -189,7 +189,7 @@ export default {
       });
     },
     listar(id) {
-      FaturaDataService.getAll(this.account.user.empresa.id, id)
+      LancamentoFaturaDataService.getAll(this.account.user.empresa.id, id)
         .then(response => {
           this.lancamentos = response.data;
         })
@@ -221,7 +221,7 @@ export default {
       this.lancamento.valor = this.lancamento.valor.replace('.','').replace(',','.').replace('R$ ','');
 
       if (this.lancamento.id) {
-        FaturaDataService.update(
+        LancamentoFaturaDataService.update(
           this.account.user.empresa.id,
           this.$route.params.id,
           this.lancamento.id.id,
@@ -241,7 +241,7 @@ export default {
           });
       } else {
         this.lancamento.criacao = new Date();
-        FaturaDataService.create(
+        LancamentoFaturaDataService.create(
           this.account.user.empresa.id,
           this.$route.params.id,
           this.lancamento
@@ -261,7 +261,7 @@ export default {
       }
     },
     remover(lancamento) {
-      FaturaDataService.delete(
+      LancamentoFaturaDataService.delete(
         this.account.user.empresa.id,
         this.$route.params.id,
         lancamento.id.id

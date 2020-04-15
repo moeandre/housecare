@@ -13,6 +13,6 @@ import br.com.wamais.houseCare.domain.ConfiguracaoPK;
 public interface ConfiguracaoRepository extends JpaRepository<Configuracao, ConfiguracaoPK> {
 
 	@Cacheable(value = "Configuracao.findByChave")
-	@Query("SELECT C FROM Configuracao C WHERE C.nome = :chave AND C.id.idEmpresa = :idEmpresa")
+	@Query("SELECT C FROM Configuracao C WHERE C.chave = :chave AND C.id.idEmpresa = :idEmpresa")
 	Configuracao findByChave(@Param("chave") String chave, @Param("idEmpresa") Integer idEmpresa);
 }
