@@ -24,6 +24,9 @@ public interface FamiliarRepository extends JpaRepository<Familiar, Integer> {
 	@Query("SELECT F, P, C FROM Familiar F, Cliente C, Parentesco P WHERE F.idEmpresa = :idEmpresa AND P.id.idCliente = :idCliente AND C.id.id = P.id.idCliente GROUP BY F.idFamiliar")
 	List<Object[]> findByIdClienteIdEmpresa(@Param("idCliente") Integer idCliente, @Param("idEmpresa") Integer idEmpresa);
 	
+	@Query("SELECT F FROM Familiar F, Parentesco P WHERE F.idEmpresa = :idEmpresa AND P.id.idFamiliar = F.idFamiliar AND P.id.idCliente = :idCliente AND P.id.idEmpresa = :idEmpresa AND P.financeiro = 1 GROUP BY F.idFamiliar")
+	Familiar obterResponsavelFinanceiro(@Param("idCliente") Integer idCliente, @Param("idEmpresa") Integer idEmpresa);
+	
 	@Query("DELETE FROM Familiar F WHERE F.id.idFamiliar = :idFamiliar AND F.id.idEmpresa = :idEmpresa")
 	void excluirPorIdFamiliar(@Param("idFamiliar") Integer idFamiliar, @Param("idEmpresa") Integer idEmpresa);
 

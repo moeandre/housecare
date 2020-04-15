@@ -8,4 +8,6 @@ import br.com.wamais.houseCare.domain.ClientePK;
 public interface IClienteService extends ICrudService<Cliente, ClientePK> {
 
 	List<Cliente> listarPorEmpresa(Integer idEmpresa);
+
+	String obterVencimento(Integer idCliente, Integer idEmpresa);
 }

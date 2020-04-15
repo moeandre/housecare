@@ -31,10 +31,16 @@ public class FamiliarServiceImpl extends AbstractService<Familiar, Integer> impl
 		super.setRepository(repository);
 	}
 
+	
+	@Override
+	public Familiar obterResponsavelFinanceiro(final Integer idCliente, final Integer idEmpresa) {
+		return repository.obterResponsavelFinanceiro(idCliente, idEmpresa);
+	}
+
 	@Override
 	public Familiar obterPorIdFamiliar(final Integer idFamiliar, final Integer idCliente, final Integer idEmpresa) {
 
-		List<Familiar> familiars = this.parseFamiliars(this.repository.obterPorIdFamiliar(idCliente, idFamiliar, idEmpresa));
+		final List<Familiar> familiars = this.parseFamiliars(this.repository.obterPorIdFamiliar(idCliente, idFamiliar, idEmpresa));
 
 		// Familiar familiar = new Familiar();
 		// final List<Object[]> listaEntidades = ;
@@ -51,20 +57,9 @@ public class FamiliarServiceImpl extends AbstractService<Familiar, Integer> impl
 	@Override
 	public Familiar obterPorIdFamiliar(final Integer idFamiliar, final Integer idEmpresa) {
 
-		List<Familiar> familiars = this.parseFamiliars(this.repository.obterPorIdFamiliar(idFamiliar, idEmpresa));
+		final List<Familiar> familiars = this.parseFamiliars(this.repository.obterPorIdFamiliar(idFamiliar, idEmpresa));
 
 		return familiars.get(0);
-
-		// Familiar familiar = new Familiar();
-		// final List<Object[]> listaEntidades =
-		// this.repository.obterPorIdFamiliar(idFamiliar, idEmpresa);
-		// if (listaEntidades.isEmpty() == false && listaEntidades.get(0) !=
-		// null) {
-		// final Object entidade[] = listaEntidades.get(0);
-		// familiar = this.buildFamiliar(entidade);
-		// }
-		//
-		// return familiar;
 
 	}
 
@@ -135,7 +130,7 @@ public class FamiliarServiceImpl extends AbstractService<Familiar, Integer> impl
 		final List<Familiar> familiars = new ArrayList<Familiar>();
 
 		listaEntidades.stream().forEach(entidade -> {
-			Familiar familiar = (Familiar) entidade[0];
+			final Familiar familiar = (Familiar) entidade[0];
 			final Parentesco parentesco = (Parentesco) entidade[1];
 			final Cliente cliente = (Cliente) entidade[2];
 			parentesco.setCliente(cliente);
@@ -149,7 +144,7 @@ public class FamiliarServiceImpl extends AbstractService<Familiar, Integer> impl
 		});
 
 		return familiars;
-		
+
 	}
 
 }

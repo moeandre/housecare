@@ -13,7 +13,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
 
 	Usuario findByEmailAndSenha(String email, String senha);
 
-	@Cacheable(value = "findByUUID")
+	@Cacheable(value = "Usuario.findByUUID")
 	@Query("SELECT U FROM Sessao S, Usuario U WHERE S.idUsuario = U.id AND S.uuid = :uuid AND S.expiracao >= current_timestamp()")
 	Usuario findByUUID(@Param("uuid") String uuid);
 	

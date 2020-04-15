@@ -6,8 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.com.wamais.houseCare.constants.HouseCareConstants;
+import br.com.wamais.houseCare.domain.AtributoCliente;
 import br.com.wamais.houseCare.domain.Cliente;
 import br.com.wamais.houseCare.domain.ClientePK;
+import br.com.wamais.houseCare.repository.AtributoClienteRepository;
 import br.com.wamais.houseCare.repository.ClienteRepository;
 import br.com.wamais.houseCare.service.IClienteService;
 
@@ -19,6 +22,9 @@ public class ClienteServiceImpl extends AbstractService<Cliente, ClientePK> impl
 	private ClienteRepository repository;
 
 	@Autowired
+	private AtributoClienteRepository atributoRepository;
+
+	@Autowired
 	public void superRepository(final ClienteRepository repository) {
 
 		super.setRepository(repository);
@@ -28,6 +34,18 @@ public class ClienteServiceImpl extends AbstractService<Cliente, ClientePK> impl
 	public List<Cliente> listarPorEmpresa(final Integer idEmpresa) {
 
 		return this.repository.findByIdIdEmpresa(idEmpresa);
+	}
+
+	@Override
+	public String obterVencimento(final Integer idCliente, final Integer idEmpresa) {
+
+		final AtributoCliente atributoCliente = this.findByChave(HouseCareConstants.DIA_VENCIMENTO, idCliente, idEmpresa);
+		return atributoCliente.getValor();
+	}
+
+	private AtributoCliente findByChave(final String chave, final Integer idCliente, final Integer idEmpresa) {
+
+		return this.atributoRepository.findByChave(chave, idCliente, idEmpresa);
 	}
 
 }

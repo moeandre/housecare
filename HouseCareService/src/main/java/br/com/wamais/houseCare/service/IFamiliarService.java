@@ -12,6 +12,8 @@ public interface IFamiliarService extends ICrudService<Familiar, Integer> {
 
 	Familiar obterPorIdFamiliar(Integer idFamiliar, Integer idEmpresa);
 
+	Familiar obterResponsavelFinanceiro(Integer idCliente, Integer idEmpresa);
+
 	void excluirPorIdFamiliar(Integer idFamiliar, Integer idEmpresa);
 
 	Familiar obterPorIdFamiliar(Integer idFamiliar, Integer idCliente, Integer idEmpresa);
@@ -19,5 +21,7 @@ public interface IFamiliarService extends ICrudService<Familiar, Integer> {
 	Familiar criar(Familiar familiar);
 
 	void excluir(Integer idFamiliar, Integer idEmpresa);
+
+	
 
 }

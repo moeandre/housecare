@@ -4,7 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.com.wamais.houseCare.constants.HouseCareConstants;
+import br.com.wamais.houseCare.domain.Configuracao;
 import br.com.wamais.houseCare.domain.Empresa;
+import br.com.wamais.houseCare.repository.ConfiguracaoRepository;
 import br.com.wamais.houseCare.repository.EmpresaRepository;
 import br.com.wamais.houseCare.service.IEmpresaService;
 
@@ -14,6 +17,9 @@ public class EmpresaServiceImpl extends AbstractService<Empresa, Integer> implem
 
 	@Autowired
 	private EmpresaRepository repository;
+	
+	@Autowired
+	private ConfiguracaoRepository configuracaoRepository;
 
 	@Autowired
 	public void superRepository(final EmpresaRepository repository) {
@@ -26,6 +32,18 @@ public class EmpresaServiceImpl extends AbstractService<Empresa, Integer> implem
 
 		return repository.findByIdUsuario(idUsuario);
 		
+	}
+	
+	@Override
+	public String obterVencimento(final Integer idEmpresa) {
+
+		final Configuracao configuracao = this.findByChave(HouseCareConstants.DIA_VENCIMENTO, idEmpresa);
+		return configuracao.getValor();
+	}
+
+	private Configuracao findByChave(final String chave, final Integer idEmpresa) {
+
+		return configuracaoRepository.findByChave(chave, idEmpresa);
 	}
 
 }

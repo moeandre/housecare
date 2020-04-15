@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.wamais.houseCare.controller.AbstractController;
+import br.com.wamais.houseCare.domain.Fatura;
 import br.com.wamais.houseCare.domain.Lancamento;
 import br.com.wamais.houseCare.domain.LancamentoPK;
+import br.com.wamais.houseCare.service.IFaturaService;
 import br.com.wamais.houseCare.service.ILancamentoService;
 
 @RestController
@@ -27,6 +29,9 @@ public class FaturaController extends AbstractController {
 
 	@Autowired
 	private transient ILancamentoService service;
+	
+	@Autowired
+	private transient IFaturaService faturaService;
 
 	@RequestMapping(value = "/listar", method = RequestMethod.GET)
 	@Produces(MediaType.APPLICATION_JSON)
@@ -86,5 +91,12 @@ public class FaturaController extends AbstractController {
 		this.service.excluirPorId(lancamentoPk);
 
 	}
+	
+	@RequestMapping(value = "/faturar", method = RequestMethod.PUT, consumes = "application/json")
+	public @ResponseBody Fatura faturar(@PathVariable final Integer idEmpresa, @PathVariable final Integer idCliente,
+			@Valid @RequestBody final Fatura fatura) {
+
+		return this.faturaService.faturar(idEmpresa, idCliente, fatura);
+	} 
 
 }

@@ -14,7 +14,17 @@
                     diskExpiryThreadIntervalSeconds="120"
                     memoryStoreEvictionPolicy="FIFO" />
  
-	<cache name="findByUUID" 
+	<cache name="Usuario.findByUUID" 
+		 maxElementsInMemory="50" 
+         overflowToDisk="true" >
+	</cache>
+	
+	<cache name="AtributoCliente.findByChave" 
+		 maxElementsInMemory="50" 
+         overflowToDisk="true" >
+	</cache>
+	
+	<cache name="Configuracao.findByChave" 
 		 maxElementsInMemory="50" 
          overflowToDisk="true" >
 	</cache>
