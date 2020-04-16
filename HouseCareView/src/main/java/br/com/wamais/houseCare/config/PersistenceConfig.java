@@ -133,6 +133,12 @@ public class PersistenceConfig {
 		properties.put("hibernate.hbm2ddl.auto", this.hibernateHbm2ddlAuto);
 		properties.put("hibernate.show_sql", true);
 		properties.put("hibernate.cache.use_second_level_cache", true);
+		properties.put("hibernate.jdbc.batch_size", "5");
+		properties.put("hibernate.order_inserts", "true");
+		properties.put("hibernate.order_updates", "true");
+	    properties.put("hibernate.batch_versioned_data", "true");
+		
+		
 		return properties;
 	}
 

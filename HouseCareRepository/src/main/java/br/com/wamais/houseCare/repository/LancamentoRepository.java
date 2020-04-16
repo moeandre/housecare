@@ -15,5 +15,5 @@ public interface LancamentoRepository extends JpaRepository<Lancamento, Lancamen
 
 	@Query("SELECT L FROM Lancamento L WHERE L.id.idCliente = :idCliente AND L.id.idEmpresa = :idEmpresa")
 	List<Lancamento> findByIdClienteIdEmpresa(@Param("idCliente") Integer idCliente, @Param("idEmpresa") Integer idEmpresa);
-
+	
 }

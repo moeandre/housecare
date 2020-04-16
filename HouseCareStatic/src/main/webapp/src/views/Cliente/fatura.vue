@@ -80,10 +80,14 @@
               <td>{{lancamento.id.id}}</td>
               <td>{{lancamento.nome}}</td>
               <td class="text-right">{{lancamento.quantidade}}</td>
-              <td class="text-right">R$ {{lancamento.valor}}</td>
-              <td class="text-right">R$ {{lancamento.valor * lancamento.quantidade}}</td>
-              <td class="text-right">{{lancamento.idFatura}}</td>
-              <td>{{lancamento.criacao | formatDate}}</td>
+              <td class="text-right">R$ {{lancamento.valor  | formatMoney}}</td>
+              <td class="text-right">R$ {{(lancamento.valor * lancamento.quantidade)  | formatMoney}}</td>
+              <td class="text-right">
+                  <router-link :disabled="!lancamento.idFatura" tag="a" :to="{ name: 'detalhar-fatura', params: { id: lancamento.idFatura }}">
+                    {{lancamento.idFatura}}
+                  </router-link>
+              </td>
+              <td class="text-right">{{lancamento.criacao | formatDate}}</td>
               <td class="text-right">
                 <div class="btn-group">
                   <button

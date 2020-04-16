@@ -1,51 +1,73 @@
 <template>
     <ContentWrapper>
-        <div class="content-heading">Invoice</div>
+        <div class="content-heading">
+            {{title}}
+            <div class="ml-auto">
+                <button disabled="disabled" class="ml-auto btn btn-secondary btn-sm" type="button">Copiar esta fatura</button>
+                <button class="btn btn-secondary right" @click="$router.go(-1)">Voltar</button>
+            </div>    
+        </div>
         <div class="card">
             <div class="card-body">
                 <div class="d-flex align-items-center">
-                    <h3 class="m-0">Invoice 00004879</h3>
-                    <button class="ml-auto btn btn-secondary btn-sm" type="button">Copy this invoice</button>
+                    <h3 class="m-0">{{title}}</h3>
                 </div>
                 <hr/>
                 <div class="row mb-3">
                     <div class="col-xl-4 col-6 br py-2">
                         <div class="row">
                             <div class="col-lg-2 text-center d-none d-lg-block">
-                                <em class="fa fa-plane fa-4x text-muted"></em>
+                                <em class="fa icon-diamond fa-3x text-muted"></em>
                             </div>
                             <div class="col-lg-10">
-                                <h4>Bill Mitchelle</h4>
-                                <address></address>Nowhere 1024
-                                <br/>Happy St., 50487
-                                <br/>Neverland</div>
+                                <h4>{{fatura.cliente.nome}} {{fatura.cliente.sobrenome}}</h4>
+                                <address>
+                                    CPF: {{fatura.cliente.cpf}}
+                                    <br>TIPO: {{fatura.tipo}}
+                                </address>
+                            </div>
                         </div>
                     </div>
                     <div class="col-xl-4 col-6 br py-2">
                         <div class="row">
                             <div class="col-lg-2 text-center d-none d-lg-block">
-                                <em class="fa fa-truck fa-4x text-muted"></em>
+                                <em class="fa far fa-money-bill-alt fa-3x text-muted"></em>
                             </div>
-                            <div class="col-lg-10">
-                                <h4>Lloyd Gonzales</h4>
-                                <address></address>Basilisa 2145
-                                <br/>Mate, Cliff., 20145
-                                <br/>Moon</div>
+                            <div class="col-lg-10" v-if="fatura.familiar">
+                                <h4>{{fatura.familiar.nome}}</h4>
+                                <address>
+                                    CPF: {{fatura.familiar.cpf}}
+                                    <br>E-MAIL: {{fatura.familiar.email}}
+                                    <br>TELEFONE: {{fatura.familiar.telefone}}
+                                </address>
+                            </div>
+                            <div class="col-lg-10" v-else>
+                                <h4>{{fatura.cliente.nome}} {{fatura.cliente.sobrenome}}</h4>
+                                <address>
+                                    CPF: {{fatura.cliente.cpf}}
+                                    <br>TIPO: {{fatura.tipo}}
+                                </address>
+                            </div>
                         </div>
                     </div>
                     <hr/>
                     <div class="col-xl-4 col-12 py-2">
                         <div class="clearfix">
-                            <p class="float-left">INVOICE NO.</p>
-                            <p class="float-right mr-2">00004879</p>
+                            <p class="float-left">FATURA Nº</p>
+                            <p class="float-right mr-2">{{fatura.id}}</p>
                         </div>
                         <div class="clearfix">
-                            <p class="float-left">Date</p>
-                            <p class="float-right mr-2">25/08/2014</p>
+                            <p class="float-left">Data</p>
+                            <p class="float-right">{{fatura.data | formatDate}}</p>
                         </div>
                         <div class="clearfix">
-                            <p class="float-left">Due Date</p>
-                            <p class="float-right mr-2">30/08/2014</p>
+                            <p class="float-left">Vencimento</p>
+                            <p class="float-right">{{fatura.vencimento | formatDate}}</p>
+                        </div>
+                        <div class="clearfix">
+                            <p class="float-left">Pagamento</p>
+                            <p class="float-right" v-if="fatura.pagamento">{{fatura.pagamento | formatDate}}</p>
+                            <p class="float-right" v-else>Pendente</p>
                         </div>
                     </div>
                 </div>
@@ -54,40 +76,19 @@
                         <thead>
                             <tr>
                                 <th>Item #</th>
-                                <th>Description</th>
-                                <th>Quantity</th>
-                                <th>Unit Price</th>
+                                <th>Descrição</th>
+                                <th>Quantidade</th>
+                                <th>Valor</th>
                                 <th class="text-right">Total</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1001</td>
-                                <td>Iphone 5s - 64Gb</td>
-                                <td>3</td>
-                                <td>$ 200</td>
-                                <td class="text-right">$ 600</td>
-                            </tr>
-                            <tr>
-                                <td>2002</td>
-                                <td>Iphone 6s - 128Gb</td>
-                                <td>5</td>
-                                <td>$ 500</td>
-                                <td class="text-right">$ 2500</td>
-                            </tr>
-                            <tr>
-                                <td>3010</td>
-                                <td>Ipad 11z - 512Gb</td>
-                                <td>1</td>
-                                <td>$ 650</td>
-                                <td class="text-right">$ 650</td>
-                            </tr>
-                            <tr>
-                                <td>3009</td>
-                                <td>iMac ProRetina 17</td>
-                                <td>6</td>
-                                <td>$ 1100</td>
-                                <td class="text-right">$ 6600</td>
+                            <tr v-for="lancamento of fatura.lancamentos" v-bind:key="lancamento.id.id">
+                                <td>{{lancamento.id.id}}</td>
+                                <td>{{lancamento.nome}}</td>
+                                <td class="text-right">{{lancamento.quantidade}}</td>
+                                <td class="text-right">R$ {{lancamento.valor  | formatMoney}}</td>
+                                <td class="text-right">R$ {{(lancamento.valor * lancamento.quantidade)  | formatMoney}}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -98,21 +99,23 @@
                         <div class="row mb-3">
                             <div class="col-8">Subtotal</div>
                             <div class="col-4">
-                                <div class="text-right">$ 10300</div>
+                                <div class="text-right">R$ {{fatura.valor  | formatMoney}}</div>
                             </div>
                         </div>
+                        <!--
                         <div class="row mb-3">
                             <div class="col-8">Tax (21%)</div>
                             <div class="col-4">
                                 <div class="text-right">$ 2700</div>
                             </div>
                         </div>
+                        -->
                         <div class="row mb-3 align-items-center">
                             <div class="col-7">
-                                <div class="h3">GRAND TOTAL</div>
+                                <div class="h3">TOTAL</div>
                             </div>
                             <div class="col-5">
-                                <div class="text-right h3">$ 13000</div>
+                                <div class="text-right h3">R$ {{fatura.valor  | formatMoney}}</div>
                             </div>
                         </div>
                     </div>
@@ -127,3 +130,49 @@
         </div>
     </ContentWrapper>
 </template>
+<script>
+    import Vue from "vue";
+
+    import moment from "moment";
+    import { mapState, mapActions } from "vuex";
+
+    import FaturaDataService from "../../services/FaturaDataService";
+
+    Vue.filter("formatDate", function(value) {
+        if (value) {
+            return moment(value).format("DD/MM/YYYY HH:mm:ss");
+        }
+    });
+
+    export default {
+        name: "fatura-list",
+        computed: {
+            ...mapState({
+                account: state => state.account
+            })
+        },
+        data() {
+            return {
+                fatura: {}
+            };
+        },
+        methods: {
+            detalhar(id) {
+                FaturaDataService.get(this.account.user.empresa.id, id)
+                    .then(response => {
+                        this.fatura = response.data;
+                    })
+                    .catch(e => {
+                        console.log(e);
+                    });
+            }
+        },
+        mounted() {
+            if(this.$route.params.id){
+                let id = this.$route.params.id;
+                this.title = "Fatura "+id;
+                this.detalhar(id);
+            }
+        }
+    }
+</script>

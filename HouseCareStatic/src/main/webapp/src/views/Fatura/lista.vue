@@ -68,10 +68,10 @@
                         <tr v-for="fatura of faturas" v-bind:key="fatura.id">
                             <td>{{fatura.id}}</td>
                             <td>{{fatura.cliente.nome}}</td>
-                            <td>{{fatura.valor}}</td>
-                            <td>{{fatura.data | formatDate}}</td>
-                            <td>{{fatura.vencimento | formatDate}}</td>
-                            <td>{{fatura.pagamento | formatDate}}</td>
+                            <td class="text-right">{{fatura.valor | formatMoney}}</td>
+                            <td class="text-right">{{fatura.data | formatDate}}</td>
+                            <td class="text-right">{{fatura.vencimento | formatDate}}</td>
+                            <td class="text-right">{{fatura.pagamento | formatDate}}</td>
                             <td>{{fatura.tipo}}</td>
                             <td class="text-right">
                                 <div class="btn-group">
@@ -101,7 +101,7 @@
             return moment(value).format("DD/MM/YYYY HH:mm:ss");
         }
     });
-                
+
     export default {
         name: "fatura-list",
         computed: {

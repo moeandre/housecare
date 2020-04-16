@@ -38,6 +38,13 @@ public class FaturaController extends AbstractController {
 
 		return this.service.obterPorIdEmpresa(idEmpresa, idFatura);
 	}
+	
+	@RequestMapping(value = "/clonar/{idFatura}", method = RequestMethod.PUT)
+	@Produces(MediaType.APPLICATION_JSON)
+	public @ResponseBody Fatura clonar(@PathVariable final Integer idEmpresa, @PathVariable final Integer idFatura) {
+
+		return this.service.clonar(idEmpresa, idFatura);
+	}
 
 
 }

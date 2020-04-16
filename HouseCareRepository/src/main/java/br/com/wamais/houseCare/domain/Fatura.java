@@ -63,6 +63,9 @@ public class Fatura implements Serializable {
 	@Transient
 	private Cliente cliente;
 
+	@Transient
+	private Familiar familiar;
+
 	public Fatura() {
 
 		this.lancamentos = new ArrayList<Lancamento>();
@@ -210,6 +213,16 @@ public class Fatura implements Serializable {
 	public void setCliente(final Cliente cliente) {
 
 		this.cliente = cliente;
+	}
+
+	public Familiar getFamiliar() {
+
+		return this.familiar;
+	}
+
+	public void setFamiliar(final Familiar familiar) {
+
+		this.familiar = familiar;
 	}
 
 }

@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,6 +16,7 @@ import br.com.wamais.houseCare.domain.Cliente;
 import br.com.wamais.houseCare.domain.Familiar;
 import br.com.wamais.houseCare.domain.Fatura;
 import br.com.wamais.houseCare.domain.Lancamento;
+import br.com.wamais.houseCare.domain.LancamentoPK;
 import br.com.wamais.houseCare.repository.FaturaRepository;
 import br.com.wamais.houseCare.service.IClienteService;
 import br.com.wamais.houseCare.service.IEmpresaService;
@@ -23,6 +27,9 @@ import br.com.wamais.houseCare.service.ILancamentoService;
 @Service
 @Transactional
 public class FaturaServiceImpl extends AbstractService<Fatura, Integer> implements IFaturaService {
+
+	@PersistenceContext(name = "housePU")
+	private EntityManager entityManager;
 
 	@Autowired
 	private FaturaRepository repository;
@@ -46,27 +53,40 @@ public class FaturaServiceImpl extends AbstractService<Fatura, Integer> implemen
 	}
 
 	@Override
+	public Fatura clonar(final Integer idEmpresa, final Integer id) {
+
+		final Fatura fatura = this.obterPorIdEmpresa(idEmpresa, id);
+		final Fatura savedFatura = this.buildFatura(idEmpresa, fatura.getIdCliente(), fatura);
+
+		final List<Lancamento> savedLancamentos = new ArrayList<Lancamento>();
+
+		// Totaliza a cobrança e inclui a fatura no lançamento
+		fatura.getLancamentos().stream().forEach(lancamento -> {
+
+			final Lancamento savedLancamento = this.buildLancamento(savedFatura, lancamento);
+
+			entityManager.persist(savedLancamento);
+			entityManager.flush();
+			entityManager.clear();
+			// });
+
+			savedLancamentos.add(savedLancamento);
+
+			final BigDecimal valorDoItem = lancamento.getValor().multiply(BigDecimal.valueOf(lancamento.getQuantidade()));
+			savedFatura.setValor(savedFatura.getValor().add(valorDoItem));
+		});
+
+		savedFatura.setLancamentos(savedLancamentos);
+		this.alterar(savedFatura);
+
+		return savedFatura;
+
+	}
+
+	@Override
 	public Fatura faturar(final Integer idEmpresa, final Integer idCliente, final Fatura fatura) {
 
-		final Calendar hoje = Calendar.getInstance();
-		final Calendar vencimento = hoje;
-		vencimento.set(Calendar.DAY_OF_MONTH, this.obterDiaVencimento(idEmpresa, idCliente));
-		vencimento.add(Calendar.MONTH, 1);
-		final Familiar familiar = this.familiarService.obterResponsavelFinanceiro(idCliente, idEmpresa);
-		if (familiar != null) {
-			fatura.setIdFamiliar(familiar.getIdFamiliar());
-		}
-
-		fatura.setIdEmpresa(idEmpresa);
-		fatura.setIdCliente(idCliente);
-		fatura.setData(hoje.getTime());
-		fatura.setData(hoje.getTime());
-		fatura.setVencimento(vencimento.getTime());
-		fatura.setValor(BigDecimal.ZERO);
-
-		// Armazena a fatura para gerar o ID
-		final Fatura savedFatura = super.alterar(fatura);
-
+		final Fatura savedFatura = this.buildFatura(idEmpresa, idCliente, fatura);
 		final List<Lancamento> savedLancamentos = new ArrayList<Lancamento>();
 
 		// Totaliza a cobrança e inclui a fatura no lançamento
@@ -82,6 +102,48 @@ public class FaturaServiceImpl extends AbstractService<Fatura, Integer> implemen
 		savedFatura.setLancamentos(savedLancamentos);
 
 		return this.alterar(savedFatura);
+
+	}
+
+	private Fatura buildFatura(final Integer idEmpresa, final Integer idCliente, final Fatura fatura) {
+
+		final Fatura savedFatura = new Fatura();
+
+		final Calendar hoje = Calendar.getInstance();
+		final Calendar vencimento = hoje;
+		vencimento.set(Calendar.DAY_OF_MONTH, this.obterDiaVencimento(idEmpresa, idCliente));
+		vencimento.add(Calendar.MONTH, 1);
+		final Familiar familiar = this.familiarService.obterResponsavelFinanceiro(idCliente, idEmpresa);
+		if (familiar != null) {
+			savedFatura.setIdFamiliar(familiar.getIdFamiliar());
+		}
+
+		savedFatura.setIdEmpresa(idEmpresa);
+		savedFatura.setIdCliente(idCliente);
+		savedFatura.setData(hoje.getTime());
+		savedFatura.setVencimento(vencimento.getTime());
+		savedFatura.setValor(BigDecimal.ZERO);
+		savedFatura.setTipo(fatura.getTipo());
+
+		return this.alterar(savedFatura);
+	}
+
+	private Lancamento buildLancamento(final Fatura fatura, final Lancamento lancamento) {
+
+		final Lancamento savedLancamento = new Lancamento();
+
+		final LancamentoPK lancamentoPk = new LancamentoPK();
+		lancamentoPk.setIdCliente(fatura.getIdCliente());
+		lancamentoPk.setIdEmpresa(fatura.getIdEmpresa());
+		savedLancamento.setId(lancamentoPk);
+
+		savedLancamento.setIdFatura(fatura.getId());
+		savedLancamento.setNome(lancamento.getNome());
+		savedLancamento.setQuantidade(lancamento.getQuantidade());
+		savedLancamento.setValor(lancamento.getValor());
+		savedLancamento.setCriacao(Calendar.getInstance().getTime());
+
+		return savedLancamento;
 
 	}
 
@@ -119,6 +181,10 @@ public class FaturaServiceImpl extends AbstractService<Fatura, Integer> implemen
 
 		final List<Fatura> faturas = this.parseFaturas(this.repository.obterPorIdEmpresa(idEmpresa, idFatura));
 		final Fatura fatura = (!faturas.isEmpty()) ? faturas.get(0) : new Fatura();
+
+		if (fatura.getIdFamiliar() != null) {
+			fatura.setFamiliar(this.familiarService.obtemPorId(fatura.getIdFamiliar()));
+		}
 
 		return fatura;
 	}

@@ -28,6 +28,8 @@ public class LancamentoServiceImpl extends AbstractService<Lancamento, Lancament
 	public List<Lancamento> listarPorIdClienteIdEmpresa(final Integer idCliente, final Integer idEmpresa) {
 
 		return this.repository.findByIdClienteIdEmpresa(idCliente, idEmpresa);
+
 	}
+
 
 }

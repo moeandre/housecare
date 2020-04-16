@@ -28,6 +28,18 @@ Vue.use(VueI18Next);
 
 const i18n = new VueI18Next(i18next);
 
+Vue.filter("formatMoney", function(value) {
+    Number.prototype.formatMoney = function(n, x, s, c) {
+        var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\D' : '$') + ')',
+            num = this.toFixed(Math.max(0, ~~n));
+
+        return (c ? num.replace('.', c) : num).replace(new RegExp(re, 'g'), '$&' + (s || ','));
+    };
+    if (value) {
+        return value.formatMoney(2, 3, '.', ',')
+    }
+});
+
 new Vue({
     i18n,
     router,

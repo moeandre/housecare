@@ -2,7 +2,12 @@ package br.com.wamais.houseCare.service.impl;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
+import org.springframework.beans.BeanWrapper;
+import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,7 +18,7 @@ import br.com.wamais.houseCare.service.ICrudService;
 public abstract class AbstractService<E, PK extends Serializable> implements ICrudService<E, PK> {
 
 	private JpaRepository<E, PK> repository;
-
+	
 	public JpaRepository<E, PK> getRepository() {
 
 		return this.repository;
@@ -43,6 +48,13 @@ public abstract class AbstractService<E, PK extends Serializable> implements ICr
 	public E alterar(final E entity) {
 
 		return this.getRepository().saveAndFlush(entity);
+	}
+
+	@Override
+	@Transactional
+	public List<E> alterar(final List<E> entities) {
+
+		return this.getRepository().save(entities);
 	}
 
 	@Override
@@ -79,6 +91,22 @@ public abstract class AbstractService<E, PK extends Serializable> implements ICr
 	public Collection<E> listarTodos() {
 
 		return this.getRepository().findAll();
+	}
+	
+	public static String[] getNullPropertyNames(final Object source) {
+
+		final BeanWrapper src = new BeanWrapperImpl(source);
+		final java.beans.PropertyDescriptor[] pds = src.getPropertyDescriptors();
+
+		final Set<String> emptyNames = new HashSet<String>();
+		for (final java.beans.PropertyDescriptor pd : pds) {
+			final Object srcValue = src.getPropertyValue(pd.getName());
+			if (srcValue == null) {
+				emptyNames.add(pd.getName());
+			}
+		}
+		final String[] result = new String[emptyNames.size()];
+		return emptyNames.toArray(result);
 	}
 
 }
