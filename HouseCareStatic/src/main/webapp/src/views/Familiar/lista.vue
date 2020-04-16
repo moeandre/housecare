@@ -9,72 +9,85 @@
             </div>
         </div>
         <div class="card card-default d-none d-lg-block" v-if="showForm">
-            <div class="card-header">
-                <div class="card-title text-center">Formulário</div>
-            </div>
             <div class="card-body">
-                <div class="row py-4 justify-content-center">
-                    <div class="col-12 col-sm-12">
-                        <form class="form-horizontal" @submit.prevent="validateBeforeSubmit('familiar')" data-vv-scope="familiar">
-                            <div class="row">
-                                <div class="col-lg-7 col-md-7">
-                                    <h4 class="m-0">Familiar</h4>
-                                    <hr />
-                                    <div class="form-row">
-                                        <div class="col-xl-12 col-md-12 col-8 mb-3">
-                                            <label for="nome">Nome: *</label>
-                                            <input class="form-control" 
-                                                name="nome" id="nome" type="text" placeholder="Nome do Familiar" 
-                                                v-model="familiar.nome" 
-                                                v-validate="'required|max:75'"
-                                                :class="{'form-control':true, 'is-invalid': errors.has('familiar.nome')}"
-                                            />
-                                            <span v-if="errors.has('familiar.nome')" class="invalid-feedback">{{ errors.first('familiar.nome') }}</span>
-                                        </div>
+                <form class="form-horizontal" @submit.prevent="validateBeforeSubmit('familiar')" data-vv-scope="familiar">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12">
+                            <fieldset>
+                                <legend>Dados do Familiar</legend>
+                                <div class="form-row">
+                                    <div class="col-xl-6 col-md-6 col-6 mb-6">
+                                        <label for="nome">Nome: *</label>
+                                        <input class="form-control" 
+                                            name="nome" id="nome" type="text" placeholder="Nome do Familiar" 
+                                            v-model="familiar.nome" 
+                                            v-validate="'required|max:75'"
+                                            :class="{'form-control':true, 'is-invalid': errors.has('familiar.nome')}"
+                                        />
+                                        <span v-if="errors.has('familiar.nome')" class="invalid-feedback">{{ errors.first('familiar.nome') }}</span>
                                     </div>
-                                    <div class="form-row">
-                                        <div class="col-xl-6 col-md-6 col-6 mb-3">
-                                            <label for="telefone">Telefone: *</label>
-                                            <the-mask input name="telefone" id="telefone" type="text" placeholder="Telefone do Familiar" 
-                                                v-model="familiar.telefone" 
-                                                v-validate="'required'"
-                                                :class="{'form-control':true, 'is-invalid': errors.has('familiar.telefone')}"
-                                                :mask="['(##) ####-####', '(##) #####-####']"/>
-                                            <span v-if="errors.has('familiar.telefone')" class="invalid-feedback">{{ errors.first('familiar.telefone') }}</span>
-                                        </div>
-                                        <div class="col-xl-6 col-md-6 col-6 mb-3">
-                                            <label for="email">E-mail: </label>
-                                            <input name="email" id="email" type="text" placeholder="E-mail do Familiar" 
-                                                v-model="familiar.email"
-                                                v-validate="'email'"
-                                                :class="{'form-control':true, 'is-invalid': errors.has('familiar.email')}"
-                                            />
-                                            <span v-if="errors.has('familiar.email')" class="invalid-feedback">{{ errors.first('familiar.email') }}</span>
-                                        </div>
+                                    <div class="col-xl-2 col-md-2 col-2 mb-2">
+                                        <label for="telefone">Telefone: *</label>
+                                        <the-mask input name="telefone" id="telefone" type="text" placeholder="Telefone do Familiar" 
+                                            v-model="familiar.telefone" 
+                                            v-validate="'required'"
+                                            :class="{'form-control':true, 'is-invalid': errors.has('familiar.telefone')}"
+                                            :mask="['(##) ####-####', '(##) #####-####']"/>
+                                        <span v-if="errors.has('familiar.telefone')" class="invalid-feedback">{{ errors.first('familiar.telefone') }}</span>
                                     </div>
-                                    <div class="form-row">
-                                        <div class="col-xl-4 col-md-4 col-4">
-                                            <label>Cadastro</label>
-                                            <p class="form-control-plaintext">{{familiar.criacao | formatDate}}</p>
-                                        </div>
-                                        <div class="col-xl-4 col-md-4 col-4">
-                                            <label>Alteração</label>
-                                            <p class="form-control-plaintext">{{familiar.alteracao | formatDate}}</p>
-                                        </div>
-                                        <div class="col-xl-4 col-md-4 col-4">
-                                            <label>Contato</label>
-                                            <p class="form-control-plaintext">{{familiar.ultimoContato | formatDate}}</p>
-                                        </div>
+                                    <div class="col-xl-4 col-md-4 col-4 mb-4">
+                                        <label for="email">E-mail: </label>
+                                        <input name="email" id="email" type="text" placeholder="E-mail do Familiar" 
+                                            v-model="familiar.email"
+                                            v-validate="'email'"
+                                            :class="{'form-control':true, 'is-invalid': errors.has('familiar.email')}"
+                                        />
+                                        <span v-if="errors.has('familiar.email')" class="invalid-feedback">{{ errors.first('familiar.email') }}</span>
                                     </div>
-                                    <hr />
                                 </div>
-                                <div class="col-lg-5 coml-md-5">
-                                    <h4 class="m-0">Clientes</h4>
-                                    <div v-for="(parentesco, index) in familiar.parentescos" :key="index">
-                                        <hr />
-                                        <div class="form-row">
-                                            <div class="col-xl-12 col-md-12 col-12 mb-3">
-                                                <label :for="'cliente_'+index">Cliente {{index+1}}</label>
+                                <div class="form-row">
+                                    <div class="col-xl-3 col-md-3 col-3">
+                                        <label>Cadastro</label>
+                                        <p class="form-control-plaintext">{{familiar.criacao | formatDate}}</p>
+                                    </div>
+                                    <div class="col-xl-3 col-md-3 col-3">
+                                        <label>Alteração</label>
+                                        <p class="form-control-plaintext">{{familiar.alteracao | formatDate}}</p>
+                                    </div>
+                                    <div class="col-xl-3 col-md-3 col-3">
+                                        <label>Contato</label>
+                                        <p class="form-control-plaintext">{{familiar.ultimoContato | formatDate}}</p>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <legend>Clientes</legend>
+                                <table class="table table-striped table-hover" id="table-clientes">
+                                    <thead>
+                                        <tr class="row">
+                                            <th class="col-xl-4 col-md-4 col-4">Nome</th>
+                                            <th class="col-xl-3 col-md-3 col-3">Parentesco</th>
+                                            <th class="col-xl-2 col-md-2 col-2">Responsavel Financeiro</th>
+                                            <th class="col-xl-2 col-md-2 col-2">Responsável Solidário</th>
+                                            <th class="col-xl-1 col-md-1 col-1 text-right">
+                                                <button class="btn btn-secondary btn-xs" v-on:click="addParentesco()">
+                                                    <i class="fa fa-plus-circle"></i>
+                                                </button>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr class="row">
+                                            <th colspan="5" class="col-xl-12 col-md-12 col-12 text-right">
+                                                <button class="btn btn-secondary btn-xs" v-on:click="addParentesco()">
+                                                    <i class="fa fa-plus-circle"></i>
+                                                </button>
+                                            </th>
+                                        </tr>
+                                    </tfoot>
+                                    <tbody>
+                                        <tr v-for="(parentesco, index) in familiar.parentescos" :key="index" class="row">
+                                            <td class="col-xl-4 col-md-4 col-4">
                                                 <select class="custom-select" :name="'familiar.parentescos['+index+'][cliente][id]'" :id="'cliente_'+index" 
                                                     v-model="parentesco.cliente.id.id"
                                                     v-validate="'required'"
@@ -83,11 +96,8 @@
                                                     <option v-for="(c, cIndex) in clientes" v-bind:value="c.id.id" v-bind:key="cIndex" :selected="c.id.id === parentesco.cliente.id.id" >{{ c.nome }}</option>
                                                 </select>
                                                 <span v-if="errors.has('familiar.parentescos['+index+'][cliente][id]')" class="invalid-feedback">{{ errors.first('familiar.parentescos['+index+'][cliente][id]') }}</span>
-                                            </div>
-                                        </div>
-                                        <div class="form-row">
-                                            <div class="col-xl-12 col-md-12 col-12 mb-3">
-                                                <label :for="'parentesco_'+index">Parentesco</label>
+                                            </td>
+                                            <td class="col-xl-3 col-md-3 col-3">
                                                 <select :name="'familiar.parentescos['+index+'][parentesco]'" :id="'parentesco_'+index" 
                                                     v-model="parentesco.parentesco"
                                                     v-validate="'required'"
@@ -96,10 +106,8 @@
                                                     <option v-for="p in vParentescos.values" v-bind:value="p.key" v-bind:key="p.key" :selected="p.key === parentesco.parentesco" >{{ p.value }}</option>
                                                 </select>
                                                 <span v-if="errors.has('familiar.parentescos['+index+'][parentesco]')" class="invalid-feedback">{{ errors.first('familiar.parentescos['+index+'][parentesco]') }}</span>
-                                            </div>
-                                        </div>
-                                        <div class="form-row">
-                                            <div class="col-xl-5 col-md-5 col-5">
+                                            </td>
+                                            <td class="col-xl-2 col-md-2 col-2">
                                                 <div class="checkbox c-checkbox">
                                                     <label :for="'financeiro_'+index">
                                                         <input type="checkbox" :name="'familiar.parentescos['+index+'][financeiro]'" :id="'financeiro_'+index" 
@@ -107,11 +115,11 @@
                                                             true-value="1"
                                                             false-value="0"
                                                             />
-                                                        <span class="fa fa-check"></span> Responsável Financeiro
+                                                        <span class="fa fa-check"></span>
                                                     </label>
                                                 </div>
-                                            </div>
-                                            <div class="col-xl-5 col-md-5 col-5">
+                                            </td>
+                                            <td class="col-xl-2 col-md-2 col-2">
                                                 <div class="checkbox c-checkbox">
                                                     <label :for="'responsavel_'+index">
                                                         <input type="checkbox" :name="'familiar.parentescos['+index+'][responsavel]'" :id="'responsavel_'+index" 
@@ -119,44 +127,28 @@
                                                             true-value="1"
                                                             false-value="0"
                                                         />
-                                                        <span class="fa fa-check"></span> Responsável Solidário
+                                                        <span class="fa fa-check"></span>
                                                     </label>
                                                 </div>
-                                            </div>
-                                            <div class="col-xl-2 col-md-2 col-2 text-right">
-                                                <button
-                                                    class="btn btn-danger btn-xs"
-                                                    @click="removeParentesco(index)"
-                                                >
+                                            </td>
+                                            <td class="col-xl-1 col-md-1 col-1 text-right">
+                                                <button class="btn btn-danger btn-xs" @click="removeParentesco(index)">
                                                     <i class="fa fa-minus-circle"></i>
                                                 </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-row">
-                                        <div class="col-xl-12 col-md-12 col-12 text-right">
-                                            <button
-                                                    class="btn btn-secondary btn-xs"
-                                                    v-on:click="addParentesco()"
-                                                >
-                                                    <i class="fa fa-plus-circle"></i>
-                                            </button>
-                                            
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                            </div>
-                            <hr />
-                            <div class="form-group row">
-                                <div class="col-md-12 text-right">
-                                    <button class="btn btn-primary mr-1" type="submit">Armazenar</button>
-                                    <button class="btn btn-secondary mr-1" type="button" @click="closeForm()">Cancelar</button>
-                                </div>
-                            </div>
-                        </form>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </fieldset>
+                        </div>
                     </div>
-                </div>
+                    <div class="form-group row">
+                        <div class="col-md-12 text-right">
+                            <button class="btn btn-primary mr-1" type="submit">Armazenar</button>
+                            <button class="btn btn-secondary mr-1" type="button" @click="closeForm()">Cancelar</button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
         <div class="card card-default">

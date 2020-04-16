@@ -9,13 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.com.wamais.houseCare.domain.Cobranca;
+import br.com.wamais.houseCare.domain.Cliente;
 import br.com.wamais.houseCare.domain.Familiar;
 import br.com.wamais.houseCare.domain.Fatura;
 import br.com.wamais.houseCare.domain.Lancamento;
 import br.com.wamais.houseCare.repository.FaturaRepository;
 import br.com.wamais.houseCare.service.IClienteService;
-import br.com.wamais.houseCare.service.ICobrancaService;
 import br.com.wamais.houseCare.service.IEmpresaService;
 import br.com.wamais.houseCare.service.IFamiliarService;
 import br.com.wamais.houseCare.service.IFaturaService;
@@ -27,9 +26,6 @@ public class FaturaServiceImpl extends AbstractService<Fatura, Integer> implemen
 
 	@Autowired
 	private FaturaRepository repository;
-
-	@Autowired
-	private ICobrancaService cobrancaService;
 
 	@Autowired
 	private IClienteService clienteService;
@@ -53,15 +49,23 @@ public class FaturaServiceImpl extends AbstractService<Fatura, Integer> implemen
 	public Fatura faturar(final Integer idEmpresa, final Integer idCliente, final Fatura fatura) {
 
 		final Calendar hoje = Calendar.getInstance();
+		final Calendar vencimento = hoje;
+		vencimento.set(Calendar.DAY_OF_MONTH, this.obterDiaVencimento(idEmpresa, idCliente));
+		vencimento.add(Calendar.MONTH, 1);
+		final Familiar familiar = this.familiarService.obterResponsavelFinanceiro(idCliente, idEmpresa);
+		if (familiar != null) {
+			fatura.setIdFamiliar(familiar.getIdFamiliar());
+		}
 
+		fatura.setIdEmpresa(idEmpresa);
+		fatura.setIdCliente(idCliente);
 		fatura.setData(hoje.getTime());
+		fatura.setData(hoje.getTime());
+		fatura.setVencimento(vencimento.getTime());
+		fatura.setValor(BigDecimal.ZERO);
 
 		// Armazena a fatura para gerar o ID
 		final Fatura savedFatura = super.alterar(fatura);
-
-		// Inicializa a Cobranca com valor Zero
-		final Cobranca cobranca = new Cobranca();
-		cobranca.setValor(BigDecimal.ZERO);
 
 		final List<Lancamento> savedLancamentos = new ArrayList<Lancamento>();
 
@@ -70,35 +74,15 @@ public class FaturaServiceImpl extends AbstractService<Fatura, Integer> implemen
 			lancamento = this.lancamentoService.obtemPorId(lancamento.getId());
 			lancamento.setIdFatura(savedFatura.getId());
 			savedLancamentos.add(this.lancamentoService.alterar(lancamento));
-			cobranca.setValor(cobranca.getValor().add(lancamento.getValor()));
+
+			final BigDecimal valorDoItem = lancamento.getValor().multiply(BigDecimal.valueOf(lancamento.getQuantidade()));
+			savedFatura.setValor(savedFatura.getValor().add(valorDoItem));
 		});
 
 		savedFatura.setLancamentos(savedLancamentos);
 
-		cobranca.setIdEmpresa(idEmpresa);
-		cobranca.setIdCliente(idCliente);
-
-		cobranca.setData(hoje.getTime());
-
-		final Calendar vencimento = hoje;
-		vencimento.set(Calendar.DAY_OF_MONTH, this.obterDiaVencimento(idEmpresa, idCliente));
-		vencimento.add(Calendar.MONTH, 1);
-
-		cobranca.setVencimento(vencimento.getTime());
-
-		final Familiar familiar = this.familiarService.obterResponsavelFinanceiro(idCliente, idEmpresa);
-		if (familiar != null) {
-			cobranca.setIdFamiliar(familiar.getIdFamiliar());
-		}
-
-		// Gera a cobrança
-		final Cobranca savedCobranca = this.cobrancaService.alterar(cobranca);
-
-		// Atribui a cobrança ao Faturamento
-		savedFatura.setIdCobranca(savedCobranca.getId());
-		savedFatura.setCobranca(savedCobranca);
-
 		return this.alterar(savedFatura);
+
 	}
 
 	private Integer obterDiaVencimento(final Integer idEmpresa, final Integer idCliente) {
@@ -115,7 +99,19 @@ public class FaturaServiceImpl extends AbstractService<Fatura, Integer> implemen
 	@Override
 	public List<Fatura> listarPorEmpresa(final Integer idEmpresa) {
 
-		return this.parseFaturas(this.repository.listarPorEmpresa(idEmpresa));
+		final List<Fatura> faturas = new ArrayList<Fatura>();
+
+		final List<Object[]> listaEntidades = this.repository.listarPorEmpresa(idEmpresa);
+		listaEntidades.stream().forEach(entidade -> {
+
+			final Fatura fatura = (Fatura) entidade[0];
+			final Cliente cliente = (Cliente) entidade[1];
+			fatura.setCliente(cliente);
+
+			faturas.add(fatura);
+		});
+
+		return faturas;
 	}
 
 	@Override
@@ -132,9 +128,10 @@ public class FaturaServiceImpl extends AbstractService<Fatura, Integer> implemen
 		final List<Fatura> faturas = new ArrayList<Fatura>();
 
 		listaEntidades.stream().forEach(entidade -> {
+
 			final Fatura fatura = (Fatura) entidade[0];
-			final Cobranca cobranca = (Cobranca) entidade[1];
-			fatura.setCobranca(cobranca);
+			final Cliente cliente = (Cliente) entidade[1];
+			fatura.setCliente(cliente);
 
 			final Lancamento lancamento = (Lancamento) entidade[2];
 

@@ -34,6 +34,9 @@ public class Lancamento implements Serializable {
 	@Column(nullable = false, length = 75)
 	private String nome;
 
+	@Column(nullable = false)
+	private int quantidade;
+
 	@Column(nullable = false, precision = 10, scale = 2)
 	private BigDecimal valor;
 
@@ -89,6 +92,16 @@ public class Lancamento implements Serializable {
 	public void setValor(final BigDecimal valor) {
 
 		this.valor = valor;
+	}
+
+	public int getQuantidade() {
+
+		return this.quantidade;
+	}
+
+	public void setQuantidade(final int quantidade) {
+
+		this.quantidade = quantidade;
 	}
 
 }

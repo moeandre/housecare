@@ -35,6 +35,10 @@ const FamiliarHome = () => import('@/views/Familiar/lista.vue')
 const FuncionarioHome = () => import('@/views/Usuario/lista.vue')
 const FuncionarioEditar = () => import('@/views/Usuario/formulario.vue')
 
+//Funcionario
+const FaturaHome = () => import('@/views/Fatura/lista.vue')
+const FaturaEditar = () => import('@/views/Fatura/detalhe.vue')
+
 Vue.use(VueRouter)
  
 const router = new VueRouter({
@@ -98,7 +102,18 @@ const router = new VueRouter({
                     name: 'editar-funcionario',
                     path: '/usuario/editar/:id',
                     component: FuncionarioEditar,
-                }
+                },
+                {
+                    name: 'listar-fatura',
+                    path: '/fatura',
+                    component: FaturaHome
+                },
+                {
+                    name: 'detalhar-fatura',
+                    path: '/fatura/detalhar/:id',
+                    component: FaturaEditar,
+                },
+                
 
             ]
         },

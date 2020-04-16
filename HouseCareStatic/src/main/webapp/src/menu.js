@@ -42,6 +42,16 @@ const Menu = [
         ]
     },
     {
+        name: 'Financeiro',
+        icon: 'fa fa-money-bill-alt',
+        translate: 'Financeiro',
+        submenu: [{
+                name: 'Faturamento',
+                path: '/fatura'
+            }
+        ]
+    },
+    {
         name: 'Usuários',
         icon: 'fa fa-cog',
         translate: 'Usuários',

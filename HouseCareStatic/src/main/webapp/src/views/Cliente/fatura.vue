@@ -26,6 +26,15 @@
                     />
                     <span v-if="errors.has('lancamento.nome')" class="invalid-feedback">{{ errors.first('lancamento.nome') }}</span>
                 </div>
+                <div class="col-xl-2 col-md-2 col-2 mb-3">
+                  <label for="quantidade" >Quantidade: *</label>
+                  <input id="quantidade" nome="quantidade" type="number" placeholder="Quantidade do Item"
+                    v-model="lancamento.quantidade"
+                    v-validate="'required'"
+                    :class="{'form-control':true, 'is-invalid': errors.has('lancamento.quantidade')}"
+                    />
+                    <span v-if="errors.has('lancamento.quantidade')" class="invalid-feedback">{{ errors.first('lancamento.quantidade') }}</span>
+                </div>
                 <div class="col-xl-4 col-md-4 col-4 mb-3">
                   <label for="valor" >Valor: *</label>
                   <masked-input id="valor" nome="valor" type="text" placeholder="Valor do Item"
@@ -36,7 +45,7 @@
                     />
                     <span v-if="errors.has('lancamento.valor')" class="invalid-feedback">{{ errors.first('lancamento.valor') }}</span>
                 </div>
-                <div class="col-xl-4 col-md-4 col-4 mb-3">
+                <div class="col-xl-2 col-md-2 col-2 mb-3">
                   <label for="criacao">Cadastro</label>
                   <p class="form-control-plaintext">{{lancamento.criacao | formatDate}}</p>
                 </div>
@@ -58,7 +67,9 @@
             <tr>
               <th>UID</th>
               <th>Item</th>
+              <th>Quantidade</th>
               <th>Valor</th>
+              <th>Total</th>
               <th>Faturado</th>
               <th>Data</th>
               <th>Ação</th>
@@ -68,7 +79,9 @@
             <tr v-for="lancamento of lancamentos" v-bind:key="lancamento.id.id">
               <td>{{lancamento.id.id}}</td>
               <td>{{lancamento.nome}}</td>
+              <td class="text-right">{{lancamento.quantidade}}</td>
               <td class="text-right">R$ {{lancamento.valor}}</td>
+              <td class="text-right">R$ {{lancamento.valor * lancamento.quantidade}}</td>
               <td class="text-right">{{lancamento.idFatura}}</td>
               <td>{{lancamento.criacao | formatDate}}</td>
               <td class="text-right">
