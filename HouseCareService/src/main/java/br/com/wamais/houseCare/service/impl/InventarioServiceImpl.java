@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.com.wamais.houseCare.domain.Inventario;
 import br.com.wamais.houseCare.domain.InventarioPK;
-import br.com.wamais.houseCare.repository.InventarioRepository;
+import br.com.wamais.houseCare.repository.crud.InventarioRepository;
 import br.com.wamais.houseCare.service.IInventarioService;
 
 @Service

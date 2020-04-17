@@ -11,8 +11,8 @@ import br.com.wamais.houseCare.domain.Cliente;
 import br.com.wamais.houseCare.domain.Familiar;
 import br.com.wamais.houseCare.domain.Parentesco;
 import br.com.wamais.houseCare.domain.ParentescoPK;
-import br.com.wamais.houseCare.repository.FamiliarRepository;
-import br.com.wamais.houseCare.repository.ParentescoRepository;
+import br.com.wamais.houseCare.repository.crud.FamiliarRepository;
+import br.com.wamais.houseCare.repository.crud.ParentescoRepository;
 import br.com.wamais.houseCare.service.IFamiliarService;
 
 @Service

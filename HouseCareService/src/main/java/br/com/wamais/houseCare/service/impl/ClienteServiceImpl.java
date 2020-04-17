@@ -10,8 +10,8 @@ import br.com.wamais.houseCare.constants.HouseCareConstants;
 import br.com.wamais.houseCare.domain.AtributoCliente;
 import br.com.wamais.houseCare.domain.Cliente;
 import br.com.wamais.houseCare.domain.ClientePK;
-import br.com.wamais.houseCare.repository.AtributoClienteRepository;
-import br.com.wamais.houseCare.repository.ClienteRepository;
+import br.com.wamais.houseCare.repository.crud.AtributoClienteRepository;
+import br.com.wamais.houseCare.repository.crud.ClienteRepository;
 import br.com.wamais.houseCare.service.IClienteService;
 
 @Service
@@ -40,6 +40,13 @@ public class ClienteServiceImpl extends AbstractService<Cliente, ClientePK> impl
 	public String obterVencimento(final Integer idCliente, final Integer idEmpresa) {
 
 		final AtributoCliente atributoCliente = this.findByChave(HouseCareConstants.DIA_VENCIMENTO, idCliente, idEmpresa);
+		return atributoCliente.getValor();
+	}
+	
+	@Override
+	public String obterTipoFatura(final Integer idCliente, final Integer idEmpresa) {
+
+		final AtributoCliente atributoCliente = this.findByChave(HouseCareConstants.TIPO_FATURA, idCliente, idEmpresa);
 		return atributoCliente.getValor();
 	}
 

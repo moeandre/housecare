@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import br.com.wamais.houseCare.domain.Funcionario;
 import br.com.wamais.houseCare.domain.FuncionarioPK;
 import br.com.wamais.houseCare.domain.Usuario;
-import br.com.wamais.houseCare.repository.FuncionarioRepository;
+import br.com.wamais.houseCare.repository.crud.FuncionarioRepository;
 import br.com.wamais.houseCare.service.IFuncionarioService;
 import br.com.wamais.houseCare.service.IUsuarioService;
 

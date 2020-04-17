@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import br.com.wamais.houseCare.domain.Sessao;
 import br.com.wamais.houseCare.domain.Usuario;
 import br.com.wamais.houseCare.form.LoginForm;
-import br.com.wamais.houseCare.repository.UsuarioRepository;
+import br.com.wamais.houseCare.repository.crud.UsuarioRepository;
 import br.com.wamais.houseCare.service.IEmpresaService;
 import br.com.wamais.houseCare.service.ILoginService;
 import br.com.wamais.houseCare.service.IPapelService;

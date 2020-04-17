@@ -7,8 +7,8 @@ import org.springframework.transaction.annotation.Transactional;
 import br.com.wamais.houseCare.constants.HouseCareConstants;
 import br.com.wamais.houseCare.domain.Configuracao;
 import br.com.wamais.houseCare.domain.Empresa;
-import br.com.wamais.houseCare.repository.ConfiguracaoRepository;
-import br.com.wamais.houseCare.repository.EmpresaRepository;
+import br.com.wamais.houseCare.repository.crud.ConfiguracaoRepository;
+import br.com.wamais.houseCare.repository.crud.EmpresaRepository;
 import br.com.wamais.houseCare.service.IEmpresaService;
 
 @Service
@@ -17,7 +17,7 @@ public class EmpresaServiceImpl extends AbstractService<Empresa, Integer> implem
 
 	@Autowired
 	private EmpresaRepository repository;
-	
+
 	@Autowired
 	private ConfiguracaoRepository configuracaoRepository;
 
@@ -28,12 +28,12 @@ public class EmpresaServiceImpl extends AbstractService<Empresa, Integer> implem
 	}
 
 	@Override
-	public Empresa findByIdUsuario(Integer idUsuario) {
+	public Empresa findByIdUsuario(final Integer idUsuario) {
 
-		return repository.findByIdUsuario(idUsuario);
-		
+		return this.repository.findByIdUsuario(idUsuario);
+
 	}
-	
+
 	@Override
 	public String obterVencimento(final Integer idEmpresa) {
 
@@ -43,7 +43,15 @@ public class EmpresaServiceImpl extends AbstractService<Empresa, Integer> implem
 
 	private Configuracao findByChave(final String chave, final Integer idEmpresa) {
 
-		return configuracaoRepository.findByChave(chave, idEmpresa);
+		return this.configuracaoRepository.findByChave(chave, idEmpresa);
+	}
+
+	@Override
+	public String obterTipoFatura(final Integer idEmpresa) {
+
+		final Configuracao configuracao = this.findByChave(HouseCareConstants.TIPO_FATURA, idEmpresa);
+		return configuracao.getValor();
+
 	}
 
 }

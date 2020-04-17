@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.com.wamais.houseCare.domain.PapelEmpresa;
 import br.com.wamais.houseCare.domain.PapelEmpresaPK;
-import br.com.wamais.houseCare.repository.PapelEmpresaRepository;
+import br.com.wamais.houseCare.repository.crud.PapelEmpresaRepository;
 import br.com.wamais.houseCare.service.IPapelEmpresaService;
 
 @Service

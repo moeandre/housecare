@@ -7,4 +7,6 @@ public interface IEmpresaService extends ICrudService<Empresa, Integer> {
 	Empresa findByIdUsuario(Integer idUsuario);
 
 	String obterVencimento(Integer idEmpresa);
+	
+	String obterTipoFatura(Integer idEmpresa);
 }

@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.wamais.houseCare.controller.AbstractController;
 import br.com.wamais.houseCare.domain.Fatura;
+import br.com.wamais.houseCare.report.domain.DashFinanceiro;
+import br.com.wamais.houseCare.report.service.IFinanceiroReportService;
 import br.com.wamais.houseCare.service.IFaturaService;
 
 @RestController
@@ -24,6 +26,23 @@ public class FaturaController extends AbstractController {
 
 	@Autowired
 	private transient IFaturaService service;
+
+	@Autowired
+	private transient IFinanceiroReportService reportService;
+
+	@RequestMapping(value = "/dash/{mesano}", method = RequestMethod.GET)
+	@Produces(MediaType.APPLICATION_JSON)
+	public @ResponseBody DashFinanceiro dash(@PathVariable final Integer idEmpresa, @PathVariable final Integer mesano) {
+
+		return this.reportService.obterPorIdEmpresa(idEmpresa, mesano);
+	}
+	
+	@RequestMapping(value = "/listar/{mesano}", method = RequestMethod.GET)
+	@Produces(MediaType.APPLICATION_JSON)
+	public @ResponseBody List<Fatura> listar(@PathVariable final Integer idEmpresa, @PathVariable final String mesano) {
+
+		return this.service.listarPorEmpresa(idEmpresa, mesano);
+	}
 
 	@RequestMapping(value = "/listar", method = RequestMethod.GET)
 	@Produces(MediaType.APPLICATION_JSON)
@@ -38,13 +57,12 @@ public class FaturaController extends AbstractController {
 
 		return this.service.obterPorIdEmpresa(idEmpresa, idFatura);
 	}
-	
+
 	@RequestMapping(value = "/clonar/{idFatura}", method = RequestMethod.PUT)
 	@Produces(MediaType.APPLICATION_JSON)
 	public @ResponseBody Fatura clonar(@PathVariable final Integer idEmpresa, @PathVariable final Integer idFatura) {
 
 		return this.service.clonar(idEmpresa, idFatura);
 	}
-
 
 }

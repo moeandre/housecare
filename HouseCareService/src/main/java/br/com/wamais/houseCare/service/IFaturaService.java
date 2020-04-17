@@ -16,4 +16,6 @@ public interface IFaturaService extends ICrudService<Fatura, Integer> {
 
 	Fatura faturar(Integer idEmpresa, Integer idCliente);
 
+	List<Fatura> listarPorEmpresa(Integer idEmpresa, String mesano);
+
 }

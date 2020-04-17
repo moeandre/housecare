@@ -12,7 +12,7 @@
                             <em class="fa fa-3x fa-money-bill"></em>
                         </div>
                         <div class="col-9 py-3 bg-success rounded-right text-right">
-                            <div class="h2 m-0 text-bold">R$ 15.000,00</div>
+                            <div class="h2 m-0 text-bold">R$ {{dashboard.pago | formatMoney}}</div>
                             <div class="text-uppercase">Recebido</div>
                         </div>
                     </div>
@@ -26,7 +26,7 @@
                             <em class="fa fa-3x fas fa-hand-holding-usd"></em>
                         </div>
                         <div class="col-9 py-3 bg-warning rounded-right text-right">
-                            <div class="h2 m-0 text-bold">R$ 30.000,00</div>
+                            <div class="h2 m-0 text-bold">R$ {{dashboard.aVencer | formatMoney}}</div>
                             <div class="text-uppercase">A Receber</div>
                         </div>
                     </div>
@@ -40,7 +40,7 @@
                             <em class="fa fa-3x fas fa-hand-holding"></em>
                         </div>
                         <div class="col-9 py-3 bg-danger rounded-right text-right">
-                            <div class="h2 m-0 text-bold">R$ 7.500,00</div>
+                            <div class="h2 m-0 text-bold">R$ {{dashboard.vencido | formatMoney}}</div>
                             <div class="text-uppercase">Em Atraso</div>
                         </div>
                     </div>
@@ -68,7 +68,7 @@
                         <tr v-for="fatura of faturas" v-bind:key="fatura.id">
                             <td>{{fatura.id}}</td>
                             <td>{{fatura.cliente.nome}}</td>
-                            <td class="text-right">{{fatura.valor | formatMoney}}</td>
+                            <td class="text-right">R$ {{fatura.valor | formatMoney}}</td>
                             <td class="text-right">{{fatura.data | formatDate}}</td>
                             <td class="text-right">{{fatura.vencimento | formatDate}}</td>
                             <td class="text-right">{{fatura.pagamento | formatDate}}</td>
@@ -98,7 +98,7 @@
 
     Vue.filter("formatDate", function(value) {
         if (value) {
-            return moment(value).format("DD/MM/YYYY HH:mm:ss");
+            return moment(value).format("DD/MM/YYYY");
         }
     });
 
@@ -112,14 +112,35 @@
         data() {
             return {
                 title: "Faturamento",
-                faturas: {}
+                faturas: {},
+                dashboard: {
+                    'total': 0,
+                    'pago': 0,
+                    'aVencer': 0,
+                    'vencido': 0
+                }
             };
         },
         methods: {
-            listar() {
-                FaturaDataService.getAll(this.account.user.empresa.id)
+            listar(mesano) {
+                if(!mesano){
+                    mesano = moment(new Date()).format("YYYYMM");
+                }
+                FaturaDataService.getByMesAno(this.account.user.empresa.id,mesano)
                     .then(response => {
                         this.faturas = response.data;
+                    })
+                    .catch(e => {
+                        console.log(e);
+                    });
+            },
+            dash(mesano) {
+                if(!mesano){
+                    mesano = moment(new Date()).format("YYYYMM");
+                }
+                FaturaDataService.dash(this.account.user.empresa.id, mesano)
+                    .then(response => {
+                        this.dashboard = response.data;
                     })
                     .catch(e => {
                         console.log(e);
@@ -128,6 +149,7 @@
         },
         mounted() {
             this.listar();
+            this.dash();
         }
     };
 </script>

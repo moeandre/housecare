@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import br.com.wamais.houseCare.domain.Anotacao;
 import br.com.wamais.houseCare.domain.AnotacaoPK;
 import br.com.wamais.houseCare.domain.Usuario;
-import br.com.wamais.houseCare.repository.AnotacaoRepository;
+import br.com.wamais.houseCare.repository.crud.AnotacaoRepository;
 import br.com.wamais.houseCare.service.IAnotacaoService;
 
 @Service

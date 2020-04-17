@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.wamais.houseCare.domain.Parametro;
-import br.com.wamais.houseCare.repository.ParametroRepository;
+import br.com.wamais.houseCare.repository.crud.ParametroRepository;
 import br.com.wamais.houseCare.service.IParametroService;
 
 @Service

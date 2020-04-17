@@ -11,14 +11,14 @@ import javax.persistence.PersistenceContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 
 import br.com.wamais.houseCare.domain.Cliente;
 import br.com.wamais.houseCare.domain.Familiar;
 import br.com.wamais.houseCare.domain.Fatura;
 import br.com.wamais.houseCare.domain.Lancamento;
 import br.com.wamais.houseCare.domain.LancamentoPK;
-import br.com.wamais.houseCare.repository.FaturaRepository;
+import br.com.wamais.houseCare.enums.StatusFaturaEnum;
+import br.com.wamais.houseCare.repository.crud.FaturaRepository;
 import br.com.wamais.houseCare.service.IClienteService;
 import br.com.wamais.houseCare.service.IEmpresaService;
 import br.com.wamais.houseCare.service.IFamiliarService;
@@ -104,7 +104,7 @@ public class FaturaServiceImpl extends AbstractService<Fatura, Integer> implemen
 		return this.alterar(savedFatura);
 
 	}
-	
+
 	@Override
 	public Fatura faturar(final Integer idEmpresa, final Integer idCliente) {
 
@@ -130,9 +130,17 @@ public class FaturaServiceImpl extends AbstractService<Fatura, Integer> implemen
 		final Fatura savedFatura = new Fatura();
 
 		final Calendar hoje = Calendar.getInstance();
-		final Calendar vencimento = hoje;
-		vencimento.set(Calendar.DAY_OF_MONTH, this.obterDiaVencimento(idEmpresa, idCliente));
-		vencimento.add(Calendar.MONTH, 1);
+		final Calendar vencimento = Calendar.getInstance();
+
+		Integer diaVencimento = this.obterDiaVencimento(idEmpresa, idCliente);
+		Integer mesVencimento = 1;
+
+		if (vencimento.get(Calendar.DAY_OF_MONTH) >= diaVencimento) {
+			mesVencimento = 2;
+		}
+		vencimento.add(Calendar.MONTH, mesVencimento);
+		vencimento.set(Calendar.DAY_OF_MONTH, diaVencimento);
+
 		final Familiar familiar = this.familiarService.obterResponsavelFinanceiro(idCliente, idEmpresa);
 		if (familiar != null) {
 			savedFatura.setIdFamiliar(familiar.getIdFamiliar());
@@ -143,8 +151,9 @@ public class FaturaServiceImpl extends AbstractService<Fatura, Integer> implemen
 		savedFatura.setData(hoje.getTime());
 		savedFatura.setVencimento(vencimento.getTime());
 		savedFatura.setValor(BigDecimal.ZERO);
-		savedFatura.setTipo(fatura.getTipo());
-		savedFatura.setSituacao(!StringUtils.isEmpty(fatura.getSituacao()) ? fatura.getSituacao() : "A" );
+		savedFatura.setSituacao(StatusFaturaEnum.ABERTA.getCodigo());
+
+		savedFatura.setTipo(this.obterTipoFatura(idEmpresa, idCliente));
 
 		return this.alterar(savedFatura);
 	}
@@ -179,12 +188,44 @@ public class FaturaServiceImpl extends AbstractService<Fatura, Integer> implemen
 		return Integer.valueOf(diaVencimento);
 	}
 
+	private String obterTipoFatura(final Integer idEmpresa, final Integer idCliente) {
+
+		String diaVencimento = "B";
+		try {
+			diaVencimento = this.clienteService.obterTipoFatura(idCliente, idEmpresa);
+		} catch (final Exception e) {
+			diaVencimento = this.empresaService.obterTipoFatura(idEmpresa);
+		}
+		return diaVencimento;
+	}
+
 	@Override
 	public List<Fatura> listarPorEmpresa(final Integer idEmpresa) {
 
 		final List<Fatura> faturas = new ArrayList<Fatura>();
 
 		final List<Object[]> listaEntidades = this.repository.listarPorEmpresa(idEmpresa);
+		listaEntidades.stream().forEach(entidade -> {
+
+			final Fatura fatura = (Fatura) entidade[0];
+			final Cliente cliente = (Cliente) entidade[1];
+			fatura.setCliente(cliente);
+
+			faturas.add(fatura);
+		});
+
+		return faturas;
+	}
+
+	@Override
+	public List<Fatura> listarPorEmpresa(final Integer idEmpresa, final String mesano) {
+
+		final List<Fatura> faturas = new ArrayList<Fatura>();
+
+		final Integer ano = Integer.valueOf(mesano.substring(0, 4));
+		final Integer mes = Integer.valueOf(mesano.substring(5));
+
+		final List<Object[]> listaEntidades = this.repository.listarPorEmpresa(idEmpresa, mes, ano);
 		listaEntidades.stream().forEach(entidade -> {
 
 			final Fatura fatura = (Fatura) entidade[0];

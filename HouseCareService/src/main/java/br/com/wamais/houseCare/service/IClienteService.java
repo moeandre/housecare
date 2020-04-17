@@ -10,4 +10,6 @@ public interface IClienteService extends ICrudService<Cliente, ClientePK> {
 	List<Cliente> listarPorEmpresa(Integer idEmpresa);
 
 	String obterVencimento(Integer idCliente, Integer idEmpresa);
+
+	String obterTipoFatura(Integer idCliente, Integer idEmpresa);
 }

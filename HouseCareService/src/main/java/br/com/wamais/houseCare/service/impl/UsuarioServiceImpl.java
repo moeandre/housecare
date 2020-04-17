@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.wamais.houseCare.domain.Usuario;
-import br.com.wamais.houseCare.repository.UsuarioRepository;
+import br.com.wamais.houseCare.repository.crud.UsuarioRepository;
 import br.com.wamais.houseCare.service.IUsuarioService;
 import br.com.wamais.houseCare.util.MD5Util;
 

@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.com.wamais.houseCare.domain.Lancamento;
 import br.com.wamais.houseCare.domain.LancamentoPK;
-import br.com.wamais.houseCare.repository.LancamentoRepository;
+import br.com.wamais.houseCare.repository.crud.LancamentoRepository;
 import br.com.wamais.houseCare.service.ILancamentoService;
 
 @Service

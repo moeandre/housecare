@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.wamais.houseCare.domain.Sessao;
-import br.com.wamais.houseCare.repository.SessaoRepository;
+import br.com.wamais.houseCare.repository.crud.SessaoRepository;
 import br.com.wamais.houseCare.service.ISessaoService;
 
 @Service

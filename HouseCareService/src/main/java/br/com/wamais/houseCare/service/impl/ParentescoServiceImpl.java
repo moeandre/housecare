@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.com.wamais.houseCare.domain.Parentesco;
 import br.com.wamais.houseCare.domain.ParentescoPK;
-import br.com.wamais.houseCare.repository.ParentescoRepository;
+import br.com.wamais.houseCare.repository.crud.ParentescoRepository;
 import br.com.wamais.houseCare.service.IParentescoService;
 
 @Service

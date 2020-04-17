@@ -6,7 +6,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import br.com.wamais.houseCare.domain.Usuario;
-import br.com.wamais.houseCare.repository.UsuarioRepository;
+import br.com.wamais.houseCare.repository.crud.UsuarioRepository;
 
 public class UsuarioRepositoryTest extends AbstractTest {
 
