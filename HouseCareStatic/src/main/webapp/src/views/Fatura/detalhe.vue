@@ -3,7 +3,7 @@
         <div class="content-heading">
             {{title}}
             <div class="ml-auto">
-                <button disabled="disabled" class="ml-auto btn btn-secondary btn-sm" type="button">Copiar esta fatura</button>
+                <button class="btn btn-secondary right" @click="copiar(fatura.id)">Copiar Fatura</button>
                 <button class="btn btn-secondary right" @click="$router.go(-1)">Voltar</button>
             </div>    
         </div>
@@ -85,7 +85,7 @@
                         <tbody>
                             <tr v-for="lancamento of fatura.lancamentos" v-bind:key="lancamento.id.id">
                                 <td>{{lancamento.id.id}}</td>
-                                <td>{{lancamento.nome}}</td>
+                                <td></td>
                                 <td class="text-right">{{lancamento.quantidade}}</td>
                                 <td class="text-right">R$ {{lancamento.valor  | formatMoney}}</td>
                                 <td class="text-right">R$ {{(lancamento.valor * lancamento.quantidade)  | formatMoney}}</td>
@@ -153,10 +153,37 @@
         },
         data() {
             return {
-                fatura: {}
+                title: "Faturamento",
+                fatura: {
+                    'data': null,
+                    'pagamento': null,
+                    'valor': null,
+                    'vencimento': null,
+                    'tipo': null,
+                    'situacao': null,
+                    'lancamentos': [],
+                    'cliente': {
+                        'id': {
+                            'id': null
+                        },
+                        'alteracao': null,
+                        'apelido': null,
+                        'cpf': null,
+                        'criacao': null,
+                        'nome': null,
+                        'sobrenome': null
+                    },
+                    'familiar': {
+                        'cpf': null,
+                        'email': null,
+                        'nome': null,
+                        'telefone': null
+                    }
+                }
             };
         },
         methods: {
+            ...mapActions("waAlert", ["showSuccess", "showError", "showConfirmation"]),
             detalhar(id) {
                 FaturaDataService.get(this.account.user.empresa.id, id)
                     .then(response => {
@@ -165,14 +192,45 @@
                     .catch(e => {
                         console.log(e);
                     });
+            },
+            copiar(id){
+                this.showConfirmation(
+                    "Confirma a cópia da Fatura "+id+"?"
+                ).then(result => {
+                    if (result.value) {
+                        this.clonar(id);
+                    }
+                });
+            },
+            clonar(id) {
+                FaturaDataService.clonar(this.account.user.empresa.id, id)
+                    .then(response => {
+                        let data = response.data;
+                        this.showSuccess("Fatura "+data.id+" gerada com sucesso!").then(result => {
+                            if (result.value) {
+                                this.$router.push({ name: 'detalhar-fatura', params: { id: data.id }, force: true })
+                            }
+                        });
+                        
+                    })
+                    .catch(e => {
+                        console.log(e);
+                    });
+            },
+            load () {
+   
+                if(this.$route.params.id){
+                    let id = this.$route.params.id;
+                    this.title = "Fatura "+id;
+                    this.detalhar(id);
+                }
             }
         },
         mounted() {
-            if(this.$route.params.id){
-                let id = this.$route.params.id;
-                this.title = "Fatura "+id;
-                this.detalhar(id);
-            }
+            this.load();
+        },
+        watch: {
+            '$route': 'load'
         }
-    }
+    };
 </script>

@@ -57,6 +57,9 @@ public class Fatura implements Serializable {
 	@Column(length = 2)
 	private String tipo;
 
+	@Column(length = 1)
+	private String situacao;
+
 	@Transient
 	private List<Lancamento> lancamentos;
 
@@ -223,6 +226,16 @@ public class Fatura implements Serializable {
 	public void setFamiliar(final Familiar familiar) {
 
 		this.familiar = familiar;
+	}
+
+	public String getSituacao() {
+
+		return this.situacao;
+	}
+
+	public void setSituacao(final String situacao) {
+
+		this.situacao = situacao;
 	}
 
 }

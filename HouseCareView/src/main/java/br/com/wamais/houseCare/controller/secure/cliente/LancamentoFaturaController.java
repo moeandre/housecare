@@ -97,6 +97,12 @@ public class LancamentoFaturaController extends AbstractController {
 			@Valid @RequestBody final Fatura fatura) {
 
 		return this.faturaService.faturar(idEmpresa, idCliente, fatura);
+	}
+	
+	@RequestMapping(value = "/fecharPendentes", method = RequestMethod.PUT, consumes = "application/json")
+	public @ResponseBody Fatura fecharFaturar(@PathVariable final Integer idEmpresa, @PathVariable final Integer idCliente) {
+
+		return this.faturaService.faturar(idEmpresa, idCliente);
 	} 
 
 }

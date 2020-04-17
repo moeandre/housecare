@@ -30,6 +30,15 @@ public class LancamentoServiceImpl extends AbstractService<Lancamento, Lancament
 		return this.repository.findByIdClienteIdEmpresa(idCliente, idEmpresa);
 
 	}
+	
+	@Override
+	public List<Lancamento> listarPendentes(final Integer idCliente, final Integer idEmpresa) {
+
+		return this.repository.findPendentes(idCliente, idEmpresa);
+
+	}
+	
+	
 
 
 }

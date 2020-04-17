@@ -9,4 +9,6 @@ public interface ILancamentoService extends ICrudService<Lancamento, LancamentoP
 
 	List<Lancamento> listarPorIdClienteIdEmpresa(Integer idCliente, Integer idEmpresa);
 
+	List<Lancamento> listarPendentes(Integer idCliente, Integer idEmpresa);
+
 }

@@ -11,6 +11,7 @@ import javax.persistence.PersistenceContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import br.com.wamais.houseCare.domain.Cliente;
 import br.com.wamais.houseCare.domain.Familiar;
@@ -68,7 +69,6 @@ public class FaturaServiceImpl extends AbstractService<Fatura, Integer> implemen
 			entityManager.persist(savedLancamento);
 			entityManager.flush();
 			entityManager.clear();
-			// });
 
 			savedLancamentos.add(savedLancamento);
 
@@ -104,6 +104,26 @@ public class FaturaServiceImpl extends AbstractService<Fatura, Integer> implemen
 		return this.alterar(savedFatura);
 
 	}
+	
+	@Override
+	public Fatura faturar(final Integer idEmpresa, final Integer idCliente) {
+
+		final Fatura savedFatura = this.buildFatura(idEmpresa, idCliente, new Fatura());
+		final List<Lancamento> lancamentos = this.lancamentoService.listarPendentes(idCliente, idEmpresa);
+
+		// Totaliza a cobrança e inclui a fatura no lançamento
+		lancamentos.stream().forEach(lancamento -> {
+			lancamento = this.lancamentoService.obtemPorId(lancamento.getId());
+			lancamento.setIdFatura(savedFatura.getId());
+			savedFatura.addLancamentos(this.lancamentoService.alterar(lancamento));
+
+			final BigDecimal valorDoItem = lancamento.getValor().multiply(BigDecimal.valueOf(lancamento.getQuantidade()));
+			savedFatura.setValor(savedFatura.getValor().add(valorDoItem));
+		});
+
+		return this.alterar(savedFatura);
+
+	}
 
 	private Fatura buildFatura(final Integer idEmpresa, final Integer idCliente, final Fatura fatura) {
 
@@ -124,6 +144,7 @@ public class FaturaServiceImpl extends AbstractService<Fatura, Integer> implemen
 		savedFatura.setVencimento(vencimento.getTime());
 		savedFatura.setValor(BigDecimal.ZERO);
 		savedFatura.setTipo(fatura.getTipo());
+		savedFatura.setSituacao(!StringUtils.isEmpty(fatura.getSituacao()) ? fatura.getSituacao() : "A" );
 
 		return this.alterar(savedFatura);
 	}

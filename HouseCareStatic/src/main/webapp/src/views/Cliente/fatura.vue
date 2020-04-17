@@ -6,6 +6,7 @@
       <div class="ml-auto">
         <div class="btn-group">
           <button class="btn btn-secondary right" @click="openForm()">Adicionar Novo</button>
+          <button class="btn btn-secondary right" @click="faturar($route.params.id)">Fechar Fatura</button>
           <button class="btn btn-secondary right" @click="$router.go(-1)">Voltar</button>
         </div>
       </div>
@@ -232,6 +233,29 @@ export default {
         }
         console.log("Correct them errors!");
       });
+    },
+    faturar(id){
+        this.showConfirmation(
+            "Confirma o faturamento dos itens pendentes?"
+        ).then(result => {
+            if (result.value) {
+                this.faturarPendentes(id);
+            }
+        });
+    },
+    faturarPendentes(id) {
+        LancamentoFaturaDataService.faturarPendentes(this.account.user.empresa.id, id)
+            .then(response => {
+                let data = response.data;
+                this.showSuccess("Fatura "+data.id+" gerada com sucesso!").then(result => {
+                    if (result.value) {
+                        this.$router.push({ name: 'detalhar-fatura', params: { id: data.id }, force: true })
+                    }
+                });
+            })
+            .catch(e => {
+                console.log(e);
+            });
     },
     armazenar() {
 

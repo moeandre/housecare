@@ -14,4 +14,6 @@ public interface IFaturaService extends ICrudService<Fatura, Integer> {
 
 	Fatura clonar(Integer idEmpresa, Integer id);
 
+	Fatura faturar(Integer idEmpresa, Integer idCliente);
+
 }

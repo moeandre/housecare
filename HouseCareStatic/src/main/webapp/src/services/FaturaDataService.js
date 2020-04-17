@@ -10,6 +10,10 @@ class FaturaDataService {
     return http.get(`/api/rest/empresa/${idEmpresa}/fatura/detalhar/${id}/`);
   }
 
+  clonar(idEmpresa, id) {
+    return http.put(`/api/rest/empresa/${idEmpresa}/fatura/clonar/${id}/`);
+  }
+
 }
 
 export default new FaturaDataService();

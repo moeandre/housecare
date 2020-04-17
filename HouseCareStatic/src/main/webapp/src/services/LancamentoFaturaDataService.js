@@ -22,6 +22,10 @@ class LancamentoFaturaDataService {
     return http.delete(`/api/rest/empresa/${idEmpresa}/cliente/${idCliente}/fatura/lancamento/delete/${id}`);
   }
 
+  faturarPendentes(idEmpresa, idCliente) {
+    return http.put(`/api/rest/empresa/${idEmpresa}/cliente/${idCliente}/fatura/lancamento/fecharPendentes`,{});
+  }
+
 }
 
 export default new LancamentoFaturaDataService();
