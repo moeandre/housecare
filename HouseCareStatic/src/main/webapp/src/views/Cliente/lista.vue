@@ -37,7 +37,7 @@
                     </div>
                     <div class="card-footer d-flex">
                         <div class="ml-auto">
-                            <router-link class="btn btn-xs btn-secondary" tag="a" :to="{ name: 'editar-cliente', params: { id: cliente.id.id }}">Visualizar</router-link>
+                            <router-link class="btn btn-xs bg-primary-light" tag="a" :to="{ name: 'editar-cliente', params: { id: cliente.id.id }}">Visualizar</router-link>
                         </div>
                     </div>
                 </div>

@@ -148,7 +148,7 @@
                             </div>
                             <div class="form-row">
                                 <div class="col-md-12 text-right">
-                                    <button class="btn btn-primary mr-1" type="submit">Armazenar</button>
+                                    <button class="btn bg-primary-light mr-1" type="submit">Armazenar</button>
                                     <button class="btn btn-secondary mr-1" type="button" @click="$router.go(-1)">Cancelar</button>
                                 </div>
                             </div>

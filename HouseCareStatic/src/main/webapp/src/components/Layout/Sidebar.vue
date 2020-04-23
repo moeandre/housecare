@@ -6,8 +6,8 @@
                 <!-- START sidebar nav-->
                 <ul class="sidebar-nav">
                     <!-- START user info-->
-                    <li class="has-user-block">
-                        <b-collapse :visible="showUserBlock" id="user-block">
+                    <li class="has-user-block" v-if="account.user">
+                        <b-collapse visible="true" id="user-block">
                             <div class="item user-block">
                                 <!-- User picture-->
                                 <div class="user-block-picture">
@@ -86,7 +86,6 @@
         },
         computed: {
             ...mapState({
-                showUserBlock: state => state.setting.showUserBlock,
                 account: state => state.account
             })
         },

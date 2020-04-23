@@ -12,7 +12,7 @@
                             <em class="fa fa-3x fa-money-bill"></em>
                         </div>
                         <div class="col-9 py-3 bg-success rounded-right text-right">
-                            <div class="h2 m-0 text-bold">R$ {{dashboard.pago | formatMoney}}</div>
+                            <div class="h2 m-0 text-bold">R$ {{(dashboard.pago | 0) | formatMoney}}</div>
                             <div class="text-uppercase">Recebido</div>
                         </div>
                     </div>
@@ -26,7 +26,7 @@
                             <em class="fa fa-3x fas fa-hand-holding-usd"></em>
                         </div>
                         <div class="col-9 py-3 bg-warning rounded-right text-right">
-                            <div class="h2 m-0 text-bold">R$ {{dashboard.aVencer | formatMoney}}</div>
+                            <div class="h2 m-0 text-bold">R$ {{(dashboard.aVencer | 0) | formatMoney}}</div>
                             <div class="text-uppercase">A Receber</div>
                         </div>
                     </div>
@@ -40,7 +40,7 @@
                             <em class="fa fa-3x fas fa-hand-holding"></em>
                         </div>
                         <div class="col-9 py-3 bg-danger rounded-right text-right">
-                            <div class="h2 m-0 text-bold">R$ {{dashboard.vencido | formatMoney}}</div>
+                            <div class="h2 m-0 text-bold">R$ {{ (dashboard.vencido | 0) | formatMoney}}</div>
                             <div class="text-uppercase">Em Atraso</div>
                         </div>
                     </div>
@@ -50,6 +50,11 @@
         </div>
         <!-- END row-->
         <div class="card card-default">
+            <div class="row mt-2">
+                <div class="offset-md-4 col-md-1"><button class="btn bg-primary-light right" @click="subDate()"><</button></div>
+                <div class="col-md-2 text-center"><h2>{{filterDate | formatMesAno}}</h2></div>
+                <div class="col-md-1"><button class="btn bg-primary-light right" @click="addDate()">></button></div>
+            </div>
             <div class="table-responsive">
                 <table class="table table-bordered table-hover" id="table-faturas">
                     <thead>
@@ -102,6 +107,12 @@
         }
     });
 
+    Vue.filter("formatMesAno", function(value) {
+        if (value) {
+            return moment(value).format("MMM YYYY");
+        }
+    });
+
     export default {
         name: "fatura-list",
         computed: {
@@ -118,38 +129,58 @@
                     'pago': 0,
                     'aVencer': 0,
                     'vencido': 0
-                }
+                },
+                filterDate: new Date()
             };
         },
         methods: {
-            listar(mesano) {
-                if(!mesano){
-                    mesano = moment(new Date()).format("YYYYMM");
-                }
+            listar() {
+                let mesano = moment(this.filterDate).format("YYYYMM");
                 FaturaDataService.getByMesAno(this.account.user.empresa.id,mesano)
                     .then(response => {
                         this.faturas = response.data;
                     })
                     .catch(e => {
+                        this.faturas = {};
                         console.log(e);
                     });
             },
-            dash(mesano) {
-                if(!mesano){
-                    mesano = moment(new Date()).format("YYYYMM");
-                }
+            dash() {
+                let mesano = moment(this.filterDate).format("YYYYMM");
                 FaturaDataService.dash(this.account.user.empresa.id, mesano)
                     .then(response => {
                         this.dashboard = response.data;
                     })
                     .catch(e => {
+                        this.dashboard = {
+                            'total': 0,
+                            'pago': 0,
+                            'aVencer': 0,
+                            'vencido': 0
+                        };
                         console.log(e);
                     });
+            },
+            load(){
+                this.listar();
+                this.dash();
+            },
+            addDate(){
+                let d = this.filterDate;
+                d.setMonth(d.getMonth() + 1);
+                this.filterDate = d;
+                this.load();
+            },
+            subDate(){
+                let d = this.filterDate;
+                d.setMonth(d.getMonth() - 1);
+                this.filterDate = d;
+                this.load();
             }
+
         },
         mounted() {
-            this.listar();
-            this.dash();
+            this.load();
         }
     };
 </script>

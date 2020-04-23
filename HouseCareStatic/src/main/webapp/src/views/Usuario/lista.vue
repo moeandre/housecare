@@ -2,7 +2,7 @@
     <ContentWrapper>
         <div class="content-heading">Usuários
             <div class="ml-auto">
-                <router-link class="btn btn-secondary right" tag="a" to="/usuario/criar">Adicionar Novo</router-link>
+                <router-link class="btn bg-primary-light right" tag="a" to="/usuario/criar">Adicionar Novo</router-link>
             </div>
         </div>
         <div class="row">

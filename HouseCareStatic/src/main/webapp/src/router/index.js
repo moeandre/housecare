@@ -4,13 +4,9 @@ import nprogress from 'nprogress'
 
 // Layouts
 import Layout from '@/components/Layout/Layout'
-import LayoutHorizontal from '@/components/Layout/LayoutHorizontal'
 import LayoutPage from '@/components/Layout/LayoutPage'
 // Dashboard
-const DashboardV1 = () => import('@/views/Dashboard/DashboardV1.vue')
-const DashboardV2 = () => import('@/views/Dashboard/DashboardV2.vue')
-const DashboardV3 = () => import('@/views/Dashboard/DashboardV3.vue')
-const DashboardH = () => import('@/views/Dashboard/DashboardH.vue')
+const Home = () => import('@/views/Home/index.vue')
 // Pages
 const Error404 = () => import('@/views/Pages/404.vue')
 const Error500 = () => import('@/views/Pages/500.vue')
@@ -47,7 +43,7 @@ const router = new VueRouter({
     routes: [
         {
             path: '/',
-            redirect: '/dashboardv1',
+            redirect: '/home',
         },
         {
             path: '/',
@@ -124,22 +120,10 @@ const router = new VueRouter({
             children: [
                 // Dashboard
                 {
-                    path: '/dashboardv1',
-                    component: DashboardV1
+                    path: '/home',
+                    component: Home
                 },
                 // Extras
-            ]
-        },
-        // Horizontal Layout
-        {
-            path: '/',
-            component: LayoutHorizontal,
-            children: [
-                // Dashboard
-                {
-                    path: '/dashboardh',
-                    component: DashboardH
-                }
             ]
         },
         // User Pages

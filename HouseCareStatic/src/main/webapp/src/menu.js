@@ -67,51 +67,51 @@ const Menu = [
         translate: 'Médico',
         submenu: [{
                 name: 'Anotações',
-                path: '/cliente'
+                path: '/medico/anotacao'
             },
             {
                 name: 'Prescrição',
-                path: '/cliente'
+                path: '/medico/prescricao'
             },
             {
                 name: 'Evolução do Cliente',
-                path: '/cliente'
+                path: '/medico/evolucao-cliente'
             }
         ]
     },
     {
-        name: 'Enfermeira',
+        name: 'Enfermagem',
         icon: 'fa fa-heart',
-        translate: 'Médico',
+        translate: 'Enfermagem',
         submenu: [{
                 name: 'Anotações',
-                path: '/cliente'
+                path: '/enfermagem/anotacao'
             },
             {
                 name: 'Prescrição',
-                path: '/cliente'
+                path: '/enfermagem/prescricao'
             },
             {
                 name: 'Evolução do Cliente',
-                path: '/cliente'
+                path: '/enfermagem/evolucao-cliente'
             }
         ]
     },
     {
-        name: 'Nutricionista',
+        name: 'Nutrição',
         icon: 'fa fa-lemon',
-        translate: 'Médico',
+        translate: 'Nutrição',
         submenu: [{
                 name: 'Anotações',
-                path: '/cliente'
+                path: '/nutricao/anotacao'
             },
             {
                 name: 'Prescrição',
-                path: '/cliente'
+                path: '/nutricao/prescricao'
             },
             {
                 name: 'Evolução do Cliente',
-                path: '/cliente'
+                path: '/nutricao/evolucao-cliente'
             }
         ]
     },
@@ -121,7 +121,7 @@ const Menu = [
         translate: 'Médico',
         submenu: [{
                 name: 'Anotações',
-                path: '/cliente'
+                path: '/auxiliar-enfermagem/anotacao'
             }
         ]
     },
@@ -131,11 +131,11 @@ const Menu = [
         translate: 'Configurações',
         submenu: [{
                 name: 'Companhia',
-                path: '/cliente'
+                path: '/configuracoes/companhia'
             },
             {
                 name: 'Quartos',
-                path: '/cliente'
+                path: '/configuracoes/quartos'
             }
         ]
     },

@@ -1,8 +1,8 @@
 import axios from "axios"
 import nprogress from 'nprogress'
 
-const user = JSON.parse(localStorage.getItem('user')) || []; 
 const uuid = function(){
+  let user = JSON.parse(localStorage.getItem('user')) || []; 
   return (user.sessao) ? user.sessao.uuid || '' : '';
 };
 

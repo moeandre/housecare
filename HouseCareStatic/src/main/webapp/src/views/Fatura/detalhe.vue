@@ -3,7 +3,7 @@
         <div class="content-heading">
             {{title}}
             <div class="ml-auto">
-                <button class="btn btn-secondary right" @click="copiar(fatura.id)">Copiar Fatura</button>
+                <button class="btn bg-primary-light right" @click="copiar(fatura.id)">Copiar Fatura</button>
                 <button class="btn btn-secondary right" @click="$router.go(-1)">Voltar</button>
             </div>    
         </div>

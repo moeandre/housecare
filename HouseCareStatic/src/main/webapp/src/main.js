@@ -37,7 +37,10 @@ Vue.filter("formatMoney", function(value) {
     };
     if (value) {
         return value.formatMoney(2, 3, '.', ',')
+    }else{
+        return 0;
     }
+
 });
 
 new Vue({

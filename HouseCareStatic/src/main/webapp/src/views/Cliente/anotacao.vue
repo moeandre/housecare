@@ -3,7 +3,7 @@
         <div class="content-heading">{{title}}
             <div class="ml-auto">
                 <div class="btn-group">
-                    <button class="btn btn-secondary right" @click="openForm()">Adicionar Novo</button>
+                    <button class="btn bg-primary-light right" @click="openForm()">Adicionar Novo</button>
                     <button class="btn btn-secondary right" @click="$router.go(-1)">Voltar</button>
                 </div>
             </div>
@@ -42,7 +42,7 @@
                     </div>
                     <div class="form-row">
                         <div class="col-md-12 text-right">
-                            <button class="btn btn-primary mr-1" type="submit">Armazenar</button>
+                            <button class="btn bg-primary-light mr-1" type="submit">Armazenar</button>
                             <button class="btn btn-secondary mr-1" type="button" @click="closeForm()">Cancelar</button>
                         </div>
                     </div>
